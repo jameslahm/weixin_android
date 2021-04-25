@@ -5,6 +5,8 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -41,5 +43,15 @@ import butterknife.ButterKnife;
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.wechat_submenu);
         sub_menu_icon.setImageResource(a.getResourceId(R.styleable.wechat_submenu_src, R.drawable.ic_social_circle));
         sub_menu_text.setText(a.getString(R.styleable.wechat_submenu_text));
+    }
+
+    public void rotate () {
+        Animation rotate = AnimationUtils.loadAnimation(this.getContext(), R.anim.anim_rotate);
+        if (rotate != null) {
+            sub_menu_icon.startAnimation(rotate);
+        } else {
+            sub_menu_icon.setAnimation(rotate);
+            sub_menu_icon.startAnimation(rotate);
+        }
     }
 }

@@ -15,9 +15,11 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.MobileCourse.Adapter.MyFragmentAdapter;
-import com.MobileCourse.Fragments.Fragment1;
-import com.MobileCourse.Fragments.Fragment2;
+import com.MobileCourse.Adapters.FragmentAdapter;
+import com.MobileCourse.Fragments.ChatFragment;
+import com.MobileCourse.Fragments.ContactFragment;
+import com.MobileCourse.Fragments.FindFragment;
+import com.MobileCourse.Fragments.SettingsFragment;
 import com.MobileCourse.utils.CommonInterface;
 import com.MobileCourse.utils.WebSocket;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -59,18 +61,26 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fm = getSupportFragmentManager();
 
         List<Fragment> fragments = new ArrayList<>();
-        fragments.add(new Fragment1());
-        fragments.add(new Fragment2());
+        fragments.add(new ChatFragment());
+        fragments.add(new ContactFragment());
+        fragments.add(new FindFragment());
+        fragments.add(new SettingsFragment());
 
-        viewPager.setAdapter(new MyFragmentAdapter(fm, fragments));
+        viewPager.setAdapter(new FragmentAdapter(fm, fragments));
 
         navigationMenu.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
-                case R.id.navigation1:
+                case R.id.navigation_chat:
                     viewPager.setCurrentItem(0);
                     return true;
-                case R.id.navigation2:
+                case R.id.navigation_address_book:
                     viewPager.setCurrentItem(1);
+                    return true;
+                case R.id.navigation_find:
+                    viewPager.setCurrentItem(2);
+                    return true;
+                case R.id.navigation_about_me:
+                    viewPager.setCurrentItem(3);
                     return true;
             }
             return false;

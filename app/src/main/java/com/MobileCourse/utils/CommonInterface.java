@@ -2,7 +2,10 @@ package com.MobileCourse.utils;
 
 import android.app.Activity;
 import android.util.Log;
+import android.view.FrameMetrics;
 import android.view.View;
+
+import androidx.fragment.app.Fragment;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -20,14 +23,14 @@ import okhttp3.RequestBody;
 
 public class CommonInterface {
 
-    public static void addViewsListener(Activity activity, int viewId, View.OnClickListener onClickListener) {
-        View view = activity.findViewById(viewId);
+    public static void addViewsListener(Fragment fragment, int viewId, View.OnClickListener onClickListener) {
+        View view = fragment.getView().findViewById(viewId);
         view.setOnClickListener(onClickListener);
     }
 
-    public static void addViewsListener(Activity activity, int[] viewIds, View.OnClickListener onClickListener) {
+    public static void addViewsListener(Fragment fragment, int[] viewIds, View.OnClickListener onClickListener) {
         for (int viewId : viewIds) {
-            View view = activity.findViewById(viewId);
+            View view = fragment.getView().findViewById(viewId);
             view.setOnClickListener(onClickListener);
         }
     }

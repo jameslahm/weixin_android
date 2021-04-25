@@ -2,10 +2,10 @@ package com.MobileCourse;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.RelativeLayout;
 
-import com.MobileCourse.Fragments.Fragment1;
-import com.MobileCourse.Fragments.Fragment2;
+import com.MobileCourse.Fragments.ChatFragment;
+import com.MobileCourse.Fragments.ContactFragment;
+import com.MobileCourse.Fragments.FindFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,8 +22,8 @@ public class TemplateActivity1 extends AppCompatActivity {
 
     FragmentManager fm = getSupportFragmentManager();
 
-    Fragment fragment1 = new Fragment1();
-    Fragment fragment2 = new Fragment2(false);
+    Fragment fragment1 = new ChatFragment();
+    Fragment fragment2 = new ContactFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +41,10 @@ public class TemplateActivity1 extends AppCompatActivity {
         navigationMenu.setOnNavigationItemSelectedListener(item -> {
             FragmentTransaction trans = fm.beginTransaction();
             switch (item.getItemId()) {
-                case R.id.navigation1:
+                case R.id.navigation_chat:
                     trans.show(fragment1).hide(fragment2).commit();
                     return true;
-                case R.id.navigation2:
+                case R.id.navigation_address_book:
                     trans.show(fragment2).hide(fragment1).commit();
                     return true;
             }
