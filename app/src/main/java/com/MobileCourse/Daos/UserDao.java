@@ -1,5 +1,7 @@
 package com.MobileCourse.Daos;
 
+import android.widget.ListView;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
@@ -7,6 +9,8 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.MobileCourse.Models.User;
+
+import java.util.List;
 
 @Dao
 public interface UserDao {
@@ -18,4 +22,7 @@ public interface UserDao {
 
     @Query("SELECT * FROM User WHERE weixinId = :weixinId")
     LiveData<User> getUserByWeixinId(String weixinId);
+
+    @Query("SELECT * FROM User WHERE id = :id LIMIT 1")
+    LiveData<User> getUserById(String id);
 }
