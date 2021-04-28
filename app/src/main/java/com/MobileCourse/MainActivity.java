@@ -20,8 +20,8 @@ import com.MobileCourse.Fragments.ChatFragment;
 import com.MobileCourse.Fragments.ContactFragment;
 import com.MobileCourse.Fragments.FindFragment;
 import com.MobileCourse.Fragments.SettingsFragment;
-import com.MobileCourse.utils.CommonInterface;
-import com.MobileCourse.utils.WebSocket;
+import com.MobileCourse.Utils.EventListenerUtil;
+import com.MobileCourse.Utils.WebSocket;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.jetbrains.annotations.NotNull;
@@ -103,27 +103,5 @@ public class MainActivity extends AppCompatActivity {
 
         // 初始化websocket
         WebSocket.initSocket();
-
-
-        CommonInterface.sendOkHttpGetRequest("/hello", new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Log.e("error", e.toString());
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                String resStr = response.body().string();
-                MainActivity.this.runOnUiThread(() -> Toast.makeText(MainActivity.this, resStr, Toast.LENGTH_LONG).show());
-                Log.e("response", resStr);
-                try {
-                    // 解析json，然后进行自己的内部逻辑处理
-                    JSONObject jsonObject = new JSONObject(resStr);
-                } catch (JSONException e) {
-
-                }
-            }
-        });
-
     }
 }

@@ -1,15 +1,11 @@
-package com.MobileCourse.utils;
+package com.MobileCourse.Utils;
 
-import android.content.Context;
-import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.MobileCourse.MainActivity;
 
 import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.drafts.Draft_6455;
 import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONObject;
 
@@ -21,7 +17,7 @@ public class WebSocket {
 
     private static WebSocketClient socketClient = null;
 
-    private static String SOCKET_URL = "ws://34.238.156.247:8080/websocket/888888";
+    private static String SOCKET_URL = "ws://";
 
     public static void initSocket() {
         try {

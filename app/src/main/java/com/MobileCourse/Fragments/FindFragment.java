@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.MobileCourse.Components.WechatSubmenu;
 import com.MobileCourse.R;
-import com.MobileCourse.utils.CommonInterface;
+import com.MobileCourse.Utils.EventListenerUtil;
 
 public class FindFragment extends Fragment implements View.OnClickListener {
 
@@ -45,7 +45,7 @@ public class FindFragment extends Fragment implements View.OnClickListener {
     }
 
     public void init(){
-        CommonInterface.addViewsListener(this, new int[]{
+        EventListenerUtil.addViewsListener(this, new int[]{
                 R.id.social_circle_menu, R.id.scan_menu, R.id.swip_menu,
                 R.id.look_menu, R.id.search_menu, R.id.people_nearby_menu,
                 R.id.shop_menu, R.id.game_menu, R.id.applets_menu
