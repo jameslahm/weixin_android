@@ -1,6 +1,7 @@
 package com.MobileCourse.Repositorys;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -36,6 +37,7 @@ public class UserRepository {
 
     private UserRepository(Context context){
         userDao = WeiXinDatabase.getInstance(context).getUserDao();
+        meDao = WeiXinDatabase.getInstance(context).getMeDao();
     }
 
     public LiveData<Resource<User>> getUserByWeixinId(final String weixinId){
@@ -74,7 +76,8 @@ public class UserRepository {
             @NotNull
             @Override
             protected LiveData<User> loadFromDb() {
-                return null;
+
+                return userDao.getUserByWeixinId(weixinId);
             }
 
             @Override
@@ -102,7 +105,7 @@ public class UserRepository {
             @NotNull
             @Override
             protected LiveData<User> loadFromDb() {
-                return null;
+                return userDao.getUserByWeixinId(weixinId);
             }
 
             @Override

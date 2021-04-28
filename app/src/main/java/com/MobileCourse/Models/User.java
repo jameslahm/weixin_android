@@ -26,9 +26,11 @@ public class User {
 
     List<Friend> friends;
 
+    String avatar;
+
     Long cachedTimestamp;
 
-    public User(String id,String username,String weixinId,String timeLineSyncId,List<Friend> friends){
+    public User(String id,String username,String weixinId,String timeLineSyncId,List<Friend> friends,String avatar){
         this.id = id;
         this.username = username;
         this.weixinId = weixinId;
@@ -40,9 +42,17 @@ public class User {
     public static User fromUserResponse(UserResponse userResponse){
         User user = new User(userResponse.getId(),userResponse.getUsername(),
                 userResponse.getWeixinId(),userResponse.getTimeLineSyncId(),
-                userResponse.getFriends());
+                userResponse.getFriends(),userResponse.getAvatar());
         user.setCachedTimestamp(MiscUtil.getCurrentTimestamp());
         return user;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     @NotNull

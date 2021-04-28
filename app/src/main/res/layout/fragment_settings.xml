@@ -24,9 +24,117 @@
             android:text="设置" />
     </RelativeLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/contacts_recylerview"
+    <RelativeLayout
+        android:id="@+id/avatarMenu"
+        app:layout_constraintTop_toBottomOf="@id/top_panel"
+        android:background="#ffffff"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="70dp"
+        >
+
+        <TextView
+            android:text="头像"
+            android:layout_marginStart="@dimen/sub_menu_text_margin"
+            android:textColor="@color/sub_menu_text_color"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/avatarImg"
+            android:src="@drawable/avatar1"
+            android:scaleType="fitCenter"
+            android:layout_toStartOf="@+id/avatarArrow"
+            android:padding="5dp"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/avatarArrow"
+            android:src="@drawable/ic_right_arrow"
+            android:scaleType="fitCenter"
+            android:layout_alignParentEnd="true"
+            android:padding="@dimen/sub_menu_arrow_padding"
+            android:layout_width="@dimen/sub_menu_icon_height"
+            android:layout_height="wrap_content" />
+
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/usernameMenu"
+        app:layout_constraintTop_toBottomOf="@id/avatarMenu"
+        android:background="@drawable/back_top_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sub_menu_height">
+
+
+        <TextView
+            android:text="名字"
+            android:layout_marginStart="@dimen/sub_menu_text_margin"
+            android:textColor="@color/sub_menu_text_color"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:text=""
+            android:id="@+id/usernameText"
+            android:layout_marginStart="@dimen/sub_menu_text_margin"
+            android:textColor="@color/sub_menu_text_color"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_toStartOf="@id/usernameArrow"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/usernameArrow"
+            android:src="@drawable/ic_right_arrow"
+            android:scaleType="fitCenter"
+            android:layout_alignParentEnd="true"
+            android:padding="@dimen/sub_menu_arrow_padding"
+            android:layout_width="@dimen/sub_menu_icon_height"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/weixinIdMenu"
+        app:layout_constraintTop_toBottomOf="@+id/usernameMenu"
+        android:background="@drawable/back_top_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sub_menu_height">
+
+
+        <TextView
+            android:text="微信号"
+            android:layout_marginStart="@dimen/sub_menu_text_margin"
+            android:textColor="@color/sub_menu_text_color"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:text=""
+            android:id="@+id/weixinIdText"
+            android:layout_marginStart="@dimen/sub_menu_text_margin"
+            android:textColor="@color/sub_menu_text_color"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_toStartOf="@id/weixinIdArrow"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/weixinIdArrow"
+            android:src="@drawable/ic_right_arrow"
+            android:scaleType="fitCenter"
+            android:layout_alignParentEnd="true"
+            android:padding="@dimen/sub_menu_arrow_padding"
+            android:layout_width="@dimen/sub_menu_icon_height"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
 
 </LinearLayout>

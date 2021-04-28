@@ -12,6 +12,16 @@ public class UserResponse extends CommonResponse {
     List<Friend> friends;
     String timeLineSyncId;
 
+    String avatar;
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     public String getUsername() {
         return username;
     }

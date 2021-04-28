@@ -1,6 +1,7 @@
 package com.MobileCourse.Repositorys;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
@@ -22,6 +23,8 @@ import java.util.Date;
 import java.util.List;
 
 public class MeRepository {
+    private static String tag = "MeRepository";
+
     private MeDao meDao;
     private UserDao userDao;
 
@@ -47,8 +50,10 @@ public class MeRepository {
         userLiveData.addSource(meLiveData,(me -> {
             if(me!=null){
                 userLiveData.addSource(userDao.getUserById(me.getId()),(user -> {
-                    userLiveData.postValue(user);
+                    userLiveData.setValue(user);
                 }));
+            } else {
+                userLiveData.setValue(null);
             }
         }));
     }

@@ -53,7 +53,7 @@ public class RegisterFragment extends Fragment {
             String password = passwordEditText.getText().toString();
             String username = usernameEditText.getText().toString();
             LiveData<Resource<User>> resourceLiveData =  UserRepository.getInstance(getContext()).register(weixinId,username,password);
-            resourceLiveData.observe(this,(resource)->{
+            resourceLiveData.observe(getViewLifecycleOwner(),(resource)->{
                 if(resource!=null){
                     switch (resource.status){
                         case ERROR:

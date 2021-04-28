@@ -20,12 +20,12 @@ public interface UserApi {
             @Query("weixinId") String weixinId
     );
 
-    @POST("user")
+    @POST("user/register")
     LiveData<ApiResponse<UserResponse>> register(
             @Body RegisterRequest body
             );
 
-    @POST("user")
+    @POST("user/login")
     LiveData<ApiResponse<UserResponse>> login(
             @Body LoginRequest body
             );

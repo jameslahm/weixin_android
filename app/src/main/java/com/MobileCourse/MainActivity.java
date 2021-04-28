@@ -34,10 +34,13 @@ import java.util.List;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import dagger.hilt.android.AndroidEntryPoint;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
+@AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.viewpager)

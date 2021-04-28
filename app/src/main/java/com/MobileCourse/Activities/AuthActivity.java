@@ -1,7 +1,10 @@
 package com.MobileCourse.Activities;
 
 import android.os.Bundle;
+import android.transition.Explode;
+import android.transition.Fade;
 import android.util.Log;
+import android.view.Window;
 
 import com.MobileCourse.Adapters.FragmentAdapter;
 import com.MobileCourse.Fragments.ChatFragment;
@@ -20,11 +23,14 @@ import androidx.viewpager.widget.ViewPager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.hilt.android.AndroidEntryPoint;
+
 import com.MobileCourse.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@AndroidEntryPoint
 public class AuthActivity extends AppCompatActivity {
     @BindView(R.id.viewpager)
     ViewPager viewPager;
@@ -35,6 +41,11 @@ public class AuthActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+//        getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
+//        // set an exit transition
+//        getWindow().setExitTransition(new Fade());
+
         setContentView(R.layout.activity_auth);
 
         // 自动绑定view

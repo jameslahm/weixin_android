@@ -23,6 +23,7 @@ public class ApiService {
     private static void initOkHttpClient(Context context){
         CookieHandler cookieHandler = new CookieManager(new PersistentCookieStore(context), CookiePolicy.ACCEPT_ALL);
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client =  new OkHttpClient().newBuilder()
         .connectTimeout(Constants.CONNECTION_TIMEOUT, TimeUnit.SECONDS)
         .readTimeout(Constants.READ_TIMEOUT,TimeUnit.SECONDS)

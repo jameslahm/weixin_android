@@ -3,6 +3,7 @@ package com.MobileCourse.Fragments;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.MobileCourse.Gestures.OnSwipeTouchListener;
 import com.MobileCourse.MainActivity;
 import com.MobileCourse.Models.User;
 import com.MobileCourse.R;
+import com.MobileCourse.Repositorys.MeRepository;
 import com.MobileCourse.Repositorys.UserRepository;
 
 import butterknife.BindView;
@@ -52,7 +54,7 @@ public class LoginFragment extends Fragment {
             String weixinId = weixinIdEditText.getText().toString();
             String password = passwordEditText.getText().toString();
             LiveData<Resource<User>> resourceLiveData =  UserRepository.getInstance(getContext()).login(weixinId,password);
-            resourceLiveData.observe(this,(resource)->{
+            resourceLiveData.observe(getViewLifecycleOwner(),(resource)->{
                 if(resource!=null){
                     switch (resource.status){
                         case ERROR:

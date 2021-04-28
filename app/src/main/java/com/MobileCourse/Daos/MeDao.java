@@ -8,11 +8,16 @@ import androidx.room.Query;
 
 import com.MobileCourse.Models.Me;
 
+import java.util.List;
+
 @Dao
 public interface MeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertMe(Me me);
 
-    @Query("SELECT * FROM Me LIMIT 1")
+    @Query("SELECT * FROM Me")
     LiveData<Me> getMe();
+
+    @Query("SELECT * FROM Me")
+    LiveData<List<Me>> getAllMe();
 }
