@@ -5,6 +5,33 @@ public class Friend {
     String timeLineSavedId;
     String nickName;
 
+    public static class FriendDetail {
+        Friend friend;
+        User user;
+
+        public FriendDetail(Friend friend, User user) {
+            this.friend = friend;
+            this.user = user;
+        }
+
+        public Friend getFriend() {
+            return friend;
+        }
+
+        public void setFriend(Friend friend) {
+            this.friend = friend;
+        }
+
+        public User getUser() {
+            return user;
+        }
+
+        public void setUser(User user) {
+            this.user = user;
+        }
+    }
+
+
     public String getId() {
         return id;
     }

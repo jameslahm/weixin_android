@@ -3,6 +3,9 @@ package com.MobileCourse.Api;
 import android.content.Context;
 
 import com.MobileCourse.Utils.Constants;
+import com.franmontiel.persistentcookiejar.PersistentCookieJar;
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.google.gson.Gson;
 
 import java.net.CookieHandler;
@@ -10,6 +13,7 @@ import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.CookieJar;
 import okhttp3.JavaNetCookieJar;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -21,14 +25,15 @@ public class ApiService {
     private static OkHttpClient client;
 
     private static void initOkHttpClient(Context context){
-        CookieHandler cookieHandler = new CookieManager(new PersistentCookieStore(context), CookiePolicy.ACCEPT_ALL);
+        CookieJar cookieJar =
+                new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(context));
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client =  new OkHttpClient().newBuilder()
         .connectTimeout(Constants.CONNECTION_TIMEOUT, TimeUnit.SECONDS)
         .readTimeout(Constants.READ_TIMEOUT,TimeUnit.SECONDS)
         .writeTimeout(Constants.WRITE_TIMEOUT,TimeUnit.SECONDS)
-        .retryOnConnectionFailure(true).cookieJar(new JavaNetCookieJar(cookieHandler)).addInterceptor(logging)
+        .retryOnConnectionFailure(true).cookieJar(cookieJar).addInterceptor(logging)
         .build();
         ApiService.client = client;
     }

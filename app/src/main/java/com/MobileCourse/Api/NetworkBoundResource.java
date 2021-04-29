@@ -86,10 +86,14 @@ public abstract class NetworkBoundResource<CacheObject,RequestObject extends Com
     }
 
     @NotNull @MainThread
-    protected abstract LiveData<ApiResponse<RequestObject>> createCall();
+    protected LiveData<ApiResponse<RequestObject>> createCall(){
+        return null;
+    };
 
     @WorkerThread
-    protected abstract void saveCallResult(@NotNull RequestObject requestObject);
+    protected void saveCallResult(@NotNull RequestObject requestObject){
+
+    };
 
     public final LiveData<Resource<CacheObject>> getAsLiveData(){
         return results;

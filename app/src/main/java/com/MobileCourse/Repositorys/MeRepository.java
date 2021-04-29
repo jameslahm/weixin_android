@@ -62,4 +62,9 @@ public class MeRepository {
         return userLiveData;
     }
 
+    public void deleteMe() {
+        AppExecutors.getInstance().getDiskIO().execute(() -> {
+            meDao.deleteMe();
+        });
+    }
 }

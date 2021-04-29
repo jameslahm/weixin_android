@@ -1,14 +1,18 @@
 package com.MobileCourse.Repositorys;
 
 import android.content.Context;
-import android.util.Log;
+import android.os.Build;
 
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 
 import com.MobileCourse.Api.ApiService;
 import com.MobileCourse.Api.Request.LoginRequest;
 import com.MobileCourse.Api.Request.RegisterRequest;
+import com.MobileCourse.Api.Request.UpdateUserRequest;
 import com.MobileCourse.Api.Response.ApiResponse;
+import com.MobileCourse.Api.Response.CommonResponse;
+import com.MobileCourse.Api.Response.MeUserResponse;
 import com.MobileCourse.Api.Response.UserResponse;
 import com.MobileCourse.Daos.MeDao;
 import com.MobileCourse.Daos.UserDao;
@@ -22,6 +26,9 @@ import com.MobileCourse.Utils.Constants;
 import com.MobileCourse.Utils.MiscUtil;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserRepository {
     private static UserRepository instance;
@@ -100,7 +107,7 @@ public class UserRepository {
     }
 
     public LiveData<Resource<User>> login(String weixinId,String password){
-        return new NetworkBoundResource<User,UserResponse>(AppExecutors.getInstance()){
+        return new NetworkBoundResource<User, MeUserResponse>(AppExecutors.getInstance()){
 
             @NotNull
             @Override
@@ -115,16 +122,63 @@ public class UserRepository {
 
             @NotNull
             @Override
-            protected LiveData<ApiResponse<UserResponse>> createCall() {
+            protected LiveData<ApiResponse<MeUserResponse>> createCall() {
                 LoginRequest loginRequest = new LoginRequest(weixinId,password);
                 return ApiService.getUserApi().login(loginRequest);
+            }
+
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            protected void saveCallResult(@NotNull MeUserResponse meUserResponse) {
+                userDao.insertUser(User.fromUserResponse(UserResponse.fromMeUserResponse(meUserResponse)));
+                List<User> users = meUserResponse.getFriends().stream().map(friendDetail -> {
+                    return friendDetail.getUser();
+                }).collect(Collectors.toList());
+                userDao.insertUsers(users);
+                meDao.insertMe(new Me(meUserResponse.getId()));
+            }
+        }.getAsLiveData();
+    }
+
+    public LiveData<Resource<User>> updateUser(final String id,final String weixinId,final String username){
+        return new NetworkBoundResource<User, UserResponse>(AppExecutors.getInstance()) {
+            @NotNull
+            @Override
+            protected LiveData<User> loadFromDb() {
+                return userDao.getUserById(id);
+            }
+
+            @Override
+            protected boolean shouldFetch(@NotNull User data) {
+                return true;
+            }
+
+            @NotNull
+            @Override
+            protected LiveData<ApiResponse<UserResponse>> createCall() {
+                return ApiService.getUserApi().updateUser(new UpdateUserRequest(weixinId,username));
             }
 
             @Override
             protected void saveCallResult(@NotNull UserResponse userResponse) {
                 userDao.insertUser(User.fromUserResponse(userResponse));
-                meDao.insertMe(new Me(userResponse.getId()));
             }
+        }.getAsLiveData();
+    }
+
+    public LiveData<Resource<List<User>>> getUsersByIds(List<String> ids){
+        return new NetworkBoundResource<List<User>, CommonResponse>(AppExecutors.getInstance()){
+            @NotNull
+            @Override
+            protected LiveData<List<User>> loadFromDb() {
+                return userDao.getUsersByIds(ids);
+            }
+
+            @Override
+            protected boolean shouldFetch(@NotNull List<User> data) {
+                return false;
+            }
+
         }.getAsLiveData();
     }
 }

@@ -3,6 +3,8 @@ package com.MobileCourse;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,6 +24,7 @@ import com.MobileCourse.Fragments.FindFragment;
 import com.MobileCourse.Fragments.SettingsFragment;
 import com.MobileCourse.Utils.EventListenerUtil;
 import com.MobileCourse.Utils.WebSocket;
+import com.MobileCourse.ViewModels.FriendsViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.jetbrains.annotations.NotNull;
@@ -51,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static Handler msgHandler;
 
+
     @SuppressLint("HandlerLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         fragments.add(new SettingsFragment());
 
         viewPager.setAdapter(new FragmentAdapter(fm, fragments));
+
 
         navigationMenu.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {

@@ -90,6 +90,7 @@ public class EditDialogFragment extends DialogFragment {
 
         confirmButton.setOnClickListener((View view)->{
             this.confirmCallbackObj.confirmCallback(editText.getText().toString());
+            dismiss();
         });
     }
 

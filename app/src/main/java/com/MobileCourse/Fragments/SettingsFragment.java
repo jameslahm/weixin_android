@@ -1,7 +1,9 @@
 package com.MobileCourse.Fragments;
 import com.MobileCourse.Activities.AuthActivity;
+import com.MobileCourse.Api.Resource;
 import com.MobileCourse.Models.User;
 import com.MobileCourse.R;
+import com.MobileCourse.Repositorys.UserRepository;
 import com.MobileCourse.ViewModels.MeViewModel;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -47,33 +50,77 @@ public class SettingsFragment  extends Fragment {
     @BindView(R.id.weixinIdText)
     TextView weixinIdTextView;
 
+    @BindView(R.id.logOutButton)
+    ViewGroup logOutButton;
+
+    boolean isLogOut = false;
 
     MeViewModel meViewModel;
+
+    String id;
+    String username;
+    String weixinId;
 
     public SettingsFragment(){
 
     }
 
     public void init(){
+        Log.e(getTag(),String.valueOf(isLogOut));
         meViewModel = new ViewModelProvider(this).get(MeViewModel.class);
         LiveData<User> meLiveData = meViewModel.getMe();
         meLiveData.observe(getViewLifecycleOwner(), (user -> {
             if(user==null){
-                Intent intent = new Intent(getContext(), AuthActivity.class);
-                startActivity(intent);
+                if(isLogOut) {
+                    Intent intent = new Intent(getContext(), AuthActivity.class);
+                    startActivity(intent);
+                }
             } else {
-                weixinIdTextView.setText(user.getWeixinId());
-                usernameTextView.setText(user.getUsername());
+                id = user.getId();
+                weixinId = user.getWeixinId();
+                username = user.getUsername();
+
+                weixinIdTextView.setText(weixinId);
+                usernameTextView.setText(username);
+
                 Glide.with(this).load("http://139.196.81.14:7998/upload/avatar1.jpeg").placeholder(R.drawable.avatar2)
                         .apply(RequestOptions.circleCropTransform()).into(avatarImageView);
             }
         }));
 
+
+
         usernameMenuViewGroup.setOnClickListener((view)->{
             FragmentManager fragmentManager = getFragmentManager();
             EditDialogFragment.display("设置名字",usernameTextView.getText().toString(),(text)->{
-                Log.e("Hello",text);
+                username = text;
+                meViewModel.updateUser(id,weixinId,username).observe(getViewLifecycleOwner(),(resource)->{
+                    if(resource!=null){
+                        if(resource.status== Resource.Status.SUCCESS){
+                            Toast.makeText(getContext(), "更新成功", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             },fragmentManager);
+        });
+
+        weixinIdMenuViewGroup.setOnClickListener((view)->{
+            FragmentManager fragmentManager = getFragmentManager();
+            EditDialogFragment.display("设置微信号",weixinIdTextView.getText().toString(),(text)->{
+                weixinId = text;
+                meViewModel.updateUser(id,weixinId,username).observe(getViewLifecycleOwner(),(resource)->{
+                    if(resource!=null){
+                        if(resource.status== Resource.Status.SUCCESS){
+                            Toast.makeText(getContext(), "更新成功", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            },fragmentManager);
+        });
+
+        logOutButton.setOnClickListener((view)->{
+            isLogOut = true;
+            meViewModel.logOut();
         });
     }
 
@@ -84,5 +131,11 @@ public class SettingsFragment  extends Fragment {
         ButterKnife.bind(this,view);
         init();
         return view;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        isLogOut=false;
     }
 }

@@ -15,7 +15,7 @@ import java.util.List;
 @Dao
 public interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    long[] insertUsers(User... users);
+    long[] insertUsers(List<User> users);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertUser(User user);
@@ -28,4 +28,7 @@ public interface UserDao {
 
     @Query("SELECT * FROM User")
     LiveData<List<User>> getUsers();
+
+    @Query("SELECT * FROM User WHERE id in (:ids)")
+    LiveData<List<User>> getUsersByIds(List<String> ids);
 }

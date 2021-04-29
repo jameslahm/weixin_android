@@ -1,8 +1,14 @@
 package com.MobileCourse.Api.Response;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import com.MobileCourse.Models.Friend;
+import com.MobileCourse.Repositorys.UserRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserResponse extends CommonResponse {
     String username;
@@ -13,6 +19,24 @@ public class UserResponse extends CommonResponse {
     String timeLineSyncId;
 
     String avatar;
+
+    public UserResponse(String username, String id, String weixinId, List<Friend> friends, String timeLineSyncId, String avatar) {
+        this.username = username;
+        this.id = id;
+        this.weixinId = weixinId;
+        this.friends = friends;
+        this.timeLineSyncId = timeLineSyncId;
+        this.avatar = avatar;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static UserResponse fromMeUserResponse(MeUserResponse meUserResponse){
+        List<Friend> friends = meUserResponse.friends.stream().map((friendDetail -> {
+            return friendDetail.getFriend();
+        })).collect(Collectors.toList());
+        return new UserResponse(meUserResponse.username,meUserResponse.id,meUserResponse.weixinId,
+                friends,meUserResponse.timeLineSyncId,meUserResponse.avatar);
+    }
 
     public String getAvatar() {
         return avatar;
