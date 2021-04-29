@@ -22,9 +22,14 @@ import com.MobileCourse.Fragments.ChatFragment;
 import com.MobileCourse.Fragments.ContactFragment;
 import com.MobileCourse.Fragments.FindFragment;
 import com.MobileCourse.Fragments.SettingsFragment;
+import com.MobileCourse.Models.TimeLine;
+import com.MobileCourse.Repositorys.TimeLineRepository;
 import com.MobileCourse.Utils.EventListenerUtil;
 import com.MobileCourse.Utils.WebSocket;
 import com.MobileCourse.ViewModels.FriendsViewModel;
+import com.MobileCourse.ViewModels.TimeLineViewModel;
+import com.MobileCourse.WebSocket.MessageApi;
+import com.MobileCourse.WebSocket.MessageService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.jetbrains.annotations.NotNull;
@@ -32,6 +37,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +60,9 @@ public class MainActivity extends AppCompatActivity {
 
     public static Handler msgHandler;
 
+    private MessageApi messageApi;
+
+    private TimeLineViewModel timeLineViewModel;
 
     @SuppressLint("HandlerLeak")
     @Override
@@ -108,8 +117,26 @@ public class MainActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
 
+        messageApi = MessageService.getInstance().getMessageApi();
+        timeLineViewModel = new ViewModelProvider(this).get(TimeLineViewModel.class);
+
+        // handle InviteIntoGroupMessage and ApplicationMessage
+        messageApi.observeApplicationMessage().subscribe((applicationMessage -> {
+//            // First generate application view model
+//            TimeLine timeLine = TimeLine.fromApplicationMessage(applicationMessage);
+//            timeLineViewModel.insertTimeLine(timeLine);
+        }));
+
+        messageApi.observeInviteIntoGroupMessage().subscribe((inviteInToGroupMessage)->{
+            TimeLine timeLine = TimeLine.fromInviteInToGroupMessage(inviteInToGroupMessage);
+            timeLineViewModel.insertTimeLine(timeLine);
+        });
 
         // 初始化websocket
-        WebSocket.initSocket();
+//        WebSocket.initSocket();
+
+
+
+
     }
 }

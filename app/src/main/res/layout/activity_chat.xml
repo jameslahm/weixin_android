@@ -21,14 +21,14 @@
 
 
         <TextView
-            android:id="@+id/tv_groupOrContactName"
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxWidth="190dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:singleLine="true"
-            android:text="服务器"
+            android:text="Friend"
             android:textColor="#FFFFFF"
             android:textSize="18sp" />
 
@@ -42,7 +42,7 @@
             />
     </RelativeLayout>
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:id="@+id/messages_view"
         android:layout_weight="2"
@@ -72,6 +72,7 @@
 
 
         <ImageView
+            android:id="@+id/sendButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"

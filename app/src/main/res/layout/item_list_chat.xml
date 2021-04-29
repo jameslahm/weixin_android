@@ -7,10 +7,11 @@
 
     <ImageView
         android:id="@+id/avatar_icon"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:scaleType="fitCenter"
         android:layout_gravity="center"
+        android:layout_marginRight="10dp"
         android:src="@drawable/avatar2" />
 
     <LinearLayout
@@ -20,6 +21,7 @@
 
         <LinearLayout
             android:id="@+id/nickname_box"
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="25dp"
             android:orientation="horizontal">
@@ -29,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="昵称"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -43,7 +45,8 @@
             android:id="@+id/last_speak_text"
             android:layout_width="match_parent"
             android:layout_height="35dp"
-            android:textSize="15sp"
+            android:paddingBottom="10dp"
+            android:textSize="12sp"
             android:gravity="center_vertical"
             android:text="@string/sentence1" />
     </LinearLayout>

@@ -2,20 +2,24 @@ package com.MobileCourse.Models;
 
 public class Chat {
 
-    private final String nickname; // 昵称
-    private final String lastSpeak; //最后聊天内容
-    private final int avatarIcon; // 头像
-    private final String lastSpeakTime; //最后联络时间
+    // TimeLineId
+    private String id;
 
-    public Chat(String nickname, int avatarIcon, String lastSpeak, String lastSpeakTime) {
+    private String nickname; // 昵称
+    private String lastSpeak; //最后聊天内容
+    private String avatar; // 头像
+    private String lastSpeakTime; //最后联络时间
+
+    public Chat(String id,String nickname, String avatar, String lastSpeak, String lastSpeakTime) {
+        this.id = id;
         this.nickname = nickname;
-        this.avatarIcon = avatarIcon;
+        this.avatar = avatar;
         this.lastSpeak = lastSpeak;
         this.lastSpeakTime = lastSpeakTime;
     }
 
-    public int getAvatarIcon() {
-        return avatarIcon;
+    public String getAvatar() {
+        return avatar;
     }
 
     public String getLastSpeak() {
@@ -28,5 +32,29 @@ public class Chat {
 
     public String getNickname() {
         return nickname;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void setLastSpeak(String lastSpeak) {
+        this.lastSpeak = lastSpeak;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public void setLastSpeakTime(String lastSpeakTime) {
+        this.lastSpeakTime = lastSpeakTime;
     }
 }

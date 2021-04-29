@@ -24,11 +24,9 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.LinkedList;
 
 public class ContactAdapter extends ListAdapter<User, ContactAdapter.ContactViewHolder> {
-    Context context;
 
     public ContactAdapter(@NonNull DiffUtil.ItemCallback<User> diffCallback, Context context) {
         super(diffCallback);
-        this.context=context;
     }
 //    private LinkedList<Contact> data;
 
@@ -38,7 +36,7 @@ public class ContactAdapter extends ListAdapter<User, ContactAdapter.ContactView
     public static class ContactViewHolder extends RecyclerView.ViewHolder {
         private TextView nickNameTextView;
         private ImageView avatarImageView;
-        public ContactViewHolder(@NonNull View itemView,Context context) {
+        public ContactViewHolder(@NonNull View itemView) {
             super(itemView);
             nickNameTextView = (TextView)itemView.findViewById(R.id.nickname_text);
             avatarImageView = (ImageView)itemView.findViewById(R.id.avatar_icon);
@@ -60,7 +58,7 @@ public class ContactAdapter extends ListAdapter<User, ContactAdapter.ContactView
     public ContactAdapter.ContactViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // TODO
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_contact,parent,false);
-        return new ContactViewHolder(itemView,context);
+        return new ContactViewHolder(itemView);
     }
 
 

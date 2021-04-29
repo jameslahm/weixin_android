@@ -8,57 +8,93 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.MobileCourse.Models.TimeLine;
+import com.MobileCourse.Models.User;
 import com.MobileCourse.R;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
+import org.w3c.dom.Text;
+
+import java.sql.Time;
 import java.util.LinkedList;
 
-public class ChatAdapter extends BaseAdapter {
+public class ChatAdapter extends ListAdapter<Chat,ChatAdapter.ChatViewHolder> {
 
-    private LinkedList<Chat> data;
+    private LinkedList<TimeLine> data;
     private Context context;
 
-    public ChatAdapter(LinkedList<Chat> data, Context context) {
-        this.data = data;
-        this.context = context;
+    public ChatAdapter(@NonNull DiffUtil.ItemCallback<Chat> diffCallback) {
+        super(diffCallback);
+    }
+
+    public static class ChatViewHolder extends RecyclerView.ViewHolder {
+        private TextView nickNameTextView;
+        private ImageView avatarImageView;
+        private TextView lastSpeakTimeTextView;
+        private TextView lastSpeakTextView;
+
+        public ChatViewHolder(@NonNull View itemView) {
+            super(itemView);
+            avatarImageView = (ImageView)itemView.findViewById(R.id.avatar_icon);
+            nickNameTextView = (TextView)itemView.findViewById(R.id.nickname_text);
+            lastSpeakTimeTextView = (TextView)itemView.findViewById(R.id.last_speak_time_text);
+            lastSpeakTextView = (TextView)itemView.findViewById(R.id.last_speak_text);
+        }
+
+        public void setNickName(String nickName){
+            nickNameTextView.setText(nickName);
+        }
+        public void setAvatar(String avatar){
+            Glide.with(avatarImageView.getContext()).load(avatar).placeholder(R.drawable.avatar2)
+                    .apply(RequestOptions.circleCropTransform()).into(avatarImageView);;
+        }
+        public void setLaskSpeakTime(String time){
+            lastSpeakTimeTextView.setText(time);
+        }
+        public void setLastSpeakText(String text){
+            lastSpeakTextView.setText(text);
+        }
+
+    }
+
+    @NonNull
+    @Override
+    public ChatAdapter.ChatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_list_chat, parent, false);
+        return new ChatViewHolder(view);
     }
 
     @Override
-    public int getCount() {
-        return data.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return data.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    @SuppressLint("ViewHolder")
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        convertView = LayoutInflater.from(context).inflate(R.layout.item_list_chat, parent, false);
-        Chat chat = data.get(position);
-        // 修改View中各个控件的属性，使之显示对应位置Chat的内容
-        // 使用convertView.findViewById()方法来寻找对应的控件
-        // 控件ID见 res/layout/item_list_chat.xml
+    public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
         // TODO
-        ImageView avatarImageView = (ImageView)convertView.findViewById(R.id.avatar_icon);
-        avatarImageView.setImageResource(chat.getAvatarIcon());
-
-        TextView nickNameTextView = (TextView)convertView.findViewById(R.id.nickname_text);
-        nickNameTextView.setText(chat.getNickname());
-
-        TextView lastSpeakTimeTextView = (TextView)convertView.findViewById(R.id.last_speak_time_text);
-        lastSpeakTimeTextView.setText(chat.getLastSpeakTime());
-
-        TextView lastSpeakTextView = (TextView)convertView.findViewById(R.id.last_speak_text);
-        lastSpeakTextView.setText(chat.getLastSpeak());
-
-        return convertView;
+        Chat chat = getItem(position);
+        holder.setAvatar(chat.getAvatar());
+        holder.setLaskSpeakTime(chat.getLastSpeakTime());
+        holder.setLastSpeakText(chat.getLastSpeak());
+        holder.setNickName(chat.getNickname());
     }
+
+    public static class ChatDiff extends DiffUtil.ItemCallback<Chat> {
+
+        @Override
+        public boolean areItemsTheSame(@NonNull Chat oldItem, @NonNull Chat newItem) {
+            return oldItem == newItem;
+        }
+
+        // TODO: FIXME
+        @Override
+        public boolean areContentsTheSame(@NonNull Chat oldItem, @NonNull Chat newItem) {
+            return false;
+        }
+    }
+
 }

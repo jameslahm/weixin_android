@@ -3,29 +3,52 @@ package com.MobileCourse.Fragments;
 
 import com.MobileCourse.Models.Chat;
 import com.MobileCourse.Adapters.ChatAdapter;
+
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import com.MobileCourse.R;
+import com.MobileCourse.ViewModels.ChatViewModel;
+import com.MobileCourse.WebSocket.MessageApi;
+import com.MobileCourse.WebSocket.MessageService;
+import com.tinder.scarlet.WebSocket;
 
 import java.util.LinkedList;
 
+import butterknife.BindBitmap;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import dagger.hilt.android.AndroidEntryPoint;
+import io.reactivex.functions.Consumer;
+
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ChatsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 public class ChatFragment extends Fragment {
     private ChatAdapter chatAdapter;
     private LinkedList<Chat> data;
-    private ListView listView;
+
+    @BindView(R.id.listview)
+    private RecyclerView listView;
+
+    private MessageApi messageApi = MessageService.getInstance().getMessageApi();
+
+    private static String tag = "ChatFragment";
+
+    ChatViewModel chatViewModel;
 
     public ChatFragment() {
         // Required empty public constructor
@@ -43,19 +66,22 @@ public class ChatFragment extends Fragment {
         return fragment;
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        listView = getView().findViewById(R.id.listview);
-        Context context = getActivity();
+        ButterKnife.bind(this,view);
 
-        // 向ListView 添加数据，新建ChatAdapter，并向listView绑定该Adapter
-        // 添加数据的样例代码如下:
-        data = new LinkedList<>();
-        data.add(new Chat(getString(R.string.nickname1), R.drawable.avatar2, getString(R.string.sentence1), "2021/01/01"));
-
-
-        chatAdapter = new ChatAdapter(data,context);
+        chatViewModel = new ViewModelProvider(this).get(ChatViewModel.class);
+        chatAdapter = new ChatAdapter(new ChatAdapter.ChatDiff());
         listView.setAdapter(chatAdapter);
+
+        chatViewModel.getChatsLiveData().observe(getViewLifecycleOwner(),(chats -> {
+            chatAdapter.submitList(chats);
+        }));
+
+//        messageApi.observeMessage().subscribe((message)->{
+//            Log.e(tag,String.valueOf(message));
+//        });
     }
 
 
