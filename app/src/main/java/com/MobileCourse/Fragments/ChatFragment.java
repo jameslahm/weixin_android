@@ -51,7 +51,7 @@ public class ChatFragment extends Fragment {
         // 向ListView 添加数据，新建ChatAdapter，并向listView绑定该Adapter
         // 添加数据的样例代码如下:
         data = new LinkedList<>();
-        data.add(new Chat(getString(R.string.nickname1), R.drawable.avatar1, getString(R.string.sentence1), "2021/01/01"));
+        data.add(new Chat(getString(R.string.nickname1), R.drawable.avatar2, getString(R.string.sentence1), "2021/01/01"));
 
 
         chatAdapter = new ChatAdapter(data,context);

@@ -52,7 +52,7 @@ public class DiscoverFragment extends Fragment {
 
         LinkedList<Discover> discovers = new LinkedList<>();
 
-        discovers.add(new Discover(getString(R.string.nickname1),R.drawable.avatar1,getString(R.string.paragraph1),"1小时前",new ArrayList<>(List.of(R.drawable.image1))));
+        discovers.add(new Discover(getString(R.string.nickname1),R.drawable.avatar2,getString(R.string.paragraph1),"1小时前",new ArrayList<>(List.of(R.drawable.image1))));
 
         DiscoverAdapter discoverAdapter = new DiscoverAdapter(discovers);
         recyclerView.setAdapter(discoverAdapter);

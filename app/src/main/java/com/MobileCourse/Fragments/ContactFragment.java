@@ -54,7 +54,7 @@ public class ContactFragment extends Fragment {
         // 添加数据，为recyclerView绑定Adapter、LayoutManager
         // 添加数据的样例代码如下:
         LinkedList<Contact> contacts = new LinkedList<>();
-        contacts.add(new Contact(getString(R.string.nickname1), R.drawable.avatar1));
+        contacts.add(new Contact(getString(R.string.nickname1), R.drawable.avatar2));
        // TODO
         ContactAdapter contactAdapter = new ContactAdapter(contacts);
         recyclerView.setAdapter(contactAdapter);

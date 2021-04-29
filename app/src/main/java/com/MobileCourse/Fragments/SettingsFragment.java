@@ -1,6 +1,5 @@
 package com.MobileCourse.Fragments;
 import com.MobileCourse.Activities.AuthActivity;
-import com.MobileCourse.MainActivity;
 import com.MobileCourse.Models.User;
 import com.MobileCourse.R;
 import com.MobileCourse.ViewModels.MeViewModel;
@@ -19,6 +18,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -64,13 +64,16 @@ public class SettingsFragment  extends Fragment {
             } else {
                 weixinIdTextView.setText(user.getWeixinId());
                 usernameTextView.setText(user.getUsername());
-                Glide.with(this).load(user.getAvatar())
-                        .apply(RequestOptions.circleCropTransform()).placeholder(R.drawable.avatar1).into(avatarImageView);
+                Glide.with(this).load("http://139.196.81.14:7998/upload/avatar1.jpeg").placeholder(R.drawable.avatar2)
+                        .apply(RequestOptions.circleCropTransform()).into(avatarImageView);
             }
         }));
 
         usernameMenuViewGroup.setOnClickListener((view)->{
-//            Intent intent = new Intent(getContext(),)
+            FragmentManager fragmentManager = getFragmentManager();
+            EditDialogFragment.display("设置名字",usernameTextView.getText().toString(),(text)->{
+                Log.e("Hello",text);
+            },fragmentManager);
         });
     }
 
