@@ -31,6 +31,7 @@ public class MessageService {
                 .addMessageAdapterFactory(new GsonMessageAdapter.Factory())
                 .addStreamAdapterFactory(new RxJava2StreamAdapterFactory())
                 .build().create(MessageApi.class);
+        this.messageApi = client;
     }
 
     public MessageApi getMessageApi(){

@@ -57,6 +57,9 @@ public class UserRepository {
 
             @Override
             protected boolean shouldFetch(@NotNull User user) {
+                if(user==null){
+                    return true;
+                }
                 Long currentTimeStamp = MiscUtil.getCurrentTimestamp();
                 if((currentTimeStamp-user.getCachedTimestamp())> Constants.USER_REFRESH_TIME){
                     return true;

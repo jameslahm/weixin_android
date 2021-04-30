@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "8b59a51e9ec16b322241c493f5cd9cc9",
+    "identityHash": "4aee5d9e3180262be58fac0adc8ba718",
     "entities": [
       {
         "tableName": "User",
@@ -79,12 +79,68 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "TimeLine",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT, `lastSpeak` TEXT, `avatar` TEXT, `lastSpeakTime` TEXT, `to` TEXT, `messages` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastSpeak",
+            "columnName": "lastSpeak",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "avatar",
+            "columnName": "avatar",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastSpeakTime",
+            "columnName": "lastSpeakTime",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "to",
+            "columnName": "to",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "messages",
+            "columnName": "messages",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8b59a51e9ec16b322241c493f5cd9cc9')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4aee5d9e3180262be58fac0adc8ba718')"
     ]
   }
 }

@@ -42,7 +42,7 @@ public class ChatFragment extends Fragment {
     private LinkedList<Chat> data;
 
     @BindView(R.id.listview)
-    private RecyclerView listView;
+    RecyclerView listView;
 
     private MessageApi messageApi = MessageService.getInstance().getMessageApi();
 

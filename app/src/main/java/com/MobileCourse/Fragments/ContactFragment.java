@@ -1,6 +1,7 @@
 package com.MobileCourse.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.MobileCourse.Activities.NewFriendActivity;
 import com.MobileCourse.Models.Contact;
 import com.MobileCourse.Adapters.ContactAdapter;
 import java.util.LinkedList;
@@ -37,6 +39,9 @@ public class ContactFragment extends Fragment {
     Context context;
 
     FriendsViewModel friendsViewModel;
+
+    @BindView(R.id.newFriend)
+    ViewGroup newFriendViewGroup;
 
     public ContactFragment() {
         // Required empty public constructor
@@ -71,6 +76,11 @@ public class ContactFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
 
         friendsViewModel.getFriends().observe(getViewLifecycleOwner(), contactAdapter::submitList);
+
+        newFriendViewGroup.setOnClickListener((view1)->{
+            Intent intent = new Intent(getContext(), NewFriendActivity.class);
+            startActivity(intent);
+        });
 
     }
 

@@ -3,6 +3,7 @@ package com.MobileCourse.Models;
 import android.app.Application;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.MobileCourse.Utils.MiscUtil;
@@ -91,10 +92,6 @@ public class TimeLine {
     }
 
     public void setMessages(List<Message> messages) {
-        this.messages = messages;
-    }
-
-    public TimeLine(List<Message> messages) {
         this.messages = messages;
     }
 

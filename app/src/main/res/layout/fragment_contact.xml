@@ -34,8 +34,40 @@
 
     </RelativeLayout>
 
+    <LinearLayout android:layout_width="match_parent"
+        android:id="@+id/newFriend"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_height="60dp"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:background="@drawable/back_top_line"
+        >
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/ic_add_people"
+            android:id="@+id/avatar_icon"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="15dp"
+            app:tint="@color/colorPrimary">
+        </ImageView>
+
+        <TextView
+            android:id="@+id/nickname_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:gravity="center"
+            android:text="新的朋友"
+            android:textSize="18sp"
+            android:textStyle="bold"></TextView>
+
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/contacts_recylerview"
+        android:layout_marginTop="@dimen/sub_menu_gap"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

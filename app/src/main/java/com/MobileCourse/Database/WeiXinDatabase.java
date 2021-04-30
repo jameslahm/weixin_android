@@ -17,7 +17,7 @@ import com.MobileCourse.Models.User;
 
 
 
-@Database(entities = {User.class, Me.class, TimeLine.class},version = 1)
+@Database(entities = {User.class, Me.class, TimeLine.class},version = 2)
 @TypeConverters({Converters.class})
 public abstract class WeiXinDatabase extends RoomDatabase {
     public static final String DATABASE_NAME = "weixin_db";
@@ -30,7 +30,7 @@ public abstract class WeiXinDatabase extends RoomDatabase {
                     context.getApplicationContext(),
                     WeiXinDatabase.class,
                     DATABASE_NAME
-            ).build();
+            ).fallbackToDestructiveMigration().build();
         }
         return instance;
     }

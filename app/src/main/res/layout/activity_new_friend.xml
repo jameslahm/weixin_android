@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/back_gradient"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:id="@+id/top_panel"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textSize="20sp">
+
+        <ImageView
+            android:id="@+id/iv_return"
+            android:layout_width="@dimen/title_bar_height"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_arrow_left" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="#000000"
+            android:gravity="center_vertical"
+            android:layout_centerHorizontal="true"
+            android:textSize="20sp"
+            android:text="新的朋友" />
+
+    </RelativeLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+        android:id="@+id/newFriend"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_height="60dp"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        >
+
+        <EditText
+            android:id="@+id/weixinId"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_centerInParent="true"
+            android:inputType="text"
+            android:background="@drawable/et_custom"
+            android:padding="15dp"
+            android:hint="\uD83D\uDD0D 微信号"
+            android:imeOptions="actionSearch"
+            android:textSize="15sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_height="60dp"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/sub_menu_gap"
+        android:background="@drawable/back_top_line"
+        android:id="@+id/new_friend_res"
+        >
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/avatar2"
+            android:id="@+id/new_friend_avatar"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            >
+        </ImageView>
+
+        <TextView
+            android:id="@+id/new_friend_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:gravity="center"
+            android:text="昵称"
+            android:textSize="18sp"
+            android:textStyle="bold"></TextView>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/new_friends_recylerview"
+        android:layout_marginTop="@dimen/sub_menu_gap"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
