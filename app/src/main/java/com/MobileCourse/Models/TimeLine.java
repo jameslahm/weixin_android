@@ -34,9 +34,19 @@ public class TimeLine {
 
     String to;
 
+    long lastCheckTimestamp;
+
     List<Message> messages;
 
-    public TimeLine(@NotNull String id, String name, String lastSpeak, String avatar, String lastSpeakTime, String to, List<Message> messages) {
+    public long getLastCheckTimestamp() {
+        return lastCheckTimestamp;
+    }
+
+    public void setLastCheckTimestamp(long lastCheckTimestamp) {
+        this.lastCheckTimestamp = lastCheckTimestamp;
+    }
+
+    public TimeLine(@NotNull String id, String name, String lastSpeak, String avatar, String lastSpeakTime, String to, long lastCheckTimestamp , List<Message> messages) {
         this.id = id;
         this.name = name;
         this.lastSpeak = lastSpeak;
@@ -44,6 +54,7 @@ public class TimeLine {
         this.lastSpeakTime = lastSpeakTime;
         this.to = to;
         this.messages = messages;
+        this.lastCheckTimestamp = lastCheckTimestamp;
     }
 
     public String getName() {
@@ -104,7 +115,7 @@ public class TimeLine {
     }
 
     public static TimeLine fromInviteInToGroupMessage(InviteInToGroupMessage inviteInToGroupMessage){
-        String id = inviteInToGroupMessage.group.timeLineSyncId;
+        String id = inviteInToGroupMessage.group.getId();
         String name = inviteInToGroupMessage.group.name;
         String lastSpeak = inviteInToGroupMessage.content;
         String avatar = inviteInToGroupMessage.group.avatar;
@@ -113,7 +124,7 @@ public class TimeLine {
         List<Message> messages = new ArrayList<>();
         messages.add(Message.fromInviteInToGroupMessage(inviteInToGroupMessage));
         TimeLine timeLine = new TimeLine(
-                id,name,lastSpeak,avatar,lastSpeakTime,to,messages
+                id,name,lastSpeak,avatar,lastSpeakTime,to,inviteInToGroupMessage.timestamp ,messages
         );
         return timeLine;
     }

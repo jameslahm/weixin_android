@@ -64,4 +64,6 @@ public class ChatViewModel extends ViewModel {
     public LiveData<List<Chat>> getChatsLiveData(){
         return chatsLiveData;
     }
+
+
 }

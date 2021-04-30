@@ -17,6 +17,8 @@ import com.MobileCourse.Api.Response.UserResponse;
 import com.MobileCourse.Daos.MeDao;
 import com.MobileCourse.Daos.UserDao;
 import com.MobileCourse.Database.WeiXinDatabase;
+import com.MobileCourse.WebSocket.MessageApi;
+import com.MobileCourse.WebSocket.Request.CreateMessage;
 import com.MobileCourse.Models.Me;
 import com.MobileCourse.Models.User;
 import com.MobileCourse.Api.NetworkBoundResource;
@@ -24,6 +26,8 @@ import com.MobileCourse.Api.Resource;
 import com.MobileCourse.Utils.AppExecutors;
 import com.MobileCourse.Utils.Constants;
 import com.MobileCourse.Utils.MiscUtil;
+import com.MobileCourse.WebSocket.MessageService;
+import com.MobileCourse.WebSocket.Request.LoginMessage;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -110,6 +114,10 @@ public class UserRepository {
     }
 
     public LiveData<Resource<User>> login(String weixinId,String password){
+        MessageService.getInstance().getMessageApi().sendLoginMessage(new LoginMessage(
+                weixinId,password
+        ));
+
         return new NetworkBoundResource<User, MeUserResponse>(AppExecutors.getInstance()){
 
             @NotNull
@@ -183,5 +191,13 @@ public class UserRepository {
             }
 
         }.getAsLiveData();
+    }
+
+    public void addFriend(String friendId,String content){
+        CreateMessage createMessage = new CreateMessage(
+            content, Constants.ContentType.TEXT,Constants.MessageType.APPLICATION,
+                friendId,MiscUtil.getCurrentTimestamp()
+        );
+        MessageService.getInstance().getMessageApi().sendMessage(createMessage);
     }
 }

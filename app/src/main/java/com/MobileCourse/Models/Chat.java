@@ -10,12 +10,15 @@ public class Chat {
     private String avatar; // 头像
     private String lastSpeakTime; //最后联络时间
 
-    public Chat(String id,String nickname, String avatar, String lastSpeak, String lastSpeakTime) {
+    private long unReadCount;
+
+    public Chat(String id,String nickname, String avatar, String lastSpeak, String lastSpeakTime, long unReadCount) {
         this.id = id;
         this.nickname = nickname;
         this.avatar = avatar;
         this.lastSpeak = lastSpeak;
         this.lastSpeakTime = lastSpeakTime;
+        this.unReadCount = unReadCount;
     }
 
     public String getAvatar() {
@@ -40,6 +43,14 @@ public class Chat {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public long getUnReadCount() {
+        return unReadCount;
+    }
+
+    public void setUnReadCount(int unReadCount) {
+        this.unReadCount = unReadCount;
     }
 
     public void setNickname(String nickname) {

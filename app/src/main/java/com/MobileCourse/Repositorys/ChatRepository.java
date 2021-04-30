@@ -1,7 +1,9 @@
 package com.MobileCourse.Repositorys;
 
 import android.content.Context;
+import android.os.Build;
 
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -33,10 +35,14 @@ public class ChatRepository {
         timeLineDao = WeiXinDatabase.getInstance(context).getTimeLineDao();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public Chat getChatByTimeLine(TimeLine timeLine){
+        long unReadCount = timeLine.getMessages().stream().filter((message -> {
+            return message.getTimestamp() > timeLine.getLastCheckTimestamp();
+        })).count();
+
         return new Chat(timeLine.getTo(),timeLine.getName(),
                 timeLine.getAvatar(),timeLine.getLastSpeak(),
-                timeLine.getLastSpeakTime());
+                timeLine.getLastSpeakTime(),unReadCount);
     }
-
 }

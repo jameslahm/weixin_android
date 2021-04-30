@@ -1,5 +1,6 @@
 package com.MobileCourse;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -11,6 +12,7 @@ import butterknife.ButterKnife;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -24,8 +26,13 @@ import com.MobileCourse.Fragments.FindFragment;
 import com.MobileCourse.Fragments.SettingsFragment;
 import com.MobileCourse.Models.TimeLine;
 import com.MobileCourse.Repositorys.TimeLineRepository;
+import com.MobileCourse.Utils.Constants;
 import com.MobileCourse.Utils.EventListenerUtil;
+import com.MobileCourse.Utils.MiscUtil;
+import com.MobileCourse.Utils.NotificationUtil;
 import com.MobileCourse.Utils.WebSocket;
+import com.MobileCourse.ViewModels.ApplicationViewModel;
+import com.MobileCourse.ViewModels.ChatViewModel;
 import com.MobileCourse.ViewModels.FriendsViewModel;
 import com.MobileCourse.ViewModels.TimeLineViewModel;
 import com.MobileCourse.WebSocket.MessageApi;
@@ -52,6 +59,8 @@ import okhttp3.Response;
 @AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
 
+    private static final String tag = "MainActivity";
+
     @BindView(R.id.viewpager)
     ViewPager viewPager;
 
@@ -63,8 +72,11 @@ public class MainActivity extends AppCompatActivity {
     private MessageApi messageApi;
 
     private TimeLineViewModel timeLineViewModel;
+    private ApplicationViewModel applicationViewModel;
+    private ChatViewModel chatViewModel;
 
-    @SuppressLint("HandlerLeak")
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @SuppressLint({"HandlerLeak", "CheckResult"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,18 +131,47 @@ public class MainActivity extends AppCompatActivity {
 
         messageApi = MessageService.getInstance().getMessageApi();
         timeLineViewModel = new ViewModelProvider(this).get(TimeLineViewModel.class);
+        applicationViewModel = new ViewModelProvider(this).get(ApplicationViewModel.class);
+        chatViewModel = new ViewModelProvider(this).get(ChatViewModel.class);
 
         // handle InviteIntoGroupMessage and ApplicationMessage
         messageApi.observeApplicationMessage().subscribe((applicationMessage -> {
-//            // First generate application view model
-//            TimeLine timeLine = TimeLine.fromApplicationMessage(applicationMessage);
-//            timeLineViewModel.insertTimeLine(timeLine);
+            applicationViewModel.insertApplication(applicationMessage);
+            NotificationUtil.sendNotification(getApplicationContext());
         }));
 
         messageApi.observeInviteIntoGroupMessage().subscribe((inviteInToGroupMessage)->{
-            TimeLine timeLine = TimeLine.fromInviteInToGroupMessage(inviteInToGroupMessage);
-            timeLineViewModel.insertTimeLine(timeLine);
+            if(inviteInToGroupMessage.getGroup()!=null){
+                TimeLine timeLine = TimeLine.fromInviteInToGroupMessage(inviteInToGroupMessage);
+                timeLineViewModel.insertTimeLine(timeLine);
+                NotificationUtil.sendNotification(getApplicationContext());
+            }
         });
+
+        messageApi.observePing().subscribe((ping)->{
+            if(ping.getPing()!=null) {
+                NotificationUtil.sendNotification(getApplicationContext());
+            }
+        });
+
+        messageApi.observeMessage().subscribe((message)->{
+            if(MiscUtil.checkSingleOrGroupMessage(message)){
+                timeLineViewModel.insertMessage(message);
+                NotificationUtil.sendNotification(getApplicationContext());
+            };
+        });
+
+        applicationViewModel.getApplications().observe(this,(applications -> {
+            navigationMenu.getOrCreateBadge(R.id.navigation_address_book).setNumber(applications.size());
+        }));
+
+        chatViewModel.getChatsLiveData().observe(this,(chats)->{
+            long totalUnReadCount = chats.stream().mapToLong((chat -> {
+                return chat.getUnReadCount();
+            })).sum();
+            navigationMenu.getOrCreateBadge(R.id.navigation_chat).setNumber((int) totalUnReadCount);
+        });
+
 
         // 初始化websocket
 //        WebSocket.initSocket();

@@ -3,6 +3,8 @@ package com.MobileCourse.WebSocket;
 import com.MobileCourse.Models.ApplicationMessage;
 import com.MobileCourse.Models.InviteInToGroupMessage;
 import com.MobileCourse.Models.Message;
+import com.MobileCourse.WebSocket.Request.CreateMessage;
+import com.MobileCourse.WebSocket.Request.LoginMessage;
 import com.tinder.scarlet.WebSocket;
 import com.tinder.scarlet.ws.Receive;
 import com.tinder.scarlet.ws.Send;
@@ -16,7 +18,10 @@ public interface MessageApi {
     Flowable<WebSocket.Event> observeWebSocketEvent();
 
     @Send
-    void sendMessage(Message message);
+    void sendLoginMessage(LoginMessage message);
+
+    @Send
+    void sendMessage(CreateMessage message);
 
     @Receive
     Flowable<Message> observeMessage();
@@ -26,4 +31,8 @@ public interface MessageApi {
 
     @Receive
     Flowable<ApplicationMessage> observeApplicationMessage();
+
+    // For Test
+    @Receive
+    Flowable<Ping> observePing();
 }

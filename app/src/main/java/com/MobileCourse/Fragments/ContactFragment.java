@@ -1,11 +1,15 @@
 package com.MobileCourse.Fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,13 +18,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.MobileCourse.Activities.NewFriendActivity;
 import com.MobileCourse.Models.Contact;
 import com.MobileCourse.Adapters.ContactAdapter;
 import java.util.LinkedList;
 import com.MobileCourse.R;
+import com.MobileCourse.ViewModels.ApplicationViewModel;
 import com.MobileCourse.ViewModels.FriendsViewModel;
+import com.google.android.material.badge.BadgeDrawable;
+import com.google.android.material.badge.BadgeUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,9 +47,13 @@ public class ContactFragment extends Fragment {
     Context context;
 
     FriendsViewModel friendsViewModel;
+    ApplicationViewModel applicationViewModel;
 
     @BindView(R.id.newFriend)
     ViewGroup newFriendViewGroup;
+
+    @BindView(R.id.new_friend_icon)
+    ImageView newFriendIconImageView;
 
     public ContactFragment() {
         // Required empty public constructor
@@ -65,9 +77,12 @@ public class ContactFragment extends Fragment {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @SuppressLint("UnsafeExperimentalUsageError")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         friendsViewModel = new ViewModelProvider(getActivity()).get(FriendsViewModel.class);
+        applicationViewModel = new ViewModelProvider(getActivity()).get(ApplicationViewModel.class);
 
         ContactAdapter contactAdapter = new ContactAdapter(new ContactAdapter.ContactDiff(),getContext());
         recyclerView.setAdapter(contactAdapter);
@@ -81,7 +96,16 @@ public class ContactFragment extends Fragment {
             Intent intent = new Intent(getContext(), NewFriendActivity.class);
             startActivity(intent);
         });
-
+        applicationViewModel.getApplications().observe(getViewLifecycleOwner(),
+                (applications)->{
+                    BadgeDrawable badgeDrawable = BadgeDrawable.create(context);
+                    badgeDrawable.setVisible(true);
+                    // TODO FIXME should show unread applications
+                    badgeDrawable.setNumber((int) applications.stream().filter((application -> {
+                        return application.isUnRead();
+                    })).count());
+                    BadgeUtils.attachBadgeDrawable(badgeDrawable, newFriendIconImageView);
+                });
     }
 
     @Override

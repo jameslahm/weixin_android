@@ -24,5 +24,6 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".Activities.AuthActivity" />
         <activity android:name=".Activities.NewFriendActivity"/>
+        <activity android:name=".Activities.ProfileActivity" />
     </application>
 </manifest>

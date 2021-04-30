@@ -21,4 +21,7 @@ public interface TimeLineDao {
 
     @Query("DELETE FROM TimeLine")
     int deleteTimeLines();
+
+    @Query("SELECT * FROM TimeLine WHERE id = :id LIMIT 1")
+    LiveData<TimeLine> getTimeLine(String id);
 }

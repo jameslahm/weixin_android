@@ -15,6 +15,8 @@ import com.MobileCourse.MainActivity;
 import com.MobileCourse.Models.User;
 import com.MobileCourse.Repositorys.MeRepository;
 import com.MobileCourse.ViewModels.MeViewModel;
+import com.MobileCourse.WebSocket.MessageApi;
+import com.MobileCourse.WebSocket.MessageService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,6 +42,7 @@ import java.time.DayOfWeek;
 public class SplashActivity extends AppCompatActivity {
 
     MeViewModel meViewModel;
+    MessageApi messageApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,7 @@ public class SplashActivity extends AppCompatActivity {
         ApiService.init(getApplicationContext());
 
         meViewModel = new ViewModelProvider(this).get(MeViewModel.class);;
+        messageApi = MessageService.getInstance().getMessageApi();
         LiveData<User> meLiveData = meViewModel.getMe();
 
         meLiveData.observe(this, (user -> {

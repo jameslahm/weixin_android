@@ -61,4 +61,8 @@ public class TimeLineRepository {
             timeLineDao.insertTimeLine(timeLine);
         });
     }
+
+    public LiveData<TimeLine> getTimeLine(String id){
+        return timeLineDao.getTimeLine(id);
+    }
 }

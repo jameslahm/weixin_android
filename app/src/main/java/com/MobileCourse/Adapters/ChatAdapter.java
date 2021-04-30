@@ -21,6 +21,8 @@ import com.MobileCourse.Models.User;
 import com.MobileCourse.R;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.badge.BadgeDrawable;
+import com.google.android.material.badge.BadgeUtils;
 
 import org.w3c.dom.Text;
 
@@ -64,6 +66,14 @@ public class ChatAdapter extends ListAdapter<Chat,ChatAdapter.ChatViewHolder> {
             lastSpeakTextView.setText(text);
         }
 
+        @SuppressLint("UnsafeExperimentalUsageError")
+        public void setUnReadCount(long unReadCount){
+            BadgeDrawable badgeDrawable = BadgeDrawable.create(avatarImageView.getContext());
+            badgeDrawable.setVisible(true);
+            badgeDrawable.setNumber((int)unReadCount);
+            BadgeUtils.attachBadgeDrawable(badgeDrawable, avatarImageView);
+        }
+
     }
 
     @NonNull
@@ -81,6 +91,7 @@ public class ChatAdapter extends ListAdapter<Chat,ChatAdapter.ChatViewHolder> {
         holder.setLaskSpeakTime(chat.getLastSpeakTime());
         holder.setLastSpeakText(chat.getLastSpeak());
         holder.setNickName(chat.getNickname());
+        holder.setUnReadCount(chat.getUnReadCount());
     }
 
     public static class ChatDiff extends DiffUtil.ItemCallback<Chat> {

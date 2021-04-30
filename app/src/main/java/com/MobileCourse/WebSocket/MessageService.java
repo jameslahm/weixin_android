@@ -1,6 +1,7 @@
 package com.MobileCourse.WebSocket;
 
 import com.MobileCourse.Models.Message;
+import com.MobileCourse.Utils.Constants;
 import com.tinder.scarlet.Scarlet;
 import com.tinder.scarlet.messageadapter.gson.GsonMessageAdapter;
 import com.tinder.scarlet.streamadapter.rxjava2.RxJava2StreamAdapterFactory;
@@ -27,7 +28,7 @@ public class MessageService {
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .build();
         MessageApi client = new Scarlet.Builder()
-                .webSocketFactory(OkHttpClientUtils.newWebSocketFactory(okHttpClient, "ws://echo.websocket.org"))
+                .webSocketFactory(OkHttpClientUtils.newWebSocketFactory(okHttpClient, Constants.WS_BASE_URL))
                 .addMessageAdapterFactory(new GsonMessageAdapter.Factory())
                 .addStreamAdapterFactory(new RxJava2StreamAdapterFactory())
                 .build().create(MessageApi.class);

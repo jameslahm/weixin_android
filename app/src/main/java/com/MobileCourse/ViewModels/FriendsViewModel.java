@@ -56,7 +56,7 @@ public class FriendsViewModel extends ViewModel {
                         }
                         case ERROR:
                         {
-                            Toast.makeText(context, "COOKIE", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "GET Friends Error", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }));

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/back_gradient"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:id="@+id/top_panel"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textSize="20sp">
+
+        <ImageView
+            android:id="@+id/iv_return"
+            android:layout_width="@dimen/title_bar_height"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_arrow_left" />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_dots"
+            android:scaleType="fitCenter"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_height="wrap_content"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/sub_menu_gap"
+        android:background="@drawable/back_top_line"
+        android:id="@+id/user_profile"
+        >
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/avatar2"
+            android:id="@+id/user_avatar"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            >
+        </ImageView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:padding="10dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/user_nickname"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="8dp"
+                android:gravity="center"
+                android:text="姓名"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                >
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:gravity="center"
+                    android:text="微信号:"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:id="@+id/user_weixinId"
+                    android:layout_width="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:gravity="center"
+                    android:text="wangao"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        app:layout_constraintTop_toBottomOf="@+id/weixinIdMenu"
+        android:layout_marginTop="@dimen/sub_menu_gap"
+        android:id="@+id/logOutButton"
+        android:background="@drawable/back_top_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sub_menu_height">
+
+
+        <TextView
+            android:text="添加好友/发消息"
+            android:id="@+id/user_action"
+            android:textColor="@color/sub_menu_text_color"
+            android:gravity="center_vertical"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
+
+</LinearLayout>

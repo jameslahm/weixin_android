@@ -1,8 +1,10 @@
 package com.MobileCourse.Activities;
 
 
+import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -15,12 +17,16 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.Binds;
 import dagger.hilt.android.AndroidEntryPoint;
+
+import com.MobileCourse.Models.Application;
 import com.MobileCourse.R;
+import com.MobileCourse.ViewModels.ApplicationViewModel;
 import com.MobileCourse.ViewModels.SearchNewFriendViewModel;
 import com.bumptech.glide.Glide;
 
@@ -38,6 +44,11 @@ public class NewFriendActivity extends AppCompatActivity {
 
     @BindView(R.id.new_friend_nickname)
     TextView newFriendNickNameTextView;
+
+    @BindView(R.id.new_friends_recylerview)
+    RecyclerView newFriendsRecyclerView;
+
+    ApplicationViewModel applicationViewModel;
 
     private SearchNewFriendViewModel searchNewFriendViewModel;
 
@@ -59,6 +70,11 @@ public class NewFriendActivity extends AppCompatActivity {
                 newFriendResViewGroup.setVisibility(View.VISIBLE);
                 Glide.with(this).load(user.getAvatar()).placeholder(R.drawable.avatar2).into(newFriendAvatarImageView);
                 newFriendNickNameTextView.setText(user.getUsername());
+                newFriendResViewGroup.setOnClickListener((view)->{
+                    Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                    intent.putExtra(ProfileActivity.USER_WEIXIN_ID_KEY,user.getWeixinId());
+                    startActivity(intent);
+                });
             }
         });
 
@@ -70,5 +86,14 @@ public class NewFriendActivity extends AppCompatActivity {
                 }
                 return handled;
             });
+
+        applicationViewModel = new ViewModelProvider(this).get(ApplicationViewModel.class);
+
+        applicationViewModel.updateRead();
+
+        applicationViewModel.getApplications().observe(this,(applications)->{
+
+        });
+
     }
 }
