@@ -14,8 +14,6 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
 import dagger.hilt.android.qualifiers.ApplicationContext;
-import dagger.internal.InjectedFieldSignature;
-import io.reactivex.Flowable;
 
 @HiltViewModel
 public class MeViewModel extends ViewModel {
@@ -41,6 +39,6 @@ public class MeViewModel extends ViewModel {
     }
 
     public void applyAddFriend(String friendId,String content){
-        userRepository.addFriend(friendId,content);
+        userRepository.applyAddFriend(friendId,content);
     }
 }

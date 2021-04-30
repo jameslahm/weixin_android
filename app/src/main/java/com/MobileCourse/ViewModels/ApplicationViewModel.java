@@ -7,8 +7,15 @@ import androidx.lifecycle.ViewModel;
 
 import com.MobileCourse.Models.Application;
 import com.MobileCourse.Models.ApplicationMessage;
+import com.MobileCourse.Models.Message;
+import com.MobileCourse.Models.TimeLine;
 import com.MobileCourse.Repositorys.ApplicationRepository;
+import com.MobileCourse.Repositorys.TimeLineRepository;
+import com.MobileCourse.Repositorys.UserRepository;
+import com.MobileCourse.Utils.Constants;
+import com.MobileCourse.Utils.MiscUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -19,10 +26,14 @@ import dagger.hilt.android.qualifiers.ApplicationContext;
 @HiltViewModel
 public class ApplicationViewModel extends ViewModel {
     ApplicationRepository applicationRepository;
+    UserRepository userRepository;
+
+    TimeLineRepository timeLineRepository;
 
     @Inject
     public ApplicationViewModel(@ApplicationContext Context context){
         this.applicationRepository = ApplicationRepository.getInstance(context);
+        this.timeLineRepository = TimeLineRepository.getInstance(context);
     }
 
     public LiveData<List<Application>> getApplications(){
@@ -35,6 +46,12 @@ public class ApplicationViewModel extends ViewModel {
 
     public void updateRead(){
         applicationRepository.updateRead();
+    }
+
+    public void confirmApplication(Application application){
+        userRepository.confirmAddFriend(application.getFrom());
+        TimeLine timeLine = TimeLine.fromApplication(application);
+        this.timeLineRepository.insertTimeLine(timeLine);
     }
 
 }

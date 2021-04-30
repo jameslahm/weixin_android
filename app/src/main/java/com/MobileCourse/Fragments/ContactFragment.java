@@ -20,10 +20,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.MobileCourse.Activities.ChatActivity;
 import com.MobileCourse.Activities.NewFriendActivity;
 import com.MobileCourse.Models.Contact;
 import com.MobileCourse.Adapters.ContactAdapter;
 import java.util.LinkedList;
+
+import com.MobileCourse.Models.User;
 import com.MobileCourse.R;
 import com.MobileCourse.ViewModels.ApplicationViewModel;
 import com.MobileCourse.ViewModels.FriendsViewModel;
@@ -84,7 +87,11 @@ public class ContactFragment extends Fragment {
         friendsViewModel = new ViewModelProvider(getActivity()).get(FriendsViewModel.class);
         applicationViewModel = new ViewModelProvider(getActivity()).get(ApplicationViewModel.class);
 
-        ContactAdapter contactAdapter = new ContactAdapter(new ContactAdapter.ContactDiff(),getContext());
+        ContactAdapter contactAdapter = new ContactAdapter(new ContactAdapter.ContactDiff(),(User user)->{
+            Intent intent = new Intent(getContext(), ChatActivity.class);
+            intent.putExtra(ChatActivity.CHAT_TIMELINE_ID,user.getId());
+            startActivity(intent);
+        });
         recyclerView.setAdapter(contactAdapter);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -99,11 +106,15 @@ public class ContactFragment extends Fragment {
         applicationViewModel.getApplications().observe(getViewLifecycleOwner(),
                 (applications)->{
                     BadgeDrawable badgeDrawable = BadgeDrawable.create(context);
-                    badgeDrawable.setVisible(true);
                     // TODO FIXME should show unread applications
                     badgeDrawable.setNumber((int) applications.stream().filter((application -> {
                         return application.isUnRead();
                     })).count());
+                    if(badgeDrawable.getNumber()>0){
+                        badgeDrawable.setVisible(true);
+                    } else {
+                        badgeDrawable.setVisible(true);
+                    }
                     BadgeUtils.attachBadgeDrawable(badgeDrawable, newFriendIconImageView);
                 });
     }

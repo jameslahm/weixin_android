@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import butterknife.BindView;
@@ -24,9 +25,13 @@ import butterknife.ButterKnife;
 import dagger.Binds;
 import dagger.hilt.android.AndroidEntryPoint;
 
+import com.MobileCourse.Adapters.ApplicationAdapter;
+import com.MobileCourse.Adapters.ChatAdapter;
+import com.MobileCourse.Fragments.EditDialogFragment;
 import com.MobileCourse.Models.Application;
 import com.MobileCourse.R;
 import com.MobileCourse.ViewModels.ApplicationViewModel;
+import com.MobileCourse.ViewModels.MeViewModel;
 import com.MobileCourse.ViewModels.SearchNewFriendViewModel;
 import com.bumptech.glide.Glide;
 
@@ -51,6 +56,8 @@ public class NewFriendActivity extends AppCompatActivity {
     ApplicationViewModel applicationViewModel;
 
     private SearchNewFriendViewModel searchNewFriendViewModel;
+
+    private MeViewModel meViewModel;
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -88,11 +95,23 @@ public class NewFriendActivity extends AppCompatActivity {
             });
 
         applicationViewModel = new ViewModelProvider(this).get(ApplicationViewModel.class);
+        meViewModel = new ViewModelProvider(this).get(MeViewModel.class);
 
         applicationViewModel.updateRead();
 
-        applicationViewModel.getApplications().observe(this,(applications)->{
+        ApplicationAdapter applicationAdapter = new ApplicationAdapter(new ApplicationAdapter.ApplicationDiff(), new ApplicationAdapter.OnConfirmCallback() {
+            @Override
+            public void onConfirm(Application application) {
+                applicationViewModel.confirmApplication(application);
+            }
+        });
+        newFriendsRecyclerView.setAdapter(applicationAdapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        newFriendsRecyclerView.setLayoutManager(linearLayoutManager);
 
+
+        applicationViewModel.getApplications().observe(this,(applications)->{
+            applicationAdapter.submitList(applications);
         });
 
     }

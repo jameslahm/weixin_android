@@ -2,10 +2,12 @@ package com.MobileCourse.Api;
 
 import androidx.lifecycle.LiveData;
 
+import com.MobileCourse.Api.Request.ConfirmAddFriendRequest;
 import com.MobileCourse.Api.Request.LoginRequest;
 import com.MobileCourse.Api.Request.RegisterRequest;
 import com.MobileCourse.Api.Request.UpdateUserRequest;
 import com.MobileCourse.Api.Response.ApiResponse;
+import com.MobileCourse.Api.Response.CommonResponse;
 import com.MobileCourse.Api.Response.MeUserResponse;
 import com.MobileCourse.Api.Response.UserResponse;
 
@@ -36,4 +38,9 @@ public interface UserApi {
     LiveData<ApiResponse<UserResponse>> updateUser(
             @Body UpdateUserRequest body
             );
+
+    @POST("user/addfriend")
+    LiveData<ApiResponse<CommonResponse>> confirmAddFriend(
+            @Body ConfirmAddFriendRequest body
+    );
 }

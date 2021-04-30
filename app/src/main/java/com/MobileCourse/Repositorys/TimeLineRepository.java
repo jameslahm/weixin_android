@@ -65,4 +65,8 @@ public class TimeLineRepository {
     public LiveData<TimeLine> getTimeLine(String id){
         return timeLineDao.getTimeLine(id);
     }
+
+    public void updateLastCheckTimestamp(String timeLineId,long timestamp){
+        timeLineDao.updateLastCheckTimestamp(timeLineId,timestamp);
+    }
 }

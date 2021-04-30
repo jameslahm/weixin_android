@@ -1,6 +1,7 @@
 package com.MobileCourse.WebSocket;
 
 import com.MobileCourse.Models.ApplicationMessage;
+import com.MobileCourse.Models.ConfirmMessage;
 import com.MobileCourse.Models.InviteInToGroupMessage;
 import com.MobileCourse.Models.Message;
 import com.MobileCourse.WebSocket.Request.CreateMessage;
@@ -28,6 +29,9 @@ public interface MessageApi {
 
     @Receive
     Flowable<InviteInToGroupMessage> observeInviteIntoGroupMessage();
+
+    @Receive
+    Flowable<ConfirmMessage> observeConfirmMessage();
 
     @Receive
     Flowable<ApplicationMessage> observeApplicationMessage();

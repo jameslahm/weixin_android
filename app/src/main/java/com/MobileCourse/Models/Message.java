@@ -2,6 +2,9 @@ package com.MobileCourse.Models;
 
 import android.widget.inline.InlineContentView;
 
+import com.MobileCourse.Utils.Constants;
+import com.MobileCourse.Utils.MiscUtil;
+
 public class Message {
 
     String id;
@@ -12,15 +15,16 @@ public class Message {
 
     String messageType;
 
-    int timestamp;
+    long timestamp;
 
     String from;
 
     String to;
 
 
+
     public Message(String content,String contentType,
-                   String messageType,int timestamp,
+                   String messageType,long timestamp,
                    String from,String to){
         this.content = content;
         this.contentType = contentType;
@@ -34,13 +38,20 @@ public class Message {
         String content = inviteInToGroupMessage.content;
         String contentType = inviteInToGroupMessage.contentType;
         String messageType = inviteInToGroupMessage.messageType;
-        int timestamp = inviteInToGroupMessage.timestamp;
+        long timestamp = inviteInToGroupMessage.timestamp;
         String from = inviteInToGroupMessage.from;
-        String to = inviteInToGroupMessage.to;
         Message message = new Message(
-                content,contentType,messageType,timestamp,from,to
+                content,contentType,messageType,timestamp,from,inviteInToGroupMessage.to
         );
         return message;
+    }
+
+    public String getTo() {
+        return to;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
     }
 
     public String getContentType() {
@@ -51,11 +62,11 @@ public class Message {
         this.content = content;
     }
 
-    public int getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(int timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -63,9 +74,6 @@ public class Message {
         return from;
     }
 
-    public void setTo(String to) {
-        this.to = to;
-    }
 
     public String getMessageType() {
         return messageType;
@@ -95,8 +103,22 @@ public class Message {
         this.from = from;
     }
 
-    public String getTo() {
-        return to;
+
+    public static Message fromApplication(Application application) {
+        String content = application.getContent();
+        String contentType = Constants.ContentType.TEXT;
+        String messageType = Constants.MessageType.SINGLE;
+        long timestamp = MiscUtil.getCurrentTimestamp();
+        String from = application.getFrom();
+        Message message = new Message(
+                content,
+                contentType,
+                messageType,
+                timestamp,
+                from,
+                application.to
+        );
+        return message;
     }
 }
 

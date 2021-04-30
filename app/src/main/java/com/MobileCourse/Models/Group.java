@@ -1,11 +1,16 @@
 package com.MobileCourse.Models;
 
+import android.os.Build;
+import android.widget.ListAdapter;
+
+import androidx.annotation.RequiresApi;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity(tableName = "Group")
 public class Group {
@@ -21,9 +26,24 @@ public class Group {
 
     List<String> members;
 
-    public Group(String name, List<String> members){
+    public Group(@NotNull String id, String name, String timeLineSyncId, String avatar, List<String> members) {
+        this.id = id;
         this.name = name;
+        this.timeLineSyncId = timeLineSyncId;
+        this.avatar = avatar;
         this.members = members;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static Group fromGroupDetail(GroupDetail groupDetail){
+        String id = groupDetail.getId();
+        String name = groupDetail.getName();
+        String timeLineSyncId =groupDetail.getTimeLineSyncId();
+        String avatar = groupDetail.getAvatar();
+        List<String> members = groupDetail.getMembers().stream().map((user)->{
+            return user.getId();
+        }).collect(Collectors.toList());
+        return new Group(id,name,timeLineSyncId,avatar,members);
     }
 
     public String getTimeLineSyncId() {

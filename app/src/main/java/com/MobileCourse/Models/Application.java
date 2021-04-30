@@ -13,6 +13,8 @@ public class Application {
     @PrimaryKey
     @NotNull
     String from;
+
+    String to;
     String content;
     String avatar;
     long timestamp;
@@ -69,12 +71,21 @@ public class Application {
         this.timestamp = timestamp;
     }
 
-    public Application(@NotNull String from,String username, String content,String avatar, long timestamp, boolean unRead) {
+    public String getTo() {
+        return to;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
+    }
+
+    public Application(@NotNull String from, String username, String content, String avatar, long timestamp, boolean unRead,String to) {
         this.from = from;
         this.username = username;
         this.content = content;
         this.timestamp = timestamp;
         this.avatar = avatar;
         this.unRead =unRead;
+        this.to = to;
     }
 }

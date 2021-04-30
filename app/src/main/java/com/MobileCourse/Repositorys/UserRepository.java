@@ -7,6 +7,7 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 
 import com.MobileCourse.Api.ApiService;
+import com.MobileCourse.Api.Request.ConfirmAddFriendRequest;
 import com.MobileCourse.Api.Request.LoginRequest;
 import com.MobileCourse.Api.Request.RegisterRequest;
 import com.MobileCourse.Api.Request.UpdateUserRequest;
@@ -193,11 +194,23 @@ public class UserRepository {
         }.getAsLiveData();
     }
 
-    public void addFriend(String friendId,String content){
+    public void applyAddFriend(String friendId, String content){
         CreateMessage createMessage = new CreateMessage(
             content, Constants.ContentType.TEXT,Constants.MessageType.APPLICATION,
                 friendId,MiscUtil.getCurrentTimestamp()
         );
         MessageService.getInstance().getMessageApi().sendMessage(createMessage);
+    }
+
+    public void confirmAddFriend(String friendId){
+        ApiService.getUserApi().confirmAddFriend(new ConfirmAddFriendRequest(friendId));
+    }
+
+    public LiveData<User> getUserById(String id){
+        return userDao.getUserById(id);
+    }
+
+    public void insertUser(User user){
+        userDao.insertUser(user);
     }
 }

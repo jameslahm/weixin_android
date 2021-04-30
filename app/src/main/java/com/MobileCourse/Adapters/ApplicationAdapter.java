@@ -26,7 +26,7 @@ import com.google.android.material.badge.BadgeUtils;
 
 import java.util.LinkedList;
 
-public class ApplicationAdapter extends ListAdapter<Application,ApplicationAdapter.ChatViewHolder> {
+public class ApplicationAdapter extends ListAdapter<Application,ApplicationAdapter.ApplicationViewHolder> {
 
     private LinkedList<TimeLine> data;
     private Context context;
@@ -41,7 +41,7 @@ public class ApplicationAdapter extends ListAdapter<Application,ApplicationAdapt
         this.confirmCallbackObj = confirmCallbackObj;
     }
 
-    public static class ChatViewHolder extends RecyclerView.ViewHolder {
+    public static class ApplicationViewHolder extends RecyclerView.ViewHolder {
         private TextView nickNameTextView;
         private ImageView avatarImageView;
         private TextView lastSpeakTimeTextView;
@@ -50,7 +50,7 @@ public class ApplicationAdapter extends ListAdapter<Application,ApplicationAdapt
 
         private OnConfirmCallback confirmCallbackObj;
 
-        public ChatViewHolder(@NonNull View itemView,OnConfirmCallback confirmCallbackObj) {
+        public ApplicationViewHolder(@NonNull View itemView,OnConfirmCallback confirmCallbackObj) {
             super(itemView);
             avatarImageView = (ImageView)itemView.findViewById(R.id.avatar_icon);
             nickNameTextView = (TextView)itemView.findViewById(R.id.nickname_text);
@@ -82,13 +82,13 @@ public class ApplicationAdapter extends ListAdapter<Application,ApplicationAdapt
 
     @NonNull
     @Override
-    public ApplicationAdapter.ChatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ApplicationAdapter.ApplicationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_list_chat, parent, false);
-        return new ChatViewHolder(view,this.confirmCallbackObj);
+        return new ApplicationViewHolder(view,this.confirmCallbackObj);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ApplicationViewHolder holder, int position) {
         // TODO
         Application application = getItem(position);
         holder.setAvatar(application.getAvatar());

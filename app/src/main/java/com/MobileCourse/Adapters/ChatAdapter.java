@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,12 +31,17 @@ import java.sql.Time;
 import java.util.LinkedList;
 
 public class ChatAdapter extends ListAdapter<Chat,ChatAdapter.ChatViewHolder> {
+    private OnClickCallback onClickCallbackObj;
+    Context context;
 
-    private LinkedList<TimeLine> data;
-    private Context context;
-
-    public ChatAdapter(@NonNull DiffUtil.ItemCallback<Chat> diffCallback) {
+    public ChatAdapter(@NonNull DiffUtil.ItemCallback<Chat> diffCallback,OnClickCallback onClickCallbackObj, Context context) {
         super(diffCallback);
+        this.onClickCallbackObj = onClickCallbackObj;
+        this.context = context;
+    }
+
+    public interface OnClickCallback {
+        void onClick(Chat chat);
     }
 
     public static class ChatViewHolder extends RecyclerView.ViewHolder {
@@ -43,9 +49,13 @@ public class ChatAdapter extends ListAdapter<Chat,ChatAdapter.ChatViewHolder> {
         private ImageView avatarImageView;
         private TextView lastSpeakTimeTextView;
         private TextView lastSpeakTextView;
+        View view;
+        Context context;
 
-        public ChatViewHolder(@NonNull View itemView) {
+        public ChatViewHolder(@NonNull View itemView,Context context) {
             super(itemView);
+            view = itemView;
+            this.context = context;
             avatarImageView = (ImageView)itemView.findViewById(R.id.avatar_icon);
             nickNameTextView = (TextView)itemView.findViewById(R.id.nickname_text);
             lastSpeakTimeTextView = (TextView)itemView.findViewById(R.id.last_speak_time_text);
@@ -68,10 +78,20 @@ public class ChatAdapter extends ListAdapter<Chat,ChatAdapter.ChatViewHolder> {
 
         @SuppressLint("UnsafeExperimentalUsageError")
         public void setUnReadCount(long unReadCount){
-            BadgeDrawable badgeDrawable = BadgeDrawable.create(avatarImageView.getContext());
-            badgeDrawable.setVisible(true);
+            BadgeDrawable badgeDrawable = BadgeDrawable.create(context);
+            if(unReadCount>0){
+                badgeDrawable.setVisible(true);
+            } else {
+                badgeDrawable.setVisible(false);
+            }
             badgeDrawable.setNumber((int)unReadCount);
             BadgeUtils.attachBadgeDrawable(badgeDrawable, avatarImageView);
+        }
+
+        public void setOnClick(Chat chat,OnClickCallback onClickCallbackObj){
+            view.setOnClickListener((view)->{
+                onClickCallbackObj.onClick(chat);
+            });
         }
 
     }
@@ -79,8 +99,8 @@ public class ChatAdapter extends ListAdapter<Chat,ChatAdapter.ChatViewHolder> {
     @NonNull
     @Override
     public ChatAdapter.ChatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_list_chat, parent, false);
-        return new ChatViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_chat, parent, false);
+        return new ChatViewHolder(view,context);
     }
 
     @Override
@@ -92,6 +112,7 @@ public class ChatAdapter extends ListAdapter<Chat,ChatAdapter.ChatViewHolder> {
         holder.setLastSpeakText(chat.getLastSpeak());
         holder.setNickName(chat.getNickname());
         holder.setUnReadCount(chat.getUnReadCount());
+        holder.setOnClick(chat,onClickCallbackObj);
     }
 
     public static class ChatDiff extends DiffUtil.ItemCallback<Chat> {

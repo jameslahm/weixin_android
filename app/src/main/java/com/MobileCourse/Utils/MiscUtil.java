@@ -17,8 +17,8 @@ public class MiscUtil {
     }
 
     public static boolean checkSingleOrGroupMessage(Message message){
-        if(message.getFrom()!=null && (message.getMessageType()== Constants.MessageType.SINGLE ||
-                message.getMessageType()==Constants.MessageType.GROUP)){
+        if(message.getFrom()!=null && (message.getMessageType().equals(Constants.MessageType.SINGLE) ||
+                message.getMessageType().equals(Constants.MessageType.GROUP))){
             return true;
         }
         return false;

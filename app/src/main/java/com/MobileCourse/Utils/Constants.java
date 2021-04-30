@@ -2,7 +2,7 @@ package com.MobileCourse.Utils;
 
 import androidx.annotation.Nullable;
 
-public class Constants {
+ public class Constants {
 //    public static final String BASE_URL = "http://139.196.81.14:8000";
 //    public static final String WS_BASE_URL = "ws://139.196.81.14:7999";
     public static final String UPLOAD_BASE__URL = "http://139.196.81.14:7998/upload";
@@ -34,6 +34,7 @@ public class Constants {
         public static final String SINGLE = "SINGLE";
         public static final String GROUP = "GROUP";
         public static final String INVITE = "INVITE";
+        public static final String CONFIRM = "CONFIRM";
     }
 
     public static final String CHANNEL_ID = "channel";
@@ -45,6 +46,14 @@ public class Constants {
     public static int NOTIFICATION_ID = 0;
 
     public static final String MESSAGE_USER_LOGIN  ="USER_LOGIN";
+
+    // MessageAdapter Types
+     public static final int SEND = 0x10;
+     public static final int RECEIVE = 0x0;
+
+     public static final int TEXT = 0x1;
+     public static final int AUDIO = 0x2;
+     public static final int VIDEO = 0x3;
 }
 
 

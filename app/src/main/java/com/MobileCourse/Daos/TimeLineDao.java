@@ -24,4 +24,7 @@ public interface TimeLineDao {
 
     @Query("SELECT * FROM TimeLine WHERE id = :id LIMIT 1")
     LiveData<TimeLine> getTimeLine(String id);
+
+    @Query("UPDATE TimeLine SET lastCheckTimestamp = :timestamp WHERE id = :timeLineId")
+    void updateLastCheckTimestamp(String timeLineId,long timestamp);
 }

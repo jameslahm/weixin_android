@@ -1,17 +1,17 @@
 package com.MobileCourse.Models;
 
 public class InviteInToGroupMessage extends Message {
-    Group group;
+    GroupDetail group;
 
     public InviteInToGroupMessage(String content, String contentType, String messageType, int timestamp, String from, String to) {
         super(content, contentType, messageType, timestamp, from, to);
     }
 
-    public Group getGroup() {
+    public GroupDetail getGroup() {
         return group;
     }
 
-    public void setGroup(Group group) {
+    public void setGroupDetail(GroupDetail group) {
         this.group = group;
     }
 }

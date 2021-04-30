@@ -7,11 +7,12 @@
 
     <ImageView
         android:id="@+id/avatar_icon"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:scaleType="fitCenter"
         android:layout_gravity="center"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginLeft="15dp"
         android:src="@drawable/avatar2" />
 
     <LinearLayout

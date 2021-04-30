@@ -37,6 +37,7 @@ import com.MobileCourse.ViewModels.FriendsViewModel;
 import com.MobileCourse.ViewModels.TimeLineViewModel;
 import com.MobileCourse.WebSocket.MessageApi;
 import com.MobileCourse.WebSocket.MessageService;
+import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.jetbrains.annotations.NotNull;
@@ -136,14 +137,15 @@ public class MainActivity extends AppCompatActivity {
 
         // handle InviteIntoGroupMessage and ApplicationMessage
         messageApi.observeApplicationMessage().subscribe((applicationMessage -> {
-            applicationViewModel.insertApplication(applicationMessage);
-            NotificationUtil.sendNotification(getApplicationContext());
+            if(applicationMessage.getUser()!=null && applicationMessage.getMessageType().equals(Constants.MessageType.APPLICATION)) {
+                applicationViewModel.insertApplication(applicationMessage);
+                NotificationUtil.sendNotification(getApplicationContext());
+            }
         }));
 
         messageApi.observeInviteIntoGroupMessage().subscribe((inviteInToGroupMessage)->{
             if(inviteInToGroupMessage.getGroup()!=null){
-                TimeLine timeLine = TimeLine.fromInviteInToGroupMessage(inviteInToGroupMessage);
-                timeLineViewModel.insertTimeLine(timeLine);
+                timeLineViewModel.inviteInToGroup(inviteInToGroupMessage);
                 NotificationUtil.sendNotification(getApplicationContext());
             }
         });
@@ -158,18 +160,45 @@ public class MainActivity extends AppCompatActivity {
             if(MiscUtil.checkSingleOrGroupMessage(message)){
                 timeLineViewModel.insertMessage(message);
                 NotificationUtil.sendNotification(getApplicationContext());
-            };
+            }
         });
 
+        messageApi.observeConfirmMessage().subscribe((confirmMessage -> {
+            Log.e(tag,String.valueOf(confirmMessage));
+            String messageType = confirmMessage.getMessageType();
+            if(messageType!=null && messageType.equals(Constants.MessageType.CONFIRM)){
+                // Handle Confirm Message
+                timeLineViewModel.confirmMessage(confirmMessage);
+                NotificationUtil.sendNotification(getApplicationContext());
+            }
+        }));
+
+
         applicationViewModel.getApplications().observe(this,(applications -> {
-            navigationMenu.getOrCreateBadge(R.id.navigation_address_book).setNumber(applications.size());
+            if(applications.size()>0){
+                navigationMenu.getOrCreateBadge(R.id.navigation_address_book).setNumber(applications.size());
+            } else {
+                BadgeDrawable badgeDrawable = navigationMenu.getBadge(R.id.navigation_address_book);
+                if(badgeDrawable!=null){
+                    badgeDrawable.setVisible(false);
+                    navigationMenu.removeBadge(R.id.navigation_address_book);
+                }
+            }
         }));
 
         chatViewModel.getChatsLiveData().observe(this,(chats)->{
             long totalUnReadCount = chats.stream().mapToLong((chat -> {
                 return chat.getUnReadCount();
             })).sum();
-            navigationMenu.getOrCreateBadge(R.id.navigation_chat).setNumber((int) totalUnReadCount);
+            if(totalUnReadCount>0){
+                navigationMenu.getOrCreateBadge(R.id.navigation_chat).setNumber((int) totalUnReadCount);
+            } else {
+                BadgeDrawable badgeDrawable = navigationMenu.getBadge(R.id.navigation_chat);
+                if(badgeDrawable!=null){
+                    badgeDrawable.setVisible(false);
+                    navigationMenu.removeBadge(R.id.navigation_chat);
+                }
+            }
         });
 
 

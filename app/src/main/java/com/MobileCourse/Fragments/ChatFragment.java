@@ -1,16 +1,19 @@
 package com.MobileCourse.Fragments;
 
 
+import com.MobileCourse.Activities.ChatActivity;
 import com.MobileCourse.Models.Chat;
 import com.MobileCourse.Adapters.ChatAdapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -72,8 +75,14 @@ public class ChatFragment extends Fragment {
         ButterKnife.bind(this,view);
 
         chatViewModel = new ViewModelProvider(this).get(ChatViewModel.class);
-        chatAdapter = new ChatAdapter(new ChatAdapter.ChatDiff());
+        chatAdapter = new ChatAdapter(new ChatAdapter.ChatDiff(),(chat)->{
+            Intent intent = new Intent(getContext(), ChatActivity.class);
+            intent.putExtra(ChatActivity.CHAT_TIMELINE_ID,chat.getId());
+            startActivity(intent);
+        },getContext());
         listView.setAdapter(chatAdapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        listView.setLayoutManager(linearLayoutManager);
 
         chatViewModel.getChatsLiveData().observe(getViewLifecycleOwner(),(chats -> {
             chatAdapter.submitList(chats);

@@ -25,9 +25,17 @@ import java.util.LinkedList;
 
 public class ContactAdapter extends ListAdapter<User, ContactAdapter.ContactViewHolder> {
 
-    public ContactAdapter(@NonNull DiffUtil.ItemCallback<User> diffCallback, Context context) {
+    private OnClickCallback onClickCallbackobj;
+
+    public ContactAdapter(@NonNull DiffUtil.ItemCallback<User> diffCallback, OnClickCallback onClickCallbackObj) {
         super(diffCallback);
+        this.onClickCallbackobj =onClickCallbackObj;
     }
+
+    public interface OnClickCallback {
+        void onClick(User user);
+    }
+
 //    private LinkedList<Contact> data;
 
     // 完成类ContactViewHolder
@@ -36,8 +44,10 @@ public class ContactAdapter extends ListAdapter<User, ContactAdapter.ContactView
     public static class ContactViewHolder extends RecyclerView.ViewHolder {
         private TextView nickNameTextView;
         private ImageView avatarImageView;
+        private View view;
         public ContactViewHolder(@NonNull View itemView) {
             super(itemView);
+            view = itemView;
             nickNameTextView = (TextView)itemView.findViewById(R.id.nickname_text);
             avatarImageView = (ImageView)itemView.findViewById(R.id.avatar_icon);
         }
@@ -49,7 +59,11 @@ public class ContactAdapter extends ListAdapter<User, ContactAdapter.ContactView
             Glide.with(avatarImageView.getContext()).load(avatar).placeholder(R.drawable.avatar2)
                     .apply(RequestOptions.circleCropTransform()).into(avatarImageView);;
         }
-
+        public void setOnClick(User user,OnClickCallback onClickCallbackObj){
+            view.setOnClickListener((view)->{
+                onClickCallbackObj.onClick(user);
+            });
+        }
     }
 
 
@@ -68,6 +82,7 @@ public class ContactAdapter extends ListAdapter<User, ContactAdapter.ContactView
         User user = getItem(position);
         holder.setNickName(user.getUsername());
         holder.setAvatar(user.getAvatar());
+        holder.setOnClick(user,onClickCallbackobj);
     }
 
 

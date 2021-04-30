@@ -41,7 +41,7 @@ public class ChatRepository {
             return message.getTimestamp() > timeLine.getLastCheckTimestamp();
         })).count();
 
-        return new Chat(timeLine.getTo(),timeLine.getName(),
+        return new Chat(timeLine.getId(),timeLine.getName(),
                 timeLine.getAvatar(),timeLine.getLastSpeak(),
                 timeLine.getLastSpeakTime(),unReadCount);
     }

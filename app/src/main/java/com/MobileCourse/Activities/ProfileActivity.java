@@ -94,7 +94,7 @@ public class ProfileActivity extends AppCompatActivity {
                         meViewModel.getMe().observe(this,(me)->{
                             List<Friend> friends = me.getFriends();
                             boolean isFriend = friends.stream().anyMatch((friend)->{
-                                return friend.getId()==user.getId();
+                                return friend.getId().equals(user.getId());
                             });
                             this.isFriend = isFriend;
                             if(isFriend){

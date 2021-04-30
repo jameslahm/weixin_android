@@ -1,11 +1,10 @@
 package com.MobileCourse.Models;
 
-import android.app.Application;
-
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.MobileCourse.Utils.Constants;
 import com.MobileCourse.Utils.MiscUtil;
 
 import org.jetbrains.annotations.NotNull;
@@ -32,9 +31,10 @@ public class TimeLine {
 
     String lastSpeakTime;
 
-    String to;
-
     long lastCheckTimestamp;
+
+    // Only SINGLE or GROUP
+    String messageType;
 
     List<Message> messages;
 
@@ -46,15 +46,24 @@ public class TimeLine {
         this.lastCheckTimestamp = lastCheckTimestamp;
     }
 
-    public TimeLine(@NotNull String id, String name, String lastSpeak, String avatar, String lastSpeakTime, String to, long lastCheckTimestamp , List<Message> messages) {
+    public String getMessageType() {
+        return messageType;
+    }
+
+    public void setMessageType(String messageType) {
+        this.messageType = messageType;
+    }
+
+    public TimeLine(@NotNull String id, String name, String lastSpeak, String avatar, String lastSpeakTime, long lastCheckTimestamp ,
+                    String messageType, List<Message> messages) {
         this.id = id;
         this.name = name;
         this.lastSpeak = lastSpeak;
         this.avatar = avatar;
         this.lastSpeakTime = lastSpeakTime;
-        this.to = to;
-        this.messages = messages;
         this.lastCheckTimestamp = lastCheckTimestamp;
+        this.messageType  = messageType;
+        this.messages = messages;
     }
 
     public String getName() {
@@ -106,13 +115,7 @@ public class TimeLine {
         this.messages = messages;
     }
 
-    public String getTo() {
-        return to;
-    }
 
-    public void setTo(String to) {
-        this.to = to;
-    }
 
     public static TimeLine fromInviteInToGroupMessage(InviteInToGroupMessage inviteInToGroupMessage){
         String id = inviteInToGroupMessage.group.getId();
@@ -120,11 +123,47 @@ public class TimeLine {
         String lastSpeak = inviteInToGroupMessage.content;
         String avatar = inviteInToGroupMessage.group.avatar;
         String lastSpeakTime = MiscUtil.formatTimestamp(inviteInToGroupMessage.timestamp);
-        String to = inviteInToGroupMessage.to;
         List<Message> messages = new ArrayList<>();
         messages.add(Message.fromInviteInToGroupMessage(inviteInToGroupMessage));
         TimeLine timeLine = new TimeLine(
-                id,name,lastSpeak,avatar,lastSpeakTime,to,inviteInToGroupMessage.timestamp ,messages
+                id,name,lastSpeak,avatar,lastSpeakTime,inviteInToGroupMessage.timestamp,
+                Constants.MessageType.GROUP,messages
+        );
+        return timeLine;
+    }
+
+    public static TimeLine fromApplication(Application application){
+        List<Message> messages = new ArrayList<>();
+        messages.add(Message.fromApplication(application));
+
+        long timestamp = MiscUtil.getCurrentTimestamp();
+        String time = MiscUtil.formatTimestamp(timestamp);
+        TimeLine timeLine = new TimeLine(application.getFrom(),
+                application.getUsername(),
+                application.getContent(),
+                application.getAvatar(),
+                time,
+                timestamp,
+                Constants.MessageType.SINGLE,
+                messages
+        );
+        return timeLine;
+    }
+
+
+    public static TimeLine fromConfirmMessage(ConfirmMessage message){
+        List<Message> messages = new ArrayList<>();
+        messages.add(message);
+
+        TimeLine timeLine = new TimeLine(
+                message.getFrom(),
+                message.getUser().getUsername(),
+                message.getContent(),
+                message.getUser().getAvatar(),
+                MiscUtil.formatTimestamp(message.getTimestamp()),
+                message.getTimestamp()-1,
+                message.getMessageType(),
+                messages
         );
         return timeLine;
     }

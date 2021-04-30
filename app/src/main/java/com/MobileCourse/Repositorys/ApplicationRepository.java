@@ -39,10 +39,12 @@ public class ApplicationRepository {
         long timestamp = applicationMessage.getTimestamp();
         Application application = new Application(
                 from,
+                applicationMessage.getUser().getUsername(),
                 content,
                 applicationMessage.getUser().getAvatar(),
                 timestamp,
-                true
+                true,
+                applicationMessage.getTo()
         );
         applicationDao.insertApplication(application);
         userDao.insertUser(applicationMessage.getUser());

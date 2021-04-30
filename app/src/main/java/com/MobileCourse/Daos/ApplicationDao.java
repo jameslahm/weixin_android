@@ -17,7 +17,7 @@ public interface ApplicationDao {
     void insertApplication(Application application);
 
     @Delete
-    void deleteApplication(String from);
+    void deleteApplication(Application application);
 
     @Query("SELECT * FROM Application")
     LiveData<List<Application>> getApplications();
