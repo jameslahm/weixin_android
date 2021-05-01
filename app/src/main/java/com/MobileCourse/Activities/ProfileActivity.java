@@ -119,6 +119,10 @@ public class ProfileActivity extends AppCompatActivity {
                 },fragmentManager);
             }
         });
+
+        meViewModel.getMe().observe(this,(user)->{
+            // For Update
+        });
     }
 
 

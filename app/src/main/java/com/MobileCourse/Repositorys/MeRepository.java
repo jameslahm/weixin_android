@@ -67,4 +67,10 @@ public class MeRepository {
             meDao.deleteMe();
         });
     }
+
+    public void insertMe(Me me){
+        AppExecutors.getInstance().getDiskIO().execute(()->{
+            meDao.insertMe(me);
+        });
+    }
 }

@@ -40,6 +40,7 @@ public class ApiService {
 
     private static Retrofit retrofit;
     private static UserApi userApi;
+    private static GroupApi groupApi;
 
     public static void  init(Context context){
         initOkHttpClient(context);
@@ -48,9 +49,14 @@ public class ApiService {
                 .addCallAdapterFactory(new LiveDataCallAdapterFactory())
                 .addConverterFactory(GsonConverterFactory.create()).build();
         userApi = retrofit.create(UserApi.class);
+        groupApi = retrofit.create(GroupApi.class);
     }
 
     public static UserApi getUserApi() {
         return userApi;
+    }
+
+    public static GroupApi getGroupApi() {
+        return groupApi;
     }
 }

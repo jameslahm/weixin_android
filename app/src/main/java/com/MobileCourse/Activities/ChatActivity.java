@@ -66,7 +66,6 @@ public class ChatActivity extends AppCompatActivity {
         MessageAdapter messageAdapter = new MessageAdapter(new MessageAdapter.MessageDiff());
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        linearLayoutManager.setStackFromEnd(true);
         messagesListView.setLayoutManager(linearLayoutManager);
         messagesListView.setAdapter(messageAdapter);
         messagesListView.smoothScrollToPosition(messageAdapter.getItemCount());
@@ -75,13 +74,14 @@ public class ChatActivity extends AppCompatActivity {
         timeLineViewModel = new ViewModelProvider(this).get(TimeLineViewModel.class);
         meViewModel = new ViewModelProvider(this).get(MeViewModel.class);
 
+//        timeLineViewModel.updateLastCheckTimestamp(timeLineId,MiscUtil.getCurrentTimestamp());
+
         messageViewModel.getMessageDetailsLiveData().observe(this,(messageDetails)->{
             messageAdapter.submitList(messageDetails);
         });
 
         messageViewModel.getMessageDetails(timeLineId);
 
-        timeLineViewModel.updateLastCheckTimestamp(timeLineId,MiscUtil.getCurrentTimestamp());
 
         timeLineViewModel.getTimeLineById(timeLineId).observe(this,(timeLine)->{
             this.timeLine =timeLine;

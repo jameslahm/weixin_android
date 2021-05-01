@@ -54,6 +54,8 @@ import androidx.annotation.Nullable;
      public static final int TEXT = 0x1;
      public static final int AUDIO = 0x2;
      public static final int VIDEO = 0x3;
+
+     public static final String GROUP_RESPONSE_CONTNET = "I have start a new Group";
 }
 
 

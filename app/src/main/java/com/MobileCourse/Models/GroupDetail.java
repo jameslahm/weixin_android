@@ -8,7 +8,7 @@ public class GroupDetail {
 
     String name;
 
-    String timeLineSyncId;
+    String timeLineSavedId;
 
     String avatar;
 
@@ -30,12 +30,12 @@ public class GroupDetail {
         this.name = name;
     }
 
-    public String getTimeLineSyncId() {
-        return timeLineSyncId;
+    public String getTimeLineSavedId() {
+        return timeLineSavedId;
     }
 
-    public void setTimeLineSyncId(String timeLineSyncId) {
-        this.timeLineSyncId = timeLineSyncId;
+    public void setTimeLineSavedId(String timeLineSavedId) {
+        this.timeLineSavedId = timeLineSavedId;
     }
 
     public String getAvatar() {
@@ -57,7 +57,7 @@ public class GroupDetail {
     public GroupDetail(String id, String name, String timeLineSyncId, String avatar, List<User> members) {
         this.id = id;
         this.name = name;
-        this.timeLineSyncId = timeLineSyncId;
+        this.timeLineSavedId = timeLineSyncId;
         this.avatar = avatar;
         this.members = members;
     }

@@ -10,6 +10,7 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.MobileCourse.Api.Resource;
+import com.MobileCourse.Api.Response.ApiResponse;
 import com.MobileCourse.Models.Friend;
 import com.MobileCourse.Models.User;
 import com.MobileCourse.Repositorys.MeRepository;
@@ -47,11 +48,13 @@ public class FriendsViewModel extends ViewModel {
                 List<String> friendIds = friendList.stream().map((friend -> {
                     return friend.getId();
                 })).collect(Collectors.toList());
-                friends.addSource(userRepository.getUsersByIds(friendIds),(listResource -> {
+                LiveData<Resource<List<User>>> usersLiveData = userRepository.getUsersByIds(friendIds);
+                friends.addSource(usersLiveData,(listResource -> {
                     switch (listResource.status){
                         case SUCCESS:
                         {
                             friends.setValue(listResource.data);
+                            friends.removeSource(usersLiveData);
                             break;
                         }
                         case ERROR:

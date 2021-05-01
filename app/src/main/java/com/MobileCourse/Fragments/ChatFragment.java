@@ -22,7 +22,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import com.MobileCourse.R;
+import com.MobileCourse.Utils.MiscUtil;
 import com.MobileCourse.ViewModels.ChatViewModel;
+import com.MobileCourse.ViewModels.TimeLineViewModel;
 import com.MobileCourse.WebSocket.MessageApi;
 import com.MobileCourse.WebSocket.MessageService;
 import com.tinder.scarlet.WebSocket;
@@ -57,6 +59,8 @@ public class ChatFragment extends Fragment {
         // Required empty public constructor
     }
 
+    String timeLineId;
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -69,16 +73,20 @@ public class ChatFragment extends Fragment {
         return fragment;
     }
 
+    private TimeLineViewModel timeLineViewModel;
+
     @SuppressLint("CheckResult")
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         ButterKnife.bind(this,view);
 
+        timeLineViewModel = new ViewModelProvider(this).get(TimeLineViewModel.class);
         chatViewModel = new ViewModelProvider(this).get(ChatViewModel.class);
         chatAdapter = new ChatAdapter(new ChatAdapter.ChatDiff(),(chat)->{
             Intent intent = new Intent(getContext(), ChatActivity.class);
+            timeLineId = chat.getId();
             intent.putExtra(ChatActivity.CHAT_TIMELINE_ID,chat.getId());
-            startActivity(intent);
+            startActivityForResult(intent,1);
         },getContext());
         listView.setAdapter(chatAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -104,5 +112,12 @@ public class ChatFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_chat, container, false);
+    }
+
+    // TODO FIXME 闪屏问题
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        timeLineViewModel.updateLastCheckTimestamp(timeLineId, MiscUtil.getCurrentTimestamp());
     }
 }

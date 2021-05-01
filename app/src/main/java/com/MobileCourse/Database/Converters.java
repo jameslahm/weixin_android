@@ -26,7 +26,7 @@ public class Converters {
 
     @TypeConverter
     public static List<String> fromStringToList(String value){
-        Type listType = new TypeToken<List<Friend>>(){}.getType();
+        Type listType = new TypeToken<List<String>>(){}.getType();
         return new Gson().fromJson(value,listType);
     }
 

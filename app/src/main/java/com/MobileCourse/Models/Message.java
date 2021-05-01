@@ -2,6 +2,8 @@ package com.MobileCourse.Models;
 
 import android.widget.inline.InlineContentView;
 
+import com.MobileCourse.Api.Response.GroupResponse;
+import com.MobileCourse.Repositorys.GroupRepository;
 import com.MobileCourse.Utils.Constants;
 import com.MobileCourse.Utils.MiscUtil;
 
@@ -42,6 +44,20 @@ public class Message {
         String from = inviteInToGroupMessage.from;
         Message message = new Message(
                 content,contentType,messageType,timestamp,from,inviteInToGroupMessage.to
+        );
+        return message;
+    }
+
+    public static Message fromGroupResponse(GroupResponse groupResponse){
+        String content = Constants.GROUP_RESPONSE_CONTNET;
+        String contentType = Constants.ContentType.TEXT;
+        String messageType = Constants.MessageType.GROUP;
+        long timestamp = groupResponse.getTime();
+        // FIXME
+        String from = groupResponse.getMembers().get(0).getId();
+
+        Message message = new Message(
+                content,contentType,messageType,timestamp,from,groupResponse.getId()
         );
         return message;
     }

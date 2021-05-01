@@ -21,7 +21,7 @@ import com.MobileCourse.Models.User;
 
 
 
-@Database(entities = {User.class, Me.class, TimeLine.class, Application.class, Group.class},version = 5)
+@Database(entities = {User.class, Me.class, TimeLine.class, Application.class, Group.class},version = 6)
 @TypeConverters({Converters.class})
 public abstract class WeiXinDatabase extends RoomDatabase {
     public static final String DATABASE_NAME = "weixin_db";

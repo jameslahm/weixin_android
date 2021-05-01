@@ -4,6 +4,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.MobileCourse.Api.Response.GroupResponse;
 import com.MobileCourse.Utils.Constants;
 import com.MobileCourse.Utils.MiscUtil;
 
@@ -127,6 +128,23 @@ public class TimeLine {
         messages.add(Message.fromInviteInToGroupMessage(inviteInToGroupMessage));
         TimeLine timeLine = new TimeLine(
                 id,name,lastSpeak,avatar,lastSpeakTime,inviteInToGroupMessage.timestamp,
+                Constants.MessageType.GROUP,messages
+        );
+        return timeLine;
+    }
+
+    public static TimeLine fromGroupResponse(GroupResponse groupResponse){
+        String id = groupResponse.getId();
+        String name = groupResponse.getName();
+        String lastSpeak = Constants.GROUP_RESPONSE_CONTNET;
+        String avatar = groupResponse.getAvatar();
+        String lastSpeakTime = MiscUtil.formatTimestamp(groupResponse.getTime());
+        List<Message> messages = new ArrayList<>();
+
+        messages.add(Message.fromGroupResponse(groupResponse));
+
+        TimeLine timeLine = new TimeLine(
+                id,name,lastSpeak,avatar,lastSpeakTime,groupResponse.getTime(),
                 Constants.MessageType.GROUP,messages
         );
         return timeLine;
