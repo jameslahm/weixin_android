@@ -127,7 +127,7 @@ public class ContactFragment extends Fragment {
                 });
 
         newGroupViewGroup.setOnClickListener((View view1)->{
-            NewGroupFragment.display((String name, List<String> members)->{
+            NewGroupFragment.display("新建群聊",(String name, List<String> members)->{
                 GroupRepository.getInstance(context).createGroup(name,members).observe(getViewLifecycleOwner(),(resource)->{
                     if(resource!=null){
                         switch (resource.status){
@@ -138,7 +138,7 @@ public class ContactFragment extends Fragment {
                         }
                     }
                 });
-            },getFragmentManager());
+            },getFragmentManager(),true);
         });
     }
 

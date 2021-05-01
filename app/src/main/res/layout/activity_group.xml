@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/back_gradient"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:id="@+id/top_panel"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textSize="20sp">
+
+        <ImageView
+            android:id="@+id/iv_return"
+            android:layout_width="@dimen/title_bar_height"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_arrow_left" />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_dots"
+            android:scaleType="fitCenter"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+
+    <GridView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numColumns="5"
+        android:gravity="center"
+        android:stretchMode="columnWidth"
+        android:id="@+id/avatarGrid"
+
+        >
+    </GridView>
+
+
+
+    <RelativeLayout
+        android:layout_marginTop="@dimen/sub_menu_gap"
+        android:id="@+id/inviteInToGroup"
+        android:background="@drawable/back_top_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sub_menu_height">
+
+
+        <TextView
+            android:text="邀请入群"
+            android:textColor="@color/sub_menu_text_color"
+            android:gravity="center_vertical"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_marginTop="@dimen/sub_menu_gap"
+        android:id="@+id/exitGroup"
+        android:background="@drawable/back_top_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sub_menu_height">
+
+
+        <TextView
+            android:text="退出群聊"
+            android:textColor="@color/sub_menu_text_color"
+            android:gravity="center_vertical"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
+
+</LinearLayout>

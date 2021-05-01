@@ -61,4 +61,14 @@ public class GroupDetail {
         this.avatar = avatar;
         this.members = members;
     }
+
+    public static GroupDetail fromGroupAndMembers(Group group, List<User> members){
+        return new GroupDetail(
+                group.id,
+                group.name,
+                group.timeLineSavedId,
+                group.avatar,
+                members
+        );
+    }
 }

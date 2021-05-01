@@ -9,6 +9,7 @@ import com.MobileCourse.Daos.MeDao;
 import com.MobileCourse.Daos.TimeLineDao;
 import com.MobileCourse.Daos.UserDao;
 import com.MobileCourse.Database.WeiXinDatabase;
+import com.MobileCourse.Models.Application;
 import com.MobileCourse.Models.Me;
 import com.MobileCourse.Models.Message;
 import com.MobileCourse.Models.TimeLine;
@@ -72,6 +73,12 @@ public class TimeLineRepository {
     public void updateLastCheckTimestamp(String timeLineId,long timestamp){
         AppExecutors.getInstance().getDiskIO().execute(()->{
             timeLineDao.updateLastCheckTimestamp(timeLineId,timestamp);
+        });
+    }
+
+    public void deleteTimeLine(String timeLineId){
+        AppExecutors.getInstance().getDiskIO().execute(()->{
+            timeLineDao.deleteTimeLine(timeLineId);
         });
     }
 }

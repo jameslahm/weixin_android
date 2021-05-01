@@ -120,9 +120,9 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        meViewModel.getMe().observe(this,(user)->{
-            // For Update
-        });
+//        meViewModel.getMe().observe(this,(user)->{
+//            // For Update
+//        });
     }
 
 

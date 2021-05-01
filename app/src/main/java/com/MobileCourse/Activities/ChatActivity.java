@@ -18,6 +18,7 @@ import com.MobileCourse.Adapters.MessageAdapter;
 import com.MobileCourse.Models.TimeLine;
 import com.MobileCourse.Models.User;
 import com.MobileCourse.R;
+import com.MobileCourse.Utils.Constants;
 import com.MobileCourse.Utils.MiscUtil;
 import com.MobileCourse.ViewModels.MeViewModel;
 import com.MobileCourse.ViewModels.MessageViewModel;
@@ -44,6 +45,9 @@ public class ChatActivity extends AppCompatActivity {
 
     @BindView(R.id.sendButton)
     ImageView sendButton;
+
+    @BindView(R.id.detail)
+    ImageView detailImageView;
 
     MessageViewModel messageViewModel;
     TimeLineViewModel timeLineViewModel;
@@ -85,7 +89,19 @@ public class ChatActivity extends AppCompatActivity {
 
         timeLineViewModel.getTimeLineById(timeLineId).observe(this,(timeLine)->{
             this.timeLine =timeLine;
+            if(timeLine==null){
+                return;
+            }
+            
             titleTextView.setText(timeLine.getName());
+
+            if(timeLine.getMessageType().equals(Constants.MessageType.GROUP)){
+                detailImageView.setOnClickListener((view)->{
+                    Intent intent1 = new Intent(getApplicationContext(),GroupProfile.class);
+                    intent1.putExtra(GroupProfile.GROUP_ID_KEY,timeLine.getId());
+                    startActivity(intent1);
+                });
+            }
         });
 
         sendButton.setOnClickListener((view)->{

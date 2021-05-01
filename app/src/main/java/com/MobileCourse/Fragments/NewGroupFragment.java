@@ -58,14 +58,21 @@ public class NewGroupFragment extends DialogFragment {
 
     FriendsViewModel friendsViewModel;
 
+    @BindView(R.id.editDialogTitle)
+    TextView editDialogTitleTextView;
+
+    String title;
+    boolean showEdit;
+
     HashSet<String> members = new HashSet<>();
 
     NewGroupFragment.ConfirmCallback confirmCallbackObj;
 
-    public static NewGroupFragment display(NewGroupFragment.ConfirmCallback confirmCallbackObj, FragmentManager fragmentManager) {
+    public static NewGroupFragment display(String title,NewGroupFragment.ConfirmCallback confirmCallbackObj, FragmentManager fragmentManager, boolean showEdit) {
         NewGroupFragment dialogFragment = new NewGroupFragment();
         dialogFragment.confirmCallbackObj = confirmCallbackObj;
-
+        dialogFragment.title = title;
+        dialogFragment.showEdit = showEdit;
         dialogFragment.show(fragmentManager, TAG);
         return dialogFragment;
     }
@@ -88,6 +95,13 @@ public class NewGroupFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_new_group, container, false);
         ButterKnife.bind(this,view);
         init();
+
+
+        if(!showEdit){
+            editText.setVisibility(View.INVISIBLE);
+        }
+
+        editDialogTitleTextView.setText(title);
 
         ContactAdapter contactAdapter = new ContactAdapter(new ContactAdapter.ContactDiff(),(User user, View view1)->{
             CheckBox checkBox = (CheckBox)view1;

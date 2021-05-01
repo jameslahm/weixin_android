@@ -65,12 +65,13 @@ public class UserRepository {
                 if(user==null){
                     return true;
                 }
-                Long currentTimeStamp = MiscUtil.getCurrentTimestamp();
-                if((currentTimeStamp-user.getCachedTimestamp())> Constants.USER_REFRESH_TIME){
-                    return true;
-                }else {
-                    return false;
-                }
+//                Long currentTimeStamp = MiscUtil.getCurrentTimestamp();
+//                if((currentTimeStamp-user.getCachedTimestamp())> Constants.USER_REFRESH_TIME){
+//                    return true;
+//                }else {
+//                    return false;
+//                }
+                return false;
             }
 
             @NotNull

@@ -9,9 +9,12 @@ import androidx.lifecycle.LiveData;
 import com.MobileCourse.Api.ApiService;
 import com.MobileCourse.Api.NetworkBoundResource;
 import com.MobileCourse.Api.Request.CreateGroupRequest;
+import com.MobileCourse.Api.Request.ExitGroupRequest;
+import com.MobileCourse.Api.Request.InviteInToGroupRequest;
 import com.MobileCourse.Api.Request.RegisterRequest;
 import com.MobileCourse.Api.Resource;
 import com.MobileCourse.Api.Response.ApiResponse;
+import com.MobileCourse.Api.Response.CommonResponse;
 import com.MobileCourse.Api.Response.GroupResponse;
 import com.MobileCourse.Api.Response.UserResponse;
 import com.MobileCourse.Daos.GroupDao;
@@ -23,6 +26,7 @@ import com.MobileCourse.Models.GroupDetail;
 import com.MobileCourse.Models.TimeLine;
 import com.MobileCourse.Models.User;
 import com.MobileCourse.Utils.AppExecutors;
+import com.MobileCourse.WebSocket.MessageService;
 import com.MobileCourse.WeixinApplication;
 
 import org.jetbrains.annotations.NotNull;
@@ -85,6 +89,41 @@ public class GroupRepository {
                 TimeLine timeLine = TimeLine.fromGroupResponse(groupResponse);
                 timeLineDao.insertTimeLine(timeLine);
                 groupDao.insertGroup(Group.fromGroupResponse(groupResponse));
+            }
+
+            @Override
+            protected boolean shouldFetch(@NotNull Group data) {
+                return true;
+            }
+        }.getAsLiveData();
+
+
+    }
+
+    public LiveData<ApiResponse<CommonResponse>> exitGroup(String groupId){
+        return ApiService.getGroupApi().exitGroup(new ExitGroupRequest(groupId));
+    }
+
+    public LiveData<Resource<Group>> inviteInToGroup(String groupId,List<String> friendIds){
+        return new NetworkBoundResource<Group,GroupResponse>(AppExecutors.getInstance()){
+            @NotNull
+            @Override
+            protected LiveData<Group> loadFromDb() {
+                return groupDao.getGroupById(groupId);
+            }
+
+            @NotNull
+            @Override
+            protected LiveData<ApiResponse<GroupResponse>> createCall() {
+                InviteInToGroupRequest inviteInToGroupRequest = new InviteInToGroupRequest(groupId,friendIds);
+                return ApiService.getGroupApi().inviteInToGroup(inviteInToGroupRequest);
+            }
+
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            protected void saveCallResult(@NotNull GroupResponse groupResponse) {
+                Group group = Group.fromGroupResponse(groupResponse);
+                groupDao.insertGroup(group);
             }
 
             @Override

@@ -85,6 +85,9 @@ public class MessageViewModel extends ViewModel {
                 timeLineLiveData,
                 (timeLine)->{
                     User me =meRepository.getMe().getValue();
+                    if(me==null){
+                        return;
+                    }
                     String messageType = timeLine.getMessageType();
                     if(messageType.equals(Constants.MessageType.SINGLE) || messageType.equals(Constants.MessageType.CONFIRM)){
                         LiveData<User> target =  userRepository.getUserById(timeLine.getId());

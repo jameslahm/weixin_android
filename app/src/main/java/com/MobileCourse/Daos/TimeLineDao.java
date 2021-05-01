@@ -2,6 +2,7 @@ package com.MobileCourse.Daos;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -27,4 +28,7 @@ public interface TimeLineDao {
 
     @Query("UPDATE TimeLine SET lastCheckTimestamp = :timestamp WHERE id = :timeLineId")
     void updateLastCheckTimestamp(String timeLineId,long timestamp);
+
+    @Query("DELETE FROM TimeLine WHERE id = :id")
+    void deleteTimeLine(String id);
 }
