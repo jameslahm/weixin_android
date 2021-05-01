@@ -213,4 +213,8 @@ public class UserRepository {
     public void insertUser(User user){
         userDao.insertUser(user);
     }
+
+    public void insertUsers(List<User> users){
+        userDao.insertUsers(users);
+    }
 }

@@ -17,6 +17,7 @@ import com.MobileCourse.Repositorys.MeRepository;
 import com.MobileCourse.Repositorys.TimeLineRepository;
 import com.MobileCourse.Repositorys.UserRepository;
 import com.MobileCourse.Utils.AppExecutors;
+import com.MobileCourse.Utils.Constants;
 
 import java.util.List;
 
@@ -44,8 +45,12 @@ public class TimeLineViewModel extends ViewModel {
     }
 
     public void insertMessage(Message message){
-        LiveData<TimeLine> timeLineLiveData = timeLineRepository.getTimeLine(message.getFrom());
-
+        LiveData<TimeLine> timeLineLiveData;
+        if(message.getMessageType().equals(Constants.MessageType.GROUP)){
+            timeLineLiveData = timeLineRepository.getTimeLine(message.getTo());
+        } else {
+            timeLineLiveData = timeLineRepository.getTimeLine(message.getFrom());
+        }
         Observer observer = new Observer<TimeLine>() {
             @Override
             public void onChanged(TimeLine timeLine) {
@@ -54,7 +59,10 @@ public class TimeLineViewModel extends ViewModel {
             }
         };
 
-        timeLineLiveData.observeForever(observer);
+        AppExecutors.getInstance().getMainThread().execute(()->{
+            timeLineLiveData.observeForever(observer);
+        });
+
     }
 
 
@@ -62,6 +70,7 @@ public class TimeLineViewModel extends ViewModel {
     public void inviteInToGroup(InviteInToGroupMessage inviteInToGroupMessage){
         TimeLine timeLine = TimeLine.fromInviteInToGroupMessage(inviteInToGroupMessage);
         insertTimeLine(timeLine);
+        userRepository.insertUsers(inviteInToGroupMessage.getGroup().getMembers());
     }
 
     public void confirmMessage(ConfirmMessage message){

@@ -1,5 +1,11 @@
 package com.MobileCourse.Models;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
+import java.util.List;
+
 public class MessageDetail {
     String content;
 
@@ -32,14 +38,25 @@ public class MessageDetail {
         return new MessageDetail(content,contentType,timestamp,isSend,avatar,username);
     }
 
-    public static MessageDetail fromMessageAndGroup(Message message,User me, Group target){
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static MessageDetail fromMessageAndGroup(Message message, User me, List<User> members){
         String content = message.content;
         String contentType = message.contentType;
         long timestamp = message.timestamp;
         boolean isSend = (message.getFrom().equals(me.getId()));
-        String avatar = isSend ? me.getAvatar() : target.getAvatar();
-        String username = isSend ? me.getUsername():target.getName();
-        return new MessageDetail(content,contentType,timestamp,isSend,avatar,username);
+
+        if(isSend){
+            String avatar = me.getAvatar();
+            String username = me.getUsername();
+            return new MessageDetail(content,contentType,timestamp,isSend,avatar,username);
+        } else {
+            User target = members.stream().filter((member)->{
+                return member.getId().equals(message.getFrom());
+            }).findFirst().get();
+            String avatar = target.getAvatar();
+            String username = target.getUsername();
+            return new MessageDetail(content,contentType,timestamp,isSend,avatar,username);
+        }
     }
 
     public String getContent() {

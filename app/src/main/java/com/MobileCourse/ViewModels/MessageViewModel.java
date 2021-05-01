@@ -3,6 +3,7 @@ package com.MobileCourse.ViewModels;
 import android.content.Context;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
@@ -57,13 +58,15 @@ public class MessageViewModel extends ViewModel {
     }
 
     public void sendMessage(User me,TimeLine timeLine ,String content){
-        MessageService.getInstance().getMessageApi().sendMessage(new CreateMessage(
+        CreateMessage message = new CreateMessage(
                 content,
                 Constants.ContentType.TEXT,
                 timeLine.getMessageType(),
                 timeLine.getId(),
                 MiscUtil.getCurrentTimestamp()
-        ));
+        );
+        Log.e(tag,message.toString());
+        MessageService.getInstance().getMessageApi().sendMessage(message);
         timeLineRepository.insertMessage(timeLine,new Message(
                 content,
                 Constants.ContentType.TEXT,
@@ -72,6 +75,7 @@ public class MessageViewModel extends ViewModel {
                 me.getId(),
                 timeLine.getId()
         ));
+        timeLineRepository.updateLastCheckTimestamp(timeLine.getId(),MiscUtil.getCurrentTimestamp());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -82,7 +86,7 @@ public class MessageViewModel extends ViewModel {
                 (timeLine)->{
                     User me =meRepository.getMe().getValue();
                     String messageType = timeLine.getMessageType();
-                    if(messageType.equals(Constants.MessageType.SINGLE)){
+                    if(messageType.equals(Constants.MessageType.SINGLE) || messageType.equals(Constants.MessageType.CONFIRM)){
                         LiveData<User> target =  userRepository.getUserById(timeLine.getId());
                         messageDetailMediatorLiveData.addSource(target,(user -> {
                             List<MessageDetail> messageDetails = timeLine.getMessages().stream().map((message -> {
@@ -92,11 +96,17 @@ public class MessageViewModel extends ViewModel {
                         }));
                     } else {
                         LiveData<Group> target = groupRepository.getGroupById(timeLine.getId());
+                        // TODO FIXME
                         messageDetailMediatorLiveData.addSource(target,(group -> {
-                            List<MessageDetail> messageDetails = timeLine.getMessages().stream().map((message -> {
-                                return MessageDetail.fromMessageAndGroup(message,me,group);
-                            })).collect(Collectors.toList());
-                            messageDetailMediatorLiveData.setValue(messageDetails);
+                            LiveData<Resource<List<User>>> members =  userRepository.getUsersByIds(group.getMembers());
+                            messageDetailMediatorLiveData.addSource(members,(resource)->{
+                                if(resource.status== Resource.Status.SUCCESS){
+                                    List<MessageDetail> messageDetails = timeLine.getMessages().stream().map((message -> {
+                                        return MessageDetail.fromMessageAndGroup(message,me,resource.data);
+                                    })).collect(Collectors.toList());
+                                    messageDetailMediatorLiveData.setValue(messageDetails);
+                                }
+                            });
                         }));
                     }
                 }

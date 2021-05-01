@@ -3,10 +3,13 @@ package com.MobileCourse.Adapters;
 import com.MobileCourse.Models.Chat;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Rect;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -49,10 +52,13 @@ public class ChatAdapter extends ListAdapter<Chat,ChatAdapter.ChatViewHolder> {
         private ImageView avatarImageView;
         private TextView lastSpeakTimeTextView;
         private TextView lastSpeakTextView;
+        private BadgeDrawable badgeDrawable;
+        private FrameLayout frameLayout;
         View view;
         Context context;
 
-        public ChatViewHolder(@NonNull View itemView,Context context) {
+        @SuppressLint("UnsafeExperimentalUsageError")
+        public ChatViewHolder(@NonNull View itemView, Context context) {
             super(itemView);
             view = itemView;
             this.context = context;
@@ -60,6 +66,9 @@ public class ChatAdapter extends ListAdapter<Chat,ChatAdapter.ChatViewHolder> {
             nickNameTextView = (TextView)itemView.findViewById(R.id.nickname_text);
             lastSpeakTimeTextView = (TextView)itemView.findViewById(R.id.last_speak_time_text);
             lastSpeakTextView = (TextView)itemView.findViewById(R.id.last_speak_text);
+            frameLayout = itemView.findViewById(R.id.frame);
+
+            badgeDrawable = BadgeDrawable.create(frameLayout.getContext());
         }
 
         public void setNickName(String nickName){
@@ -78,14 +87,16 @@ public class ChatAdapter extends ListAdapter<Chat,ChatAdapter.ChatViewHolder> {
 
         @SuppressLint("UnsafeExperimentalUsageError")
         public void setUnReadCount(long unReadCount){
-            BadgeDrawable badgeDrawable = BadgeDrawable.create(context);
             if(unReadCount>0){
                 badgeDrawable.setVisible(true);
+                badgeDrawable.setNumber((int)unReadCount);
+                frameLayout.setForeground(badgeDrawable);
+                frameLayout.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
+                    BadgeUtils.attachBadgeDrawable(badgeDrawable, avatarImageView, frameLayout);
+                });
             } else {
                 badgeDrawable.setVisible(false);
             }
-            badgeDrawable.setNumber((int)unReadCount);
-            BadgeUtils.attachBadgeDrawable(badgeDrawable, avatarImageView);
         }
 
         public void setOnClick(Chat chat,OnClickCallback onClickCallbackObj){

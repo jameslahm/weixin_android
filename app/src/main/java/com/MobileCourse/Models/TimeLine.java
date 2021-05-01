@@ -162,7 +162,7 @@ public class TimeLine {
                 message.getUser().getAvatar(),
                 MiscUtil.formatTimestamp(message.getTimestamp()),
                 message.getTimestamp()-1,
-                message.getMessageType(),
+                Constants.MessageType.SINGLE,
                 messages
         );
         return timeLine;

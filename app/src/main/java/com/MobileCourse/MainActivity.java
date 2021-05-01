@@ -76,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
     private ApplicationViewModel applicationViewModel;
     private ChatViewModel chatViewModel;
 
+
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint({"HandlerLeak", "CheckResult"})
     @Override

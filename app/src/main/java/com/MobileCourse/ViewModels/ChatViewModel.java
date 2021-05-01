@@ -2,6 +2,7 @@ package com.MobileCourse.ViewModels;
 
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
@@ -55,6 +56,7 @@ public class ChatViewModel extends ViewModel {
                     List<Chat> newChats =  timeLines.stream().map(timeLine -> {
                        return this.chatRepository.getChatByTimeLine(timeLine);
                     }).collect(Collectors.toList());
+                    Log.e("ChatViewModel",newChats.get(0).toString());
                     chatsLiveData.setValue(newChats);
                 });
             }

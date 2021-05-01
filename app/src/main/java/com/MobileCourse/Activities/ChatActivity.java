@@ -25,7 +25,9 @@ import com.MobileCourse.ViewModels.TimeLineViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.hilt.android.AndroidEntryPoint;
 
+@AndroidEntryPoint
 public class ChatActivity extends AppCompatActivity {
 
     public static final String CHAT_TIMELINE_ID ="CHAT_TIMELINE_ID";
@@ -62,10 +64,12 @@ public class ChatActivity extends AppCompatActivity {
 
 
         MessageAdapter messageAdapter = new MessageAdapter(new MessageAdapter.MessageDiff());
-        messagesListView.setAdapter(messageAdapter);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        linearLayoutManager.setStackFromEnd(true);
         messagesListView.setLayoutManager(linearLayoutManager);
+        messagesListView.setAdapter(messageAdapter);
+        messagesListView.smoothScrollToPosition(messageAdapter.getItemCount());
 
         messageViewModel = new ViewModelProvider(this).get(MessageViewModel.class);
         timeLineViewModel = new ViewModelProvider(this).get(TimeLineViewModel.class);

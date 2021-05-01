@@ -113,7 +113,7 @@ public class ContactFragment extends Fragment {
                     if(badgeDrawable.getNumber()>0){
                         badgeDrawable.setVisible(true);
                     } else {
-                        badgeDrawable.setVisible(true);
+                        badgeDrawable.setVisible(false);
                     }
                     BadgeUtils.attachBadgeDrawable(badgeDrawable, newFriendIconImageView);
                 });

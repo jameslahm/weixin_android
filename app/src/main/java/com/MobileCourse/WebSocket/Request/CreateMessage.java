@@ -12,6 +12,18 @@ public class CreateMessage extends CommonRequest {
 
     long timestamp;
 
+    @Override
+    public String toString() {
+        return "CreateMessage{" +
+                "content='" + content + '\'' +
+                ", contentType='" + contentType + '\'' +
+                ", messageType='" + messageType + '\'' +
+                ", to='" + to + '\'' +
+                ", timestamp=" + timestamp +
+                ", bizType='" + bizType + '\'' +
+                '}';
+    }
+
     public CreateMessage(String content, String contentType, String messageType, String to, long timestamp) {
         this.content = content;
         this.contentType = contentType;

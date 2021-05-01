@@ -14,6 +14,7 @@ import com.MobileCourse.Models.Message;
 import com.MobileCourse.Models.TimeLine;
 import com.MobileCourse.Models.User;
 import com.MobileCourse.Utils.AppExecutors;
+import com.MobileCourse.Utils.MiscUtil;
 
 import java.sql.Time;
 import java.util.List;
@@ -51,6 +52,8 @@ public class TimeLineRepository {
 
     public void insertMessage(TimeLine timeLine,Message message){
         AppExecutors.getInstance().getDiskIO().execute(()->{
+            timeLine.setLastSpeakTime(MiscUtil.formatTimestamp(message.getTimestamp()));
+            timeLine.setLastSpeak(message.getContent());
             timeLine.getMessages().add(message);
             timeLineDao.insertTimeLine(timeLine);
         });
@@ -67,6 +70,8 @@ public class TimeLineRepository {
     }
 
     public void updateLastCheckTimestamp(String timeLineId,long timestamp){
-        timeLineDao.updateLastCheckTimestamp(timeLineId,timestamp);
+        AppExecutors.getInstance().getDiskIO().execute(()->{
+            timeLineDao.updateLastCheckTimestamp(timeLineId,timestamp);
+        });
     }
 }

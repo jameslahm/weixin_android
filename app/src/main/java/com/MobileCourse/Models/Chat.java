@@ -68,4 +68,16 @@ public class Chat {
     public void setLastSpeakTime(String lastSpeakTime) {
         this.lastSpeakTime = lastSpeakTime;
     }
+
+    @Override
+    public String toString() {
+        return "Chat{" +
+                "id='" + id + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", lastSpeak='" + lastSpeak + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", lastSpeakTime='" + lastSpeakTime + '\'' +
+                ", unReadCount=" + unReadCount +
+                '}';
+    }
 }
