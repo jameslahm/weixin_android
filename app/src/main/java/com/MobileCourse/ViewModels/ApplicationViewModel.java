@@ -5,10 +5,12 @@ import android.content.Context;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.MobileCourse.Api.Resource;
 import com.MobileCourse.Models.Application;
 import com.MobileCourse.Models.ApplicationMessage;
 import com.MobileCourse.Models.Message;
 import com.MobileCourse.Models.TimeLine;
+import com.MobileCourse.Models.User;
 import com.MobileCourse.Repositorys.ApplicationRepository;
 import com.MobileCourse.Repositorys.TimeLineRepository;
 import com.MobileCourse.Repositorys.UserRepository;
@@ -48,10 +50,10 @@ public class ApplicationViewModel extends ViewModel {
         applicationRepository.updateRead();
     }
 
-    public void confirmApplication(Application application){
-        userRepository.confirmAddFriend(application.getFrom());
+    public LiveData<Resource<User>> confirmApplication(Application application){
         TimeLine timeLine = TimeLine.fromApplication(application);
         this.timeLineRepository.insertTimeLine(timeLine);
+        return userRepository.confirmAddFriend(application.getFrom());
     }
 
 }

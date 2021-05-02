@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.MobileCourse.Adapters.ContactAdapter;
 import com.MobileCourse.Adapters.MessageAdapter;
+import com.MobileCourse.Fragments.SendActionFragment;
 import com.MobileCourse.Models.TimeLine;
 import com.MobileCourse.Models.User;
 import com.MobileCourse.R;
@@ -54,6 +55,9 @@ public class ChatActivity extends AppCompatActivity {
     MeViewModel meViewModel;
 
     TimeLine timeLine;
+
+    @BindView(R.id.action)
+    ImageView actionImageView;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -110,8 +114,15 @@ public class ChatActivity extends AppCompatActivity {
                 return;
             } else {
                 User me = meViewModel.getMe().getValue();
-                messageViewModel.sendMessage(me,this.timeLine,text);
+                messageViewModel.sendMessage(me,this.timeLine,text,Constants.ContentType.TEXT);
             }
+        });
+
+        actionImageView.setOnClickListener((view)->{
+            SendActionFragment.display(((content, contentType) -> {
+                User me = meViewModel.getMe().getValue();
+                messageViewModel.sendMessage(me,this.timeLine,content,contentType);
+            }),getSupportFragmentManager());
         });
 
     }

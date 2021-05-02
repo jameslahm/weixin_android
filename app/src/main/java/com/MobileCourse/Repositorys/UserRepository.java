@@ -203,8 +203,30 @@ public class UserRepository {
         MessageService.getInstance().getMessageApi().sendMessage(createMessage);
     }
 
-    public void confirmAddFriend(String friendId) {
-        ApiService.getUserApi().confirmAddFriend(new ConfirmAddFriendRequest(friendId));
+    public LiveData<Resource<User>> confirmAddFriend(String friendId) {
+        return new NetworkBoundResource<User,CommonResponse>(AppExecutors.getInstance()){
+            @NotNull
+            @Override
+            protected LiveData<User> loadFromDb() {
+                return userDao.getUserById(friendId);
+            }
+
+            @NotNull
+            @Override
+            protected LiveData<ApiResponse<CommonResponse>> createCall() {
+                return ApiService.getUserApi().confirmAddFriend(new ConfirmAddFriendRequest(friendId));
+            }
+
+            @Override
+            protected void saveCallResult(@NotNull CommonResponse commonResponse) {
+                super.saveCallResult(commonResponse);
+            }
+
+            @Override
+            protected boolean shouldFetch(@NotNull User data) {
+                return true;
+            }
+        }.getAsLiveData();
     }
 
     public LiveData<User> getUserById(String id){

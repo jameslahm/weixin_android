@@ -19,6 +19,9 @@ import com.MobileCourse.Utils.Constants;
 import com.MobileCourse.Utils.MiscUtil;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.ui.PlayerView;
 
 import java.util.LinkedList;
 
@@ -37,10 +40,12 @@ public class MessageAdapter extends ListAdapter<MessageDetail,
         boolean isSend = messageDetail.isSend();
         int sendType = isSend ? Constants.SEND:Constants.RECEIVE;
         int contentType =  Constants.TEXT;
-        if(messageDetail.getContent().equals(Constants.ContentType.AUDIO)){
+        if(messageDetail.getContentType().equals(Constants.ContentType.AUDIO)){
             contentType = Constants.AUDIO;
-        } else if(messageDetail.getContent().equals(Constants.ContentType.VIDEO)){
+        } else if(messageDetail.getContentType().equals(Constants.ContentType.VIDEO)){
             contentType = Constants.VIDEO;
+        } else if(messageDetail.getContentType().equals(Constants.ContentType.IMAGE)){
+            contentType = Constants.IMAGE;
         }
         return sendType + contentType;
     }
@@ -51,12 +56,44 @@ public class MessageAdapter extends ListAdapter<MessageDetail,
         int sendType = viewType & 0xf0;
         int contentType = viewType & 0x0f;
         if(sendType==Constants.SEND){
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_message, parent, false);
-            return new MessageViewHolder(itemView, sendType,contentType);
+            switch (contentType){
+                case  Constants.TEXT:{
+                    View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_message, parent, false);
+                    return new MessageViewHolder(itemView, sendType,contentType);
+                }
+                case Constants.IMAGE:{
+                    View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_message_image, parent, false);
+                    return new MessageViewHolder(itemView, sendType,contentType);
+                }
+                case Constants.AUDIO:{
+
+                }
+                case Constants.VIDEO:{
+                    View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_message_video, parent, false);
+                    return new MessageViewHolder(itemView, sendType,contentType);
+                }
+            }
         } else {
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.other_message, parent, false);
-            return new MessageViewHolder(itemView, sendType,contentType);
+            switch (contentType){
+                case  Constants.TEXT:{
+                    View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.other_message, parent, false);
+                    return new MessageViewHolder(itemView, sendType,contentType);
+                }
+                case Constants.IMAGE:{
+                    View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.other_message_image, parent, false);
+                    return new MessageViewHolder(itemView, sendType,contentType);
+                }
+                case Constants.AUDIO:{
+
+                }
+                case Constants.VIDEO:{
+                    View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.other_message_video, parent, false);
+                    return new MessageViewHolder(itemView, sendType,contentType);
+                }
+            }
         }
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_message, parent, false);
+        return new MessageViewHolder(itemView, sendType,contentType);
     }
 
     @Override
@@ -79,17 +116,34 @@ public class MessageAdapter extends ListAdapter<MessageDetail,
         }
 
         public void setMessageDetail(MessageDetail messageDetail){
-            ImageView avatarImageView = view.findViewById(R.id.avatar);
-            TextView messageBodyTextView = view.findViewById(R.id.message_body);
-
-            messageBodyTextView.setText(messageDetail.getContent());
-
             if(this.sendType==Constants.RECEIVE){
                 TextView nameTextView = view.findViewById(R.id.name);
                 nameTextView.setText(messageDetail.getUsername());
             }
-
+            ImageView avatarImageView = view.findViewById(R.id.avatar);
             MiscUtil.loadImage(avatarImageView,messageDetail.getAvatar());
+
+            switch (contentType){
+                case Constants.TEXT:{
+                    TextView messageBodyTextView = view.findViewById(R.id.message_body);
+                    messageBodyTextView.setText(messageDetail.getContent());
+                    break;
+                }
+                case Constants.IMAGE:{
+                    ImageView messageBodyImageView = view.findViewById(R.id.message_body);
+                    MiscUtil.loadImage(messageBodyImageView,messageDetail.getContent());
+                    break;
+                }
+                case Constants.VIDEO:{
+                    PlayerView playerView = view.findViewById(R.id.message_body);
+                    SimpleExoPlayer player = new SimpleExoPlayer.Builder(playerView.getContext()).build();
+                    playerView.setPlayer(player);
+
+                    player.setMediaItem(MediaItem.fromUri(messageDetail.getContent()));
+                    player.prepare();
+                    break;
+                }
+            }
         }
     }
 

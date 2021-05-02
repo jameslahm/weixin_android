@@ -39,6 +39,8 @@ import com.bumptech.glide.Glide;
 @AndroidEntryPoint
 public class NewFriendActivity extends AppCompatActivity {
 
+    private static String TAG = "NewFriendActivity";
+
     @BindView(R.id.weixinId)
     EditText weixinIdEditText;
 
@@ -100,12 +102,20 @@ public class NewFriendActivity extends AppCompatActivity {
 
         applicationViewModel.updateRead();
 
-        ApplicationAdapter applicationAdapter = new ApplicationAdapter(new ApplicationAdapter.ApplicationDiff(), new ApplicationAdapter.OnConfirmCallback() {
-            @Override
-            public void onConfirm(Application application) {
-                applicationViewModel.confirmApplication(application);
+        ApplicationAdapter applicationAdapter = new ApplicationAdapter(new ApplicationAdapter.ApplicationDiff(),
+            (Application application) ->{
+                applicationViewModel.confirmApplication(application).observe(this,(resource)->{
+                    switch (resource.status){
+                        case SUCCESS:{
+                            break;
+                        }
+                        case ERROR:{
+                            Log.e(TAG,"Error");
+                        }
+                    }
+                });
             }
-        });
+        );
         newFriendsRecyclerView.setAdapter(applicationAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         newFriendsRecyclerView.setLayoutManager(linearLayoutManager);

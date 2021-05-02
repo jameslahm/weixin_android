@@ -57,10 +57,10 @@ public class MessageViewModel extends ViewModel {
         return messageDetailMediatorLiveData;
     }
 
-    public void sendMessage(User me,TimeLine timeLine ,String content){
+    public void sendMessage(User me,TimeLine timeLine ,String content,String contentType){
         CreateMessage message = new CreateMessage(
                 content,
-                Constants.ContentType.TEXT,
+                contentType,
                 timeLine.getMessageType(),
                 timeLine.getId(),
                 MiscUtil.getCurrentTimestamp()
@@ -69,7 +69,7 @@ public class MessageViewModel extends ViewModel {
         MessageService.getInstance().getMessageApi().sendMessage(message);
         timeLineRepository.insertMessage(timeLine,new Message(
                 content,
-                Constants.ContentType.TEXT,
+                contentType,
                 timeLine.getMessageType(),
                 MiscUtil.getCurrentTimestamp(),
                 me.getId(),
