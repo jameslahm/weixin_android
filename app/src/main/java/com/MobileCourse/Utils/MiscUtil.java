@@ -1,6 +1,11 @@
 package com.MobileCourse.Utils;
 
+import android.util.Log;
+import android.widget.ImageView;
+
 import com.MobileCourse.Models.Message;
+import com.MobileCourse.R;
+import com.bumptech.glide.Glide;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,5 +27,13 @@ public class MiscUtil {
             return true;
         }
         return false;
+    }
+
+    public static void loadImage(ImageView imageView, String url){
+        Log.e("LOADIMAGE",String.valueOf(url));
+        if(url==null){
+            url = "http://139.196.81.14:7998/upload/avatar1.jpeg";
+        }
+        Glide.with(imageView.getContext()).load(url).placeholder(R.drawable.avatar2).into(imageView);
     }
 }

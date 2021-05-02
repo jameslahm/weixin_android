@@ -203,7 +203,7 @@ public class UserRepository {
         MessageService.getInstance().getMessageApi().sendMessage(createMessage);
     }
 
-    public void confirmAddFriend(String friendId){
+    public void confirmAddFriend(String friendId) {
         ApiService.getUserApi().confirmAddFriend(new ConfirmAddFriendRequest(friendId));
     }
 

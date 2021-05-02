@@ -4,6 +4,7 @@ import com.MobileCourse.Api.Resource;
 import com.MobileCourse.Models.User;
 import com.MobileCourse.R;
 import com.MobileCourse.Repositorys.UserRepository;
+import com.MobileCourse.Utils.MiscUtil;
 import com.MobileCourse.ViewModels.MeViewModel;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -83,8 +84,7 @@ public class SettingsFragment  extends Fragment {
                 weixinIdTextView.setText(weixinId);
                 usernameTextView.setText(username);
 
-                Glide.with(this).load("http://139.196.81.14:7998/upload/avatar1.jpeg").placeholder(R.drawable.avatar2)
-                        .apply(RequestOptions.circleCropTransform()).into(avatarImageView);
+                MiscUtil.loadImage(avatarImageView,user.getAvatar());
             }
         }));
 

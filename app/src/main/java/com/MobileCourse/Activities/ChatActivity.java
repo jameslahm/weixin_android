@@ -92,7 +92,7 @@ public class ChatActivity extends AppCompatActivity {
             if(timeLine==null){
                 return;
             }
-            
+
             titleTextView.setText(timeLine.getName());
 
             if(timeLine.getMessageType().equals(Constants.MessageType.GROUP)){

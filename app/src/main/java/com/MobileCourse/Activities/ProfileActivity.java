@@ -23,6 +23,7 @@ import com.MobileCourse.Models.Friend;
 import com.MobileCourse.Models.User;
 import com.MobileCourse.R;
 import com.MobileCourse.Utils.Constants;
+import com.MobileCourse.Utils.MiscUtil;
 import com.MobileCourse.ViewModels.MeViewModel;
 import com.MobileCourse.ViewModels.ProfileViewModel;
 import com.MobileCourse.WebSocket.MessageService;
@@ -85,10 +86,7 @@ public class ProfileActivity extends AppCompatActivity {
                         User user = resource.data;
                         this.user = user;
                         nickNameTextView.setText(user.getUsername());
-                        Glide.with(this).load(user.getAvatar())
-                                .apply(RequestOptions.circleCropTransform())
-                                .placeholder(R.drawable.avatar2)
-                                .into(avatarImageView);
+                        MiscUtil.loadImage(avatarImageView,user.getAvatar());
                         weixinIdTextView.setText(user.getWeixinId());
 
                         meViewModel.getMe().observe(this,(me)->{

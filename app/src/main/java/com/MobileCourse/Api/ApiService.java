@@ -2,6 +2,7 @@ package com.MobileCourse.Api;
 
 import android.content.Context;
 
+import com.MobileCourse.Models.Discover;
 import com.MobileCourse.Utils.Constants;
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
@@ -39,8 +40,11 @@ public class ApiService {
     }
 
     private static Retrofit retrofit;
+    private static Retrofit uploadRetrofit;
     private static UserApi userApi;
     private static GroupApi groupApi;
+    private static DiscoverApi discoverApi;
+    private static UploadApi uploadApi;
 
     public static void  init(Context context){
         initOkHttpClient(context);
@@ -48,8 +52,19 @@ public class ApiService {
                 .client(client)
                 .addCallAdapterFactory(new LiveDataCallAdapterFactory())
                 .addConverterFactory(GsonConverterFactory.create()).build();
+        uploadRetrofit = new Retrofit.Builder().baseUrl(Constants.UPLOAD_BASE__URL)
+                .client(client)
+                .addCallAdapterFactory(new LiveDataCallAdapterFactory())
+                .addConverterFactory(GsonConverterFactory.create()).build();
+
         userApi = retrofit.create(UserApi.class);
         groupApi = retrofit.create(GroupApi.class);
+        discoverApi = retrofit.create(DiscoverApi.class);
+        uploadApi = uploadRetrofit.create(UploadApi.class);
+    }
+
+    public static DiscoverApi getDiscoverApi(){
+        return discoverApi;
     }
 
     public static UserApi getUserApi() {
@@ -58,5 +73,9 @@ public class ApiService {
 
     public static GroupApi getGroupApi() {
         return groupApi;
+    }
+
+    public static UploadApi getUploadApi() {
+        return uploadApi;
     }
 }

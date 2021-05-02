@@ -1,12 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Fragments.DiscoverFragment">
+
+    <RelativeLayout
+        android:id="@+id/top_panel"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textSize="20sp">
+
+        <ImageView
+            android:id="@+id/iv_return"
+            android:layout_width="@dimen/title_bar_height"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_arrow_left" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="#000000"
+            android:gravity="center_vertical"
+            android:textSize="20sp"
+            android:layout_centerHorizontal="true"
+            android:text="朋友圈" />
+
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:id="@+id/newDiscover"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_add"
+            android:layout_marginRight="10dp"
+            app:tint="@color/colorPrimary">
+        </ImageView>
+
+    </RelativeLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/discover_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-</FrameLayout>
+</LinearLayout>

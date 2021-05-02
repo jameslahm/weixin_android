@@ -74,12 +74,7 @@
                 ></ImageView>
 
         </LinearLayout>
-        <TextView
-            android:id="@+id/time"
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:gravity="end"
-            android:layout_marginTop="8dp"
-            android:text="1小时前" />
+        <include layout="@layout/discover_detail"/>
+
     </LinearLayout>
 </LinearLayout>

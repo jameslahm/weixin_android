@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.MobileCourse.Models.User;
 import com.MobileCourse.R;
+import com.MobileCourse.Utils.MiscUtil;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
@@ -61,8 +62,7 @@ public class ContactAdapter extends ListAdapter<User, ContactAdapter.ContactView
             nickNameTextView.setText(nickName);
         }
         public void setAvatar(String avatar){
-            Glide.with(avatarImageView.getContext()).load(avatar).placeholder(R.drawable.avatar2)
-                    .apply(RequestOptions.circleCropTransform()).into(avatarImageView);;
+            MiscUtil.loadImage(avatarImageView,avatar);
         }
         public void setOnClick(User user,OnClickCallback onClickCallbackObj){
             if(enableCheckBox){

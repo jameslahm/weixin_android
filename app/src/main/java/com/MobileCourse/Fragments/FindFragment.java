@@ -53,6 +53,9 @@ public class FindFragment extends Fragment implements View.OnClickListener {
 
         socialCircleMenu.rotate();
 
+        socialCircleMenu.setOnClickListener((view)->{
+            DiscoverFragment.display(getFragmentManager());
+        });
     }
 
     @Override

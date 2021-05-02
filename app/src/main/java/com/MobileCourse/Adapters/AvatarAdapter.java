@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.MobileCourse.Models.Chat;
 import com.MobileCourse.Models.User;
 import com.MobileCourse.R;
+import com.MobileCourse.Utils.MiscUtil;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
@@ -40,9 +41,7 @@ public class AvatarAdapter extends ArrayAdapter<User> {
         ImageView avatarImageView = listitemView.findViewById(R.id.avatar_icon);
         TextView nickNameTextView = listitemView.findViewById(R.id.nickname_text);
         nickNameTextView.setText(user.getUsername());
-        Glide.with(avatarImageView.getContext()).load(user
-        .getAvatar()).placeholder(R.drawable.avatar2)
-                .apply(RequestOptions.circleCropTransform()).into(avatarImageView);;
+        MiscUtil.loadImage(avatarImageView,user.getAvatar());
         return listitemView;
     }
 }

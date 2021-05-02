@@ -30,6 +30,7 @@ import com.MobileCourse.Adapters.ChatAdapter;
 import com.MobileCourse.Fragments.EditDialogFragment;
 import com.MobileCourse.Models.Application;
 import com.MobileCourse.R;
+import com.MobileCourse.Utils.MiscUtil;
 import com.MobileCourse.ViewModels.ApplicationViewModel;
 import com.MobileCourse.ViewModels.MeViewModel;
 import com.MobileCourse.ViewModels.SearchNewFriendViewModel;
@@ -75,7 +76,7 @@ public class NewFriendActivity extends AppCompatActivity {
                 Toast.makeText(this, "Not Found", Toast.LENGTH_SHORT).show();
             } else {
                 newFriendResViewGroup.setVisibility(View.VISIBLE);
-                Glide.with(this).load(user.getAvatar()).placeholder(R.drawable.avatar2).into(newFriendAvatarImageView);
+                MiscUtil.loadImage(newFriendAvatarImageView,user.getAvatar());
                 newFriendNickNameTextView.setText(user.getUsername());
                 newFriendResViewGroup.setOnClickListener((view)->{
                     Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);

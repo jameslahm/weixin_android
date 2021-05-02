@@ -16,6 +16,7 @@ import com.MobileCourse.Models.MessageDetail;
 import com.MobileCourse.Models.User;
 import com.MobileCourse.R;
 import com.MobileCourse.Utils.Constants;
+import com.MobileCourse.Utils.MiscUtil;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
@@ -88,8 +89,7 @@ public class MessageAdapter extends ListAdapter<MessageDetail,
                 nameTextView.setText(messageDetail.getUsername());
             }
 
-            Glide.with(avatarImageView.getContext()).load(messageDetail.getAvatar()).placeholder(R.drawable.avatar2)
-                    .apply(RequestOptions.circleCropTransform()).into(avatarImageView);
+            MiscUtil.loadImage(avatarImageView,messageDetail.getAvatar());
         }
     }
 

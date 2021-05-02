@@ -64,8 +64,7 @@ public class ApplicationAdapter extends ListAdapter<Application,ApplicationAdapt
             nickNameTextView.setText(nickName);
         }
         public void setAvatar(String avatar){
-            Glide.with(avatarImageView.getContext()).load(avatar).placeholder(R.drawable.avatar2)
-                    .apply(RequestOptions.circleCropTransform()).into(avatarImageView);;
+            MiscUtil.loadImage(avatarImageView,avatar);
         }
         public void setLaskSpeakTime(String time){
             lastSpeakTimeTextView.setText(time);

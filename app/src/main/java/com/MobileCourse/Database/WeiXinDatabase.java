@@ -9,11 +9,13 @@ import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 
 import com.MobileCourse.Daos.ApplicationDao;
+import com.MobileCourse.Daos.DiscoverDao;
 import com.MobileCourse.Daos.GroupDao;
 import com.MobileCourse.Daos.MeDao;
 import com.MobileCourse.Daos.TimeLineDao;
 import com.MobileCourse.Daos.UserDao;
 import com.MobileCourse.Models.Application;
+import com.MobileCourse.Models.Discover;
 import com.MobileCourse.Models.Group;
 import com.MobileCourse.Models.Me;
 import com.MobileCourse.Models.TimeLine;
@@ -21,7 +23,7 @@ import com.MobileCourse.Models.User;
 
 
 
-@Database(entities = {User.class, Me.class, TimeLine.class, Application.class, Group.class},version = 6)
+@Database(entities = {User.class, Me.class, TimeLine.class, Application.class, Group.class, Discover.class},version = 8)
 @TypeConverters({Converters.class})
 public abstract class WeiXinDatabase extends RoomDatabase {
     public static final String DATABASE_NAME = "weixin_db";
@@ -44,4 +46,5 @@ public abstract class WeiXinDatabase extends RoomDatabase {
     public abstract TimeLineDao getTimeLineDao();
     public abstract ApplicationDao getApplicationDao();
     public abstract GroupDao getGroupDao();
+    public abstract DiscoverDao getDiscoverDao();
 }

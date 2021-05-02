@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.MobileCourse.Models.TimeLine;
 import com.MobileCourse.Models.User;
 import com.MobileCourse.R;
+import com.MobileCourse.Utils.MiscUtil;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.badge.BadgeDrawable;
@@ -75,8 +76,7 @@ public class ChatAdapter extends ListAdapter<Chat,ChatAdapter.ChatViewHolder> {
             nickNameTextView.setText(nickName);
         }
         public void setAvatar(String avatar){
-            Glide.with(avatarImageView.getContext()).load(avatar).placeholder(R.drawable.avatar2)
-                    .apply(RequestOptions.circleCropTransform()).into(avatarImageView);;
+            MiscUtil.loadImage(avatarImageView,avatar);
         }
         public void setLaskSpeakTime(String time){
             lastSpeakTimeTextView.setText(time);
