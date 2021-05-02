@@ -1,8 +1,17 @@
 package com.MobileCourse.Fragments;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
@@ -30,13 +40,17 @@ import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.material.badge.BadgeUtils;
 
+import net.alhazmy13.mediapicker.FileProcessing;
 import net.alhazmy13.mediapicker.Image.ImagePicker;
 import net.alhazmy13.mediapicker.Video.VideoPicker;
 import net.alhazmy13.mediapicker.rxjava.image.ImagePickerHelper;
 import net.alhazmy13.mediapicker.rxjava.video.VideoPickerHelper;
 
 import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -47,6 +61,8 @@ import okhttp3.RequestBody;
 
 public class SendActionFragment extends DialogFragment {
     public static final String TAG = "SendActionFragment";
+    private static final int RECORD_AUDIO = 1;
+    private static final int SELECT_AUDIO = 2;
 
     public interface ConfirmCallback {
         void confirmCallback(String content, String contentType);
@@ -66,6 +82,8 @@ public class SendActionFragment extends DialogFragment {
 
     @BindView(R.id.sendVideo)
     Button sendVideoButton;
+
+    AlertDialog alertDialog = null;
 
     SendActionFragment.ConfirmCallback confirmCallbackObj;
 
@@ -151,6 +169,37 @@ public class SendActionFragment extends DialogFragment {
 
         });
 
+
+        sendAudioButton.setOnClickListener((view)->{
+            alertDialog = new AlertDialog.Builder(getContext())
+                    .setTitle(getString(R.string.media_picker_select_from))
+                    .setPositiveButton(getString(R.string.media_picker_record), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            try {
+                                startActivityFromRecord();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            alertDialog.dismiss();
+                        }
+                    })
+                    .setNegativeButton(getString(R.string.media_picker_gallery), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            startActivityFromGallery();
+                            alertDialog.dismiss();
+                        }
+                    })
+                    .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialogInterface) {
+                            alertDialog.dismiss();
+                        }
+                    })
+                    .create();
+            alertDialog.show();
+        });
     }
 
     @Override
@@ -160,6 +209,87 @@ public class SendActionFragment extends DialogFragment {
         ButterKnife.bind(this,view);
         init();
         return view;
+    }
+
+    public void startActivityFromRecord() throws IOException {
+        Intent intent = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
+        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivityForResult(intent, RECORD_AUDIO);
+        } else {
+
+            String time =  new SimpleDateFormat("yyyy-MM-dd hhmmss")
+                    .format(new Date());
+            String path =  time + "recording.mp3";
+
+            ContextWrapper cw = new ContextWrapper(getContext());
+            File directory =cw.getExternalFilesDir(Environment.DIRECTORY_MUSIC);
+            File file = new File(directory,path);
+            path = file.getAbsolutePath();
+//            ContextWrapper cw = new ContextWrapper(getActivity());
+//            File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+//            File file = new File(directory, "UniqueFileName" + ".jpg");
+
+            MediaRecorder recorder = new MediaRecorder();
+            recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+            recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+            recorder.setOutputFile(path);
+            recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+            recorder.prepare();
+            recorder.start();
+
+            sendAudioButton.setText("停止录音");
+            sendAudioButton.setOnClickListener((view)->{
+                recorder.stop();
+                recorder.release();
+
+                RequestBody requestFile =
+                        RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+                MultipartBody.Part body =
+                        MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+
+                ApiService.getUploadApi().uploadFile(body).observe(this,(response)->{
+                    if(response instanceof ApiResponse.ApiSuccessResponse){
+                        String url =  ((ApiResponse.ApiSuccessResponse<UploadResponse>) response).getBody().getUrl();
+                        confirmCallbackObj.confirmCallback(url, Constants.ContentType.AUDIO);
+                        dismiss();
+                    } else {
+                        String url =  ((ApiResponse.ApiErrorResponse<UploadResponse>) response).getErrorMessage();
+                        Log.e(getTag(),url);
+                    }
+                });
+
+            });
+
+        }
+    }
+
+    public void startActivityFromGallery(){
+        Intent intent = new Intent();
+        intent.setType("audio/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent,"Select Audio"),SELECT_AUDIO);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RECORD_AUDIO){
+            if(resultCode == getActivity().RESULT_OK){
+                Uri audio = data.getData();
+                if(audio!=null){
+                    String path = FileProcessing.getPath(getContext(),audio);
+                    Log.e(getTag(),path);
+                }
+            }
+        }
+        if(resultCode == SELECT_AUDIO){
+            Uri audio = data.getData();
+            if(audio!=null){
+                String path = FileProcessing.getPath(getContext(),audio);
+                Log.e(getTag(),path);
+            }
+        }
     }
 
     @Override

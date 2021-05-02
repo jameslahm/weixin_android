@@ -132,6 +132,11 @@ public class MainActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO},100);
+        }
+
         messageApi = MessageService.getInstance().getMessageApi();
         timeLineViewModel = new ViewModelProvider(this).get(TimeLineViewModel.class);
         applicationViewModel = new ViewModelProvider(this).get(ApplicationViewModel.class);

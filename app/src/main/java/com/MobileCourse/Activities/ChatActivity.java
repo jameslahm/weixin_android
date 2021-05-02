@@ -124,7 +124,6 @@ public class ChatActivity extends AppCompatActivity {
                 messageViewModel.sendMessage(me,this.timeLine,content,contentType);
             }),getSupportFragmentManager());
         });
-
     }
 
 

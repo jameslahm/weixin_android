@@ -134,6 +134,7 @@ public class MessageAdapter extends ListAdapter<MessageDetail,
                     MiscUtil.loadImage(messageBodyImageView,messageDetail.getContent());
                     break;
                 }
+                case Constants.AUDIO:
                 case Constants.VIDEO:{
                     PlayerView playerView = view.findViewById(R.id.message_body);
                     SimpleExoPlayer player = new SimpleExoPlayer.Builder(playerView.getContext()).build();
