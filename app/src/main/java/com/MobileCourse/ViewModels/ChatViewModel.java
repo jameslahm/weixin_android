@@ -35,6 +35,7 @@ public class ChatViewModel extends ViewModel {
     private ChatRepository chatRepository;
 
     private LiveData<User> me;
+    private LiveData<List<TimeLine>> timeLinesLiveData;
     private MediatorLiveData<List<Chat>> chatsLiveData = new MediatorLiveData<>();
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -47,11 +48,15 @@ public class ChatViewModel extends ViewModel {
 
         me = this.meRepository.getMe();
 
+        // FIXME
         chatsLiveData.addSource(me,(user -> {
+            if(timeLinesLiveData!=null){
+                chatsLiveData.removeSource(timeLinesLiveData);
+            }
             if(user==null){
                 chatsLiveData.setValue(new ArrayList<>());
             } else {
-                LiveData<List<TimeLine>> timeLinesLiveData =  timeLineRepository.getTimeLines();
+                timeLinesLiveData =  timeLineRepository.getTimeLines();
                 chatsLiveData.addSource(timeLinesLiveData,(timeLines)->{
                     List<Chat> newChats =  timeLines.stream().map(timeLine -> {
                        return this.chatRepository.getChatByTimeLine(timeLine);

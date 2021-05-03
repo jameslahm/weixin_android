@@ -29,6 +29,7 @@ public class MessageDetail {
     String id;
 
     public MessageDetail(String id,String content, String contentType, long timestamp, boolean isSend, String avatar, String username) {
+        this.id = id;
         this.content = content;
         this.contentType = contentType;
         this.timestamp = timestamp;

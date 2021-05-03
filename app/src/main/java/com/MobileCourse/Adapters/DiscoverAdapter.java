@@ -236,13 +236,13 @@ public class DiscoverAdapter extends ListAdapter<Discover,DiscoverAdapter.Discov
 
         @Override
         public boolean areItemsTheSame(@NonNull Discover oldItem, @NonNull Discover newItem) {
-            return oldItem == newItem;
+            return oldItem.getId().equals(newItem.getId());
         }
 
         // TODO: FIXME
         @Override
         public boolean areContentsTheSame(@NonNull Discover oldItem, @NonNull Discover newItem) {
-            return false;
+            return oldItem.getLikesBy().size() == newItem.getLikesBy().size() && oldItem.getReplies().size()==newItem.getReplies().size();
         }
     }
 

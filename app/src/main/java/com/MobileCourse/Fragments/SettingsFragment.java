@@ -68,7 +68,7 @@ public class SettingsFragment  extends Fragment {
 
     public void init(){
         Log.e(getTag(),String.valueOf(isLogOut));
-        meViewModel = new ViewModelProvider(this).get(MeViewModel.class);
+        meViewModel = new ViewModelProvider(getActivity()).get(MeViewModel.class);
         LiveData<User> meLiveData = meViewModel.getMe();
         meLiveData.observe(getViewLifecycleOwner(), (user -> {
             if(user==null){

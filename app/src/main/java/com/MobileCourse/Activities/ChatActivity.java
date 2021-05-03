@@ -158,7 +158,6 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        timeLineViewModel.updateLastCheckTimestamp(this.timeLine.getId(), MiscUtil.getCurrentTimestamp());
     }
 
 

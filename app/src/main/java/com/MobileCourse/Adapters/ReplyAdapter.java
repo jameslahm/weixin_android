@@ -57,13 +57,15 @@ public class ReplyAdapter extends ListAdapter<Reply, ReplyAdapter.ReplyViewHolde
 
         @Override
         public boolean areItemsTheSame(@NonNull Reply oldItem, @NonNull Reply newItem) {
-            return oldItem == newItem;
+            boolean isSameUser = oldItem.getUser().getId().equals(newItem.getUser().getId());
+            boolean isSameTimestamp = (oldItem.getTimestamp()== newItem.getTimestamp());
+            return isSameUser && isSameTimestamp;
         }
 
         // TODO: FIXME
         @Override
         public boolean areContentsTheSame(@NonNull Reply oldItem, @NonNull Reply newItem) {
-            return false;
+            return true;
         }
     }
 }

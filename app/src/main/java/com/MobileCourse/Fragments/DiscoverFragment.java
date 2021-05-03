@@ -69,8 +69,8 @@ public class DiscoverFragment extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         // TODO
-        discoverViewModel = new ViewModelProvider(this).get(DiscoverViewModel.class);
-        meViewModel = new ViewModelProvider(this).get(MeViewModel.class);
+        discoverViewModel = new ViewModelProvider(getActivity()).get(DiscoverViewModel.class);
+        meViewModel = new ViewModelProvider(getActivity()).get(MeViewModel.class);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.discover_recyclerview);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -127,6 +127,12 @@ public class DiscoverFragment extends DialogFragment {
 
         discoverViewModel.getDiscovers().observe(getViewLifecycleOwner(),(resource)->{
             switch (resource.status){
+                case LOADING:{
+                    if(resource.data!=null){
+                        discoverAdapter.submitList(resource.data);
+                    }
+                    break;
+                }
                 case SUCCESS:{
                     discoverAdapter.submitList(resource.data);
                     break;

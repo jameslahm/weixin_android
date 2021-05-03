@@ -96,6 +96,7 @@ public class ChatAdapter extends ListAdapter<Chat,ChatAdapter.ChatViewHolder> {
                 });
             } else {
                 badgeDrawable.setVisible(false);
+                BadgeUtils.detachBadgeDrawable(badgeDrawable,avatarImageView);
             }
         }
 
@@ -130,13 +131,16 @@ public class ChatAdapter extends ListAdapter<Chat,ChatAdapter.ChatViewHolder> {
 
         @Override
         public boolean areItemsTheSame(@NonNull Chat oldItem, @NonNull Chat newItem) {
-            return oldItem == newItem;
+            return oldItem.getId().equals(newItem.getId());
         }
 
         // TODO: FIXME
         @Override
         public boolean areContentsTheSame(@NonNull Chat oldItem, @NonNull Chat newItem) {
-            return false;
+            boolean isSameLastSpeak =  oldItem.getLastSpeakTime().equals(newItem.getLastSpeak());
+            boolean isSameLastSpeakTime = oldItem.getLastSpeakTime().equals(newItem.getLastSpeakTime());
+            boolean isSameUnReadCount = (oldItem.getUnReadCount() == newItem.getUnReadCount());
+            return isSameLastSpeak && isSameLastSpeakTime && isSameUnReadCount;
         }
     }
 

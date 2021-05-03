@@ -80,8 +80,8 @@ public class ChatFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         ButterKnife.bind(this,view);
 
-        timeLineViewModel = new ViewModelProvider(this).get(TimeLineViewModel.class);
-        chatViewModel = new ViewModelProvider(this).get(ChatViewModel.class);
+        timeLineViewModel = new ViewModelProvider(getActivity()).get(TimeLineViewModel.class);
+        chatViewModel = new ViewModelProvider(getActivity()).get(ChatViewModel.class);
         chatAdapter = new ChatAdapter(new ChatAdapter.ChatDiff(),(chat)->{
             Intent intent = new Intent(getContext(), ChatActivity.class);
             timeLineId = chat.getId();

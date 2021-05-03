@@ -121,12 +121,12 @@ public class ContactAdapter extends ListAdapter<User, ContactAdapter.ContactView
 
         @Override
         public boolean areItemsTheSame(@NonNull User oldItem, @NonNull User newItem) {
-            return oldItem == newItem;
+            return oldItem.getId().equals(newItem.getId());
         }
 
         @Override
         public boolean areContentsTheSame(@NonNull User oldItem, @NonNull User newItem) {
-            return oldItem.getId().equals(newItem.getId());
+            return oldItem.getUsername().equals(newItem.getUsername());
         }
     }
 }

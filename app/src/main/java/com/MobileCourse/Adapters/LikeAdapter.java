@@ -60,13 +60,13 @@ public class LikeAdapter extends ListAdapter<User,LikeAdapter.LikeViewHolder> {
 
         @Override
         public boolean areItemsTheSame(@NonNull User oldItem, @NonNull User newItem) {
-            return oldItem == newItem;
+            return oldItem.getId().equals(newItem.getId());
         }
 
         // TODO: FIXME
         @Override
         public boolean areContentsTheSame(@NonNull User oldItem, @NonNull User newItem) {
-            return false;
+            return true;
         }
     }
 }

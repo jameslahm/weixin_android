@@ -27,6 +27,7 @@ import com.MobileCourse.Fragments.SettingsFragment;
 import com.MobileCourse.Models.TimeLine;
 import com.MobileCourse.Models.User;
 import com.MobileCourse.Repositorys.TimeLineRepository;
+import com.MobileCourse.Utils.AppExecutors;
 import com.MobileCourse.Utils.Constants;
 import com.MobileCourse.Utils.EventListenerUtil;
 import com.MobileCourse.Utils.MiscUtil;
@@ -200,7 +201,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             } else {
-                Toast.makeText(this, "发送失败", Toast.LENGTH_SHORT).show();
+                AppExecutors.getInstance().getMainThread().execute(()->{
+                    Toast.makeText(this, "发送失败", Toast.LENGTH_SHORT).show();
+                });
             }
         });
 

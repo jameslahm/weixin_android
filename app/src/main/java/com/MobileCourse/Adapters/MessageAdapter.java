@@ -179,12 +179,12 @@ public class MessageAdapter extends ListAdapter<MessageDetail,
 
         @Override
         public boolean areItemsTheSame(@NonNull MessageDetail oldItem, @NonNull MessageDetail newItem) {
-            return oldItem == newItem;
+            return oldItem.getId().equals(newItem.getId());
         }
 
         @Override
         public boolean areContentsTheSame(@NonNull MessageDetail oldItem, @NonNull MessageDetail newItem) {
-            return oldItem.getId().equals(newItem.getId());
+            return true;
         }
     }
 

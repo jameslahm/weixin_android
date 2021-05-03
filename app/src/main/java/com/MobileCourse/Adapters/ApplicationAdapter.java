@@ -97,13 +97,13 @@ public class ApplicationAdapter extends ListAdapter<Application,ApplicationAdapt
 
         @Override
         public boolean areItemsTheSame(@NonNull Application oldItem, @NonNull Application newItem) {
-            return oldItem == newItem;
+            return oldItem.getFrom().equals(newItem.getFrom());
         }
 
         // TODO: FIXME
         @Override
         public boolean areContentsTheSame(@NonNull Application oldItem, @NonNull Application newItem) {
-            return false;
+            return oldItem.getTimestamp()==newItem.getTimestamp();
         }
     }
 
