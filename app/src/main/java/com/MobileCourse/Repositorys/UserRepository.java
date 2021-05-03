@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.MobileCourse.Api.ApiService;
 import com.MobileCourse.Api.Request.ConfirmAddFriendRequest;
+import com.MobileCourse.Api.Request.DeleteFriendRequest;
 import com.MobileCourse.Api.Request.LoginRequest;
 import com.MobileCourse.Api.Request.RegisterRequest;
 import com.MobileCourse.Api.Request.UpdateUserRequest;
@@ -204,7 +205,7 @@ public class UserRepository {
     }
 
     public LiveData<Resource<User>> confirmAddFriend(String friendId) {
-        return new NetworkBoundResource<User,CommonResponse>(AppExecutors.getInstance()){
+        return new NetworkBoundResource<User,UserResponse>(AppExecutors.getInstance()){
             @NotNull
             @Override
             protected LiveData<User> loadFromDb() {
@@ -213,13 +214,41 @@ public class UserRepository {
 
             @NotNull
             @Override
-            protected LiveData<ApiResponse<CommonResponse>> createCall() {
+            protected LiveData<ApiResponse<UserResponse>> createCall() {
                 return ApiService.getUserApi().confirmAddFriend(new ConfirmAddFriendRequest(friendId));
             }
 
             @Override
-            protected void saveCallResult(@NotNull CommonResponse commonResponse) {
-                super.saveCallResult(commonResponse);
+            protected void saveCallResult(@NotNull UserResponse userResponse) {
+                super.saveCallResult(userResponse);
+                userDao.insertUser(User.fromUserResponse(userResponse));
+            }
+
+            @Override
+            protected boolean shouldFetch(@NotNull User data) {
+                return true;
+            }
+        }.getAsLiveData();
+    }
+
+    public LiveData<Resource<User>> deleteFriend(User friend) {
+        return new NetworkBoundResource<User,UserResponse>(AppExecutors.getInstance()){
+            @NotNull
+            @Override
+            protected LiveData<User> loadFromDb() {
+                return userDao.getUserById(friend.getId());
+            }
+
+            @NotNull
+            @Override
+            protected LiveData<ApiResponse<UserResponse>> createCall() {
+                return ApiService.getUserApi().deleteFriend(new DeleteFriendRequest(friend.getId()));
+            }
+
+            @Override
+            protected void saveCallResult(@NotNull UserResponse userResponse) {
+                super.saveCallResult(userResponse);
+                userDao.insertUser(User.fromUserResponse(userResponse));
             }
 
             @Override

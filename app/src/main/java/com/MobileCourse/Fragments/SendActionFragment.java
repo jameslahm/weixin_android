@@ -30,8 +30,16 @@ import com.MobileCourse.Adapters.ImageAdapter;
 import com.MobileCourse.Api.ApiService;
 import com.MobileCourse.Api.Response.ApiResponse;
 import com.MobileCourse.Api.Response.UploadResponse;
+import com.MobileCourse.Models.Location;
 import com.MobileCourse.R;
 import com.MobileCourse.Utils.Constants;
+import com.amap.api.maps2d.AMap;
+import com.amap.api.maps2d.LocationSource;
+import com.amap.api.maps2d.MapView;
+import com.amap.api.maps2d.model.LatLng;
+import com.amap.api.maps2d.model.Marker;
+import com.amap.api.maps2d.model.MarkerOptions;
+import com.amap.api.maps2d.model.MyLocationStyle;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.ui.PlayerView;
@@ -52,6 +60,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -83,7 +92,15 @@ public class SendActionFragment extends DialogFragment {
     @BindView(R.id.sendVideo)
     Button sendVideoButton;
 
+    @BindView(R.id.map)
+    MapView mapView;
+
+    @BindView(R.id.sendLocation)
+    Button sendLocationButton;
+
     AlertDialog alertDialog = null;
+
+    AMap aMap;
 
     SendActionFragment.ConfirmCallback confirmCallbackObj;
 
@@ -200,7 +217,35 @@ public class SendActionFragment extends DialogFragment {
                     .create();
             alertDialog.show();
         });
-    }
+
+        mapView.onCreate(null);
+        aMap = mapView.getMap();
+
+//        MyLocationStyle myLocationStyle;
+//        myLocationStyle = new MyLocationStyle();
+//        myLocationStyle.interval(2000);
+//        aMap.setMyLocationStyle(myLocationStyle);
+//        aMap.getUiSettings().setMyLocationButtonEnabled(true);
+//        aMap.setMyLocationEnabled(true);
+//        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_FOLLOW);
+
+        LatLng latLng = new LatLng(39.906901,116.397972);
+        final Marker marker = aMap.addMarker(new MarkerOptions().position(latLng).title("北京").snippet("DefaultMarker").draggable(true));
+
+        aMap.setOnMapClickListener(new AMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                marker.setPosition(latLng);
+            }
+        });
+
+        sendLocationButton.setOnClickListener((view)->{
+            confirmCallbackObj.confirmCallback(Location.fromLatLng(marker.getPosition()).toString(),Constants.ContentType.LOCATION);
+            dismiss();
+        });
+
+
+}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -312,6 +357,7 @@ public class SendActionFragment extends DialogFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mapView.onDestroy();
     }
 
     @Override

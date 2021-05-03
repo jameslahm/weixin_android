@@ -4,6 +4,14 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('/home/wangao/jks/test.jks')
+            storePassword '123456'
+            keyPassword '123456'
+            keyAlias 'test'
+        }
+    }
     compileSdkVersion 30
     defaultConfig {
         applicationId "com.MobileCourse"
@@ -125,4 +133,7 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer-dash:2.12.0'
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.12.0'
 
+    compile 'com.amap.api:map2d:6.0.0'
+    compile 'com.amap.api:search:7.9.0'
+    compile 'com.amap.api:location:latest.integration'
 }

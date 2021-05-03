@@ -47,14 +47,17 @@
 
     </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:layout_gravity="center|top"
+        >
 
         <Button
             android:id="@+id/sendImage"
             android:layout_width="100dp"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
@@ -67,10 +70,10 @@
         <Button
             android:id="@+id/sendAudio"
             android:layout_width="100dp"
-            android:layout_height="60dp"
-            android:layout_marginLeft="10dp"
+            android:layout_height="50dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
             android:background="@drawable/btn_custom"
             android:padding="0dp"
             android:text="发送音频"
@@ -81,17 +84,40 @@
         <Button
             android:id="@+id/sendVideo"
             android:layout_width="100dp"
-            android:layout_height="60dp"
-            android:layout_marginLeft="10dp"
+            android:layout_height="50dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/btn_custom"
+            android:layout_marginLeft="10dp"
             android:padding="0dp"
             android:text="发送视频"
             android:textSize="20sp"
             android:textColor="@android:color/white" />
 
+        <Button
+            android:id="@+id/sendLocation"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/btn_custom"
+            android:padding="0dp"
+            android:text="发送位置"
+            android:textSize="20sp"
+            android:textColor="@android:color/white" />
 
+    </GridLayout>
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/sub_menu_gap"
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:layout_height="match_parent">
+        <com.amap.api.maps2d.MapView
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </com.amap.api.maps2d.MapView>
     </LinearLayout>
-
 </LinearLayout>

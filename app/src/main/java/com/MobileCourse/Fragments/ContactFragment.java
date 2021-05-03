@@ -36,6 +36,7 @@ import com.MobileCourse.R;
 import com.MobileCourse.Repositorys.GroupRepository;
 import com.MobileCourse.ViewModels.ApplicationViewModel;
 import com.MobileCourse.ViewModels.FriendsViewModel;
+import com.MobileCourse.ViewModels.MeViewModel;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.badge.BadgeUtils;
 
@@ -60,6 +61,7 @@ public class ContactFragment extends Fragment {
 
     FriendsViewModel friendsViewModel;
     ApplicationViewModel applicationViewModel;
+    MeViewModel meViewModel;
 
     @BindView(R.id.newFriend)
     ViewGroup newFriendViewGroup;
@@ -100,6 +102,7 @@ public class ContactFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         friendsViewModel = new ViewModelProvider(getActivity()).get(FriendsViewModel.class);
         applicationViewModel = new ViewModelProvider(getActivity()).get(ApplicationViewModel.class);
+        meViewModel = new ViewModelProvider(getActivity()).get(MeViewModel.class);
 
         ContactAdapter contactAdapter = new ContactAdapter(new ContactAdapter.ContactDiff(),(User user,View view1)->{
             Intent intent = new Intent(getContext(), ChatActivity.class);
@@ -107,7 +110,21 @@ public class ContactFragment extends Fragment {
             intent.putExtra(ChatActivity.CREATE_TIMELINE,"USER");
             intent.putExtra(ChatActivity.CREATE_TIMELINE_USER,user);
             startActivity(intent);
-        },false);
+        },(user -> {
+            meViewModel.deleteFriend(user).observe(getViewLifecycleOwner(),(resource -> {
+                if(resource!=null){
+                    switch (resource.status){
+                        case ERROR:{
+                            break;
+                        }
+                        case SUCCESS:{
+                            Toast.makeText(getContext(), "删除成功", Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                    }
+                }
+            }));
+        }),false);
         recyclerView.setAdapter(contactAdapter);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());

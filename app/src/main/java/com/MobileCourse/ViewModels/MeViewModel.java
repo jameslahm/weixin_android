@@ -6,9 +6,13 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.MobileCourse.Api.Resource;
+import com.MobileCourse.Api.Response.TimeLineResponse;
+import com.MobileCourse.Models.TimeLine;
 import com.MobileCourse.Models.User;
 import com.MobileCourse.Repositorys.MeRepository;
+import com.MobileCourse.Repositorys.TimeLineRepository;
 import com.MobileCourse.Repositorys.UserRepository;
+import com.google.android.exoplayer2.Timeline;
 
 import javax.inject.Inject;
 
@@ -19,11 +23,13 @@ import dagger.hilt.android.qualifiers.ApplicationContext;
 public class MeViewModel extends ViewModel {
     private MeRepository meRepository;
     private UserRepository userRepository;
+    private TimeLineRepository timeLineRepository;
 
     @Inject
     public MeViewModel(@ApplicationContext Context context){
         this.meRepository = MeRepository.getInstance(context);
         this.userRepository = UserRepository.getInstance(context);
+        this.timeLineRepository = TimeLineRepository.getInstance(context);
     }
 
     public LiveData<User> getMe(){
@@ -40,5 +46,10 @@ public class MeViewModel extends ViewModel {
 
     public void applyAddFriend(String friendId,String content){
         userRepository.applyAddFriend(friendId,content);
+    }
+
+    public LiveData<Resource<User>> deleteFriend(User user){
+        this.timeLineRepository.deleteTimeLine(user.getId());
+        return userRepository.deleteFriend(user);
     }
 }

@@ -127,8 +127,8 @@ public class DiscoverAdapter extends ListAdapter<Discover,DiscoverAdapter.Discov
             replyAdapter = new ReplyAdapter(new ReplyAdapter.ReplyDiff());
 
             FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(view.getContext());
-            layoutManager.setFlexDirection(FlexDirection.COLUMN);
-            layoutManager.setJustifyContent(JustifyContent.FLEX_END);
+            layoutManager.setFlexDirection(FlexDirection.ROW);
+            layoutManager.setJustifyContent(JustifyContent.FLEX_START);
             layoutManager.setFlexWrap(FlexWrap.WRAP);
             likesByRecyclerView.setAdapter(likeAdapter);
             likesByRecyclerView.setLayoutManager(layoutManager);

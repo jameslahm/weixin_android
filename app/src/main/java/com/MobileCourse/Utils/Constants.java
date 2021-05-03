@@ -28,6 +28,7 @@ import androidx.annotation.Nullable;
         public static final String AUDIO = "AUDIO";
         public static final String VIDEO = "VIDEO";
         public static final String IMAGE = "IMAGE";
+        public static final String LOCATION = "LOCATION";
     }
 
     public static final class MessageType {
@@ -56,6 +57,7 @@ import androidx.annotation.Nullable;
      public static final int AUDIO = 0x2;
      public static final int VIDEO = 0x3;
      public static final int IMAGE = 0x4;
+     public static final int LOCATION = 0x5;
 
      public static final String GROUP_RESPONSE_CONTNET = "I have start a new Group";
 }

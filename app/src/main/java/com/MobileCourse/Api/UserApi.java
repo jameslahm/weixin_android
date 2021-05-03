@@ -3,6 +3,7 @@ package com.MobileCourse.Api;
 import androidx.lifecycle.LiveData;
 
 import com.MobileCourse.Api.Request.ConfirmAddFriendRequest;
+import com.MobileCourse.Api.Request.DeleteFriendRequest;
 import com.MobileCourse.Api.Request.LoginRequest;
 import com.MobileCourse.Api.Request.RegisterRequest;
 import com.MobileCourse.Api.Request.UpdateUserRequest;
@@ -40,7 +41,12 @@ public interface UserApi {
             );
 
     @POST("user/addfriend")
-    LiveData<ApiResponse<CommonResponse>> confirmAddFriend(
+    LiveData<ApiResponse<UserResponse>> confirmAddFriend(
             @Body ConfirmAddFriendRequest body
     );
+
+    @POST("user/deletefriend")
+    LiveData<ApiResponse<UserResponse>> deleteFriend(
+            @Body DeleteFriendRequest body
+            );
 }

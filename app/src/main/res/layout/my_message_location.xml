@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="10dp"
+    android:paddingRight="15dp"
+    android:clipToPadding="false">
+
+    <ImageView
+        android:id="@+id/avatar"
+        android:layout_alignParentRight="true"
+        android:scaleType="centerInside"
+        android:src="@drawable/avatar2"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
+
+    <com.amap.api.maps2d.MapView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:id="@+id/message_body"
+        android:layout_marginLeft="50dp"
+        android:layout_toStartOf="@+id/avatar"
+        android:layout_marginRight="10dp"
+        />
+</RelativeLayout>

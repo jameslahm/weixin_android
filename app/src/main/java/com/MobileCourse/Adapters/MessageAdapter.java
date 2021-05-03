@@ -12,11 +12,17 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.MobileCourse.Models.Discover;
+import com.MobileCourse.Models.Location;
 import com.MobileCourse.Models.MessageDetail;
 import com.MobileCourse.Models.User;
 import com.MobileCourse.R;
 import com.MobileCourse.Utils.Constants;
 import com.MobileCourse.Utils.MiscUtil;
+import com.amap.api.maps2d.AMap;
+import com.amap.api.maps2d.MapView;
+import com.amap.api.maps2d.model.LatLng;
+import com.amap.api.maps2d.model.Marker;
+import com.amap.api.maps2d.model.MarkerOptions;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.exoplayer2.MediaItem;
@@ -46,6 +52,8 @@ public class MessageAdapter extends ListAdapter<MessageDetail,
             contentType = Constants.VIDEO;
         } else if(messageDetail.getContentType().equals(Constants.ContentType.IMAGE)){
             contentType = Constants.IMAGE;
+        } else if (messageDetail.getContentType().equals(Constants.ContentType.LOCATION)) {
+            contentType = Constants.LOCATION;
         }
         return sendType + contentType;
     }
@@ -66,10 +74,15 @@ public class MessageAdapter extends ListAdapter<MessageDetail,
                     return new MessageViewHolder(itemView, sendType,contentType);
                 }
                 case Constants.AUDIO:{
-
+                    View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_message_audio, parent, false);
+                    return new MessageViewHolder(itemView, sendType,contentType);
                 }
                 case Constants.VIDEO:{
                     View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_message_video, parent, false);
+                    return new MessageViewHolder(itemView, sendType,contentType);
+                }
+                case Constants.LOCATION:{
+                    View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_message_location, parent, false);
                     return new MessageViewHolder(itemView, sendType,contentType);
                 }
             }
@@ -84,10 +97,15 @@ public class MessageAdapter extends ListAdapter<MessageDetail,
                     return new MessageViewHolder(itemView, sendType,contentType);
                 }
                 case Constants.AUDIO:{
-
+                    View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.other_message_audio, parent, false);
+                    return new MessageViewHolder(itemView, sendType,contentType);
                 }
                 case Constants.VIDEO:{
                     View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.other_message_video, parent, false);
+                    return new MessageViewHolder(itemView, sendType,contentType);
+                }
+                case Constants.LOCATION:{
+                    View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.other_message_location, parent, false);
                     return new MessageViewHolder(itemView, sendType,contentType);
                 }
             }
@@ -142,6 +160,15 @@ public class MessageAdapter extends ListAdapter<MessageDetail,
 
                     player.setMediaItem(MediaItem.fromUri(messageDetail.getContent()));
                     player.prepare();
+                    break;
+                }
+                case Constants.LOCATION:{
+                    MapView mapView = view.findViewById(R.id.message_body);
+                    mapView.onCreate(null);
+                    AMap aMap = mapView.getMap();
+                    Location location = Location.fromString(messageDetail.getContent());
+                    LatLng latLng = new LatLng(location.getLatitude(),location.getLongitude());
+                    final Marker marker = aMap.addMarker(new MarkerOptions().position(latLng).title("位置").snippet("DefaultMarker"));
                     break;
                 }
             }

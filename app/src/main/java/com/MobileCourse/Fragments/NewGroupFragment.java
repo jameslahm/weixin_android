@@ -110,7 +110,7 @@ public class NewGroupFragment extends DialogFragment {
             } else {
                 members.remove(user.getId());
             }
-        },true);
+        },(user)->{},true);
         recyclerView.setAdapter(contactAdapter);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
