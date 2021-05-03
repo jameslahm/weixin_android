@@ -40,6 +40,7 @@ public class User implements Parcelable {
         this.weixinId = weixinId;
         this.timeLineSyncId = timeLineSyncId;
         this.friends = friends;
+        this.avatar = avatar;
         this.cachedTimestamp = cachedTimestamp;
     }
 

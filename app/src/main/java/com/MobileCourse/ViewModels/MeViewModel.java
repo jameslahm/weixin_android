@@ -36,8 +36,8 @@ public class MeViewModel extends ViewModel {
         return this.meRepository.getMe();
     }
 
-    public LiveData<Resource<User>> updateUser(String id, String weixinId, String username) {
-        return this.userRepository.updateUser(id,weixinId,username);
+    public LiveData<Resource<User>> updateUser(String id, String weixinId, String username,String avatar) {
+        return this.userRepository.updateUser(id,weixinId,username,avatar);
     }
 
     public void logOut(){

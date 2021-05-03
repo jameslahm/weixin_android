@@ -137,7 +137,7 @@ public class ChatAdapter extends ListAdapter<Chat,ChatAdapter.ChatViewHolder> {
         // TODO: FIXME
         @Override
         public boolean areContentsTheSame(@NonNull Chat oldItem, @NonNull Chat newItem) {
-            boolean isSameLastSpeak =  oldItem.getLastSpeakTime().equals(newItem.getLastSpeak());
+            boolean isSameLastSpeak =  oldItem.getLastSpeak().equals(newItem.getLastSpeak());
             boolean isSameLastSpeakTime = oldItem.getLastSpeakTime().equals(newItem.getLastSpeakTime());
             boolean isSameUnReadCount = (oldItem.getUnReadCount() == newItem.getUnReadCount());
             return isSameLastSpeak && isSameLastSpeakTime && isSameUnReadCount;

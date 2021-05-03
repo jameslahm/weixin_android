@@ -16,7 +16,6 @@
             android:layout_height="match_parent"
             android:textColor="#000000"
             android:gravity="center_vertical"
-            android:textSize="20sp"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="10dp"
             android:text="取消" />
@@ -33,8 +32,8 @@
 
         <Button
             android:id="@+id/confirmButton"
-            android:layout_width="80dp"
-            android:layout_height="60dp"
+            android:layout_width="50dp"
+            android:layout_height="35dp"
             android:layout_alignParentEnd="true"
             android:layout_marginBottom="5dp"
             android:layout_marginRight="10dp"
@@ -42,7 +41,6 @@
             android:background="@drawable/btn_custom"
             android:padding="0dp"
             android:text="确定"
-            android:textSize="20sp"
             android:textColor="@android:color/white" />
 
     </RelativeLayout>
@@ -55,11 +53,11 @@
         <EditText
             android:id="@+id/edit"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
-            android:padding="15dp"
+            android:paddingHorizontal="15dp"
             android:layout_centerInParent="true"
             android:background="@drawable/et_custom"
             android:textSize="15sp" />
