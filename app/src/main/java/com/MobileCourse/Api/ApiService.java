@@ -45,6 +45,7 @@ public class ApiService {
     private static GroupApi groupApi;
     private static DiscoverApi discoverApi;
     private static UploadApi uploadApi;
+    private static TimeLineApi timeLineApi;
 
     public static void  init(Context context){
         initOkHttpClient(context);
@@ -60,6 +61,7 @@ public class ApiService {
         userApi = retrofit.create(UserApi.class);
         groupApi = retrofit.create(GroupApi.class);
         discoverApi = retrofit.create(DiscoverApi.class);
+        timeLineApi = retrofit.create(TimeLineApi.class);
         uploadApi = uploadRetrofit.create(UploadApi.class);
     }
 
@@ -77,5 +79,9 @@ public class ApiService {
 
     public static UploadApi getUploadApi() {
         return uploadApi;
+    }
+
+    public static TimeLineApi getTimeLineApi() {
+        return timeLineApi;
     }
 }

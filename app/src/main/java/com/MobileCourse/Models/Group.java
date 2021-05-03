@@ -1,6 +1,8 @@
 package com.MobileCourse.Models;
 
 import android.os.Build;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import androidx.annotation.RequiresApi;
 import androidx.room.Entity;
@@ -14,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity(tableName = "Group")
-public class Group {
+public class Group implements Parcelable {
     @PrimaryKey
     @NotNull
     String id;
@@ -34,6 +36,26 @@ public class Group {
         this.avatar = avatar;
         this.members = members;
     }
+
+    protected Group(Parcel in) {
+        id = in.readString();
+        name = in.readString();
+        timeLineSavedId = in.readString();
+        avatar = in.readString();
+        members = in.createStringArrayList();
+    }
+
+    public static final Creator<Group> CREATOR = new Creator<Group>() {
+        @Override
+        public Group createFromParcel(Parcel in) {
+            return new Group(in);
+        }
+
+        @Override
+        public Group[] newArray(int size) {
+            return new Group[size];
+        }
+    };
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static Group fromGroupDetail(GroupDetail groupDetail){
@@ -97,5 +119,19 @@ public class Group {
 
     public void setMembers(List<String> members) {
         this.members = members;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(name);
+        dest.writeString(timeLineSavedId);
+        dest.writeString(avatar);
+        dest.writeStringList(members);
     }
 }

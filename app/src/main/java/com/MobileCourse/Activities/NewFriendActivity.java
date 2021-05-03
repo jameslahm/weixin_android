@@ -100,13 +100,12 @@ public class NewFriendActivity extends AppCompatActivity {
         applicationViewModel = new ViewModelProvider(this).get(ApplicationViewModel.class);
         meViewModel = new ViewModelProvider(this).get(MeViewModel.class);
 
-        applicationViewModel.updateRead();
-
         ApplicationAdapter applicationAdapter = new ApplicationAdapter(new ApplicationAdapter.ApplicationDiff(),
             (Application application) ->{
                 applicationViewModel.confirmApplication(application).observe(this,(resource)->{
                     switch (resource.status){
                         case SUCCESS:{
+                            Toast.makeText(getApplicationContext(),"添加成功",Toast.LENGTH_SHORT).show();
                             break;
                         }
                         case ERROR:{
@@ -115,7 +114,7 @@ public class NewFriendActivity extends AppCompatActivity {
                     }
                 });
             }
-        );
+        ,getApplicationContext());
         newFriendsRecyclerView.setAdapter(applicationAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         newFriendsRecyclerView.setLayoutManager(linearLayoutManager);
@@ -125,5 +124,11 @@ public class NewFriendActivity extends AppCompatActivity {
             applicationAdapter.submitList(applications);
         });
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        applicationViewModel.updateRead();
     }
 }

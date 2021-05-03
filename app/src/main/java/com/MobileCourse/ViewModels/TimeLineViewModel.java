@@ -8,10 +8,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
+import com.MobileCourse.Api.Resource;
 import com.MobileCourse.Api.Response.GroupResponse;
 import com.MobileCourse.Daos.TimeLineDao;
 import com.MobileCourse.Models.ConfirmMessage;
 import com.MobileCourse.Models.Friend;
+import com.MobileCourse.Models.Group;
 import com.MobileCourse.Models.InviteInToGroupMessage;
 import com.MobileCourse.Models.Me;
 import com.MobileCourse.Models.Message;
@@ -23,13 +25,17 @@ import com.MobileCourse.Repositorys.TimeLineRepository;
 import com.MobileCourse.Repositorys.UserRepository;
 import com.MobileCourse.Utils.AppExecutors;
 import com.MobileCourse.Utils.Constants;
+import com.MobileCourse.Utils.MiscUtil;
 
+import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
 import dagger.hilt.android.qualifiers.ApplicationContext;
+import hilt_aggregated_deps._com_MobileCourse_Activities_AuthActivity_GeneratedInjector;
 
 @HiltViewModel
 public class TimeLineViewModel extends ViewModel {
@@ -51,12 +57,16 @@ public class TimeLineViewModel extends ViewModel {
         timeLineRepository.insertTimeLine(timeLine);
     }
 
-    public void insertMessage(Message message){
+    public void insertMessage(Message message,User me){
         LiveData<TimeLine> timeLineLiveData;
         if(message.getMessageType().equals(Constants.MessageType.GROUP)){
-            timeLineLiveData = timeLineRepository.getTimeLine(message.getTo());
+            timeLineLiveData = timeLineRepository.getTimeLineById(message.getTo());
         } else {
-            timeLineLiveData = timeLineRepository.getTimeLine(message.getFrom());
+            if(me.getId().equals(message.getTo())) {
+                timeLineLiveData = timeLineRepository.getTimeLineById(message.getFrom());
+            } else {
+                timeLineLiveData = timeLineRepository.getTimeLineById(message.getTo());
+            }
         }
         Observer observer = new Observer<TimeLine>() {
             @Override
@@ -96,8 +106,7 @@ public class TimeLineViewModel extends ViewModel {
             friends.add(newFriend);
 
             userRepository.insertUser(me);
-            meRepository.insertMe(new Me(me.getId()));
-            // TODO Get TimeLineSavedId
+//            meRepository.insertMe(new Me(me.getId()));
         });
     }
 
@@ -106,6 +115,43 @@ public class TimeLineViewModel extends ViewModel {
     }
 
     public LiveData<TimeLine> getTimeLineById(String id){
-        return timeLineRepository.getTimeLine(id);
+        return timeLineRepository.getTimeLineById(id);
+    }
+
+    public void insertTimeLineByUser(User user){
+        TimeLine timeLine = new TimeLine(
+                user.getId(),
+                user.getUsername(),
+                "",
+                user.getAvatar(),
+                MiscUtil.formatTimestamp(MiscUtil.getCurrentTimestamp()),
+                MiscUtil.getCurrentTimestamp(),
+                Constants.MessageType.SINGLE,
+                new ArrayList<>()
+        );
+        insertTimeLine(timeLine);
+    }
+
+    public void insertTimeLineByGroup(Group group){
+        TimeLine timeLine = new TimeLine(
+                group.getId(),
+                group.getName(),
+                "",
+                group.getAvatar(),
+                MiscUtil.formatTimestamp(MiscUtil.getCurrentTimestamp()),
+                MiscUtil.getCurrentTimestamp(),
+                Constants.MessageType.GROUP,
+                new ArrayList<>()
+        );
+        insertTimeLine(timeLine);
+    }
+
+    public LiveData<Resource<TimeLine>> syncTimeLineInSingle(User user){
+        return timeLineRepository.syncTimeLineInSingle(user);
+    }
+
+    // only delete messages
+    public void deleteTimeLineMessages(String id){
+        timeLineRepository.deleteTimeLineMessages(id);
     }
 }

@@ -2,12 +2,13 @@ package com.MobileCourse.Models;
 
 import android.widget.inline.InlineContentView;
 
+import com.MobileCourse.Api.Response.CommonResponse;
 import com.MobileCourse.Api.Response.GroupResponse;
 import com.MobileCourse.Repositorys.GroupRepository;
 import com.MobileCourse.Utils.Constants;
 import com.MobileCourse.Utils.MiscUtil;
 
-public class Message {
+public class Message extends CommonResponse {
 
     String id;
 

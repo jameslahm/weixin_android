@@ -36,6 +36,7 @@ public class ApplicationViewModel extends ViewModel {
     public ApplicationViewModel(@ApplicationContext Context context){
         this.applicationRepository = ApplicationRepository.getInstance(context);
         this.timeLineRepository = TimeLineRepository.getInstance(context);
+        this.userRepository = UserRepository.getInstance(context);
     }
 
     public LiveData<List<Application>> getApplications(){

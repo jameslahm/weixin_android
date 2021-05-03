@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 import com.MobileCourse.Activities.ChatActivity;
 import com.MobileCourse.Activities.NewFriendActivity;
 import com.MobileCourse.Api.Response.GroupResponse;
+import com.MobileCourse.Models.Chat;
 import com.MobileCourse.Models.Contact;
 import com.MobileCourse.Adapters.ContactAdapter;
 import java.util.LinkedList;
@@ -49,6 +51,8 @@ import dagger.hilt.android.AndroidEntryPoint;
  */
 @AndroidEntryPoint
 public class ContactFragment extends Fragment {
+    private static final String TAG = "ContactFragment";
+
     @BindView(R.id.contacts_recylerview)
     RecyclerView recyclerView;
 
@@ -65,6 +69,8 @@ public class ContactFragment extends Fragment {
 
     @BindView(R.id.newGroup)
     ViewGroup newGroupViewGroup;
+
+    BadgeDrawable badgeDrawable;
 
     public ContactFragment() {
         // Required empty public constructor
@@ -98,6 +104,8 @@ public class ContactFragment extends Fragment {
         ContactAdapter contactAdapter = new ContactAdapter(new ContactAdapter.ContactDiff(),(User user,View view1)->{
             Intent intent = new Intent(getContext(), ChatActivity.class);
             intent.putExtra(ChatActivity.CHAT_TIMELINE_ID,user.getId());
+            intent.putExtra(ChatActivity.CREATE_TIMELINE,"USER");
+            intent.putExtra(ChatActivity.CREATE_TIMELINE_USER,user);
             startActivity(intent);
         },false);
         recyclerView.setAdapter(contactAdapter);
@@ -113,17 +121,22 @@ public class ContactFragment extends Fragment {
         });
         applicationViewModel.getApplications().observe(getViewLifecycleOwner(),
                 (applications)->{
-                    BadgeDrawable badgeDrawable = BadgeDrawable.create(context);
                     // TODO FIXME should show unread applications
-                    badgeDrawable.setNumber((int) applications.stream().filter((application -> {
+                    int count =  (int) applications.stream().filter((application -> {
                         return application.isUnRead();
-                    })).count());
+                    })).count();
+                    if(badgeDrawable==null){
+                        badgeDrawable = BadgeDrawable.create(context);
+                    }
+                    badgeDrawable.setNumber(count);
+                    Log.e(TAG,String.valueOf(count));
                     if(badgeDrawable.getNumber()>0){
                         badgeDrawable.setVisible(true);
+                        BadgeUtils.attachBadgeDrawable(badgeDrawable, newFriendIconImageView);
                     } else {
                         badgeDrawable.setVisible(false);
+                        BadgeUtils.detachBadgeDrawable(badgeDrawable,newFriendIconImageView);
                     }
-                    BadgeUtils.attachBadgeDrawable(badgeDrawable, newFriendIconImageView);
                 });
 
         newGroupViewGroup.setOnClickListener((View view1)->{

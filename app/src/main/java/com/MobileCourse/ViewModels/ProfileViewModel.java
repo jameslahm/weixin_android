@@ -28,4 +28,8 @@ public class ProfileViewModel extends ViewModel {
         return userRepository.getUserByWeixinId(weixinId);
     }
 
+    public LiveData<User> getProfileById(String id){
+        return userRepository.getUserById(id);
+    }
+
 }

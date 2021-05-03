@@ -5,6 +5,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.MobileCourse.Api.Response.GroupResponse;
+import com.MobileCourse.Api.Response.TimeLineResponse;
 import com.MobileCourse.Utils.Constants;
 import com.MobileCourse.Utils.MiscUtil;
 
@@ -125,7 +126,7 @@ public class TimeLine {
         String avatar = inviteInToGroupMessage.group.avatar;
         String lastSpeakTime = MiscUtil.formatTimestamp(inviteInToGroupMessage.timestamp);
         List<Message> messages = new ArrayList<>();
-        messages.add(Message.fromInviteInToGroupMessage(inviteInToGroupMessage));
+//        messages.add(Message.fromInviteInToGroupMessage(inviteInToGroupMessage));
         TimeLine timeLine = new TimeLine(
                 id,name,lastSpeak,avatar,lastSpeakTime,inviteInToGroupMessage.timestamp,
                 Constants.MessageType.GROUP,messages
@@ -141,7 +142,7 @@ public class TimeLine {
         String lastSpeakTime = MiscUtil.formatTimestamp(groupResponse.getTime());
         List<Message> messages = new ArrayList<>();
 
-        messages.add(Message.fromGroupResponse(groupResponse));
+//        messages.add(Message.fromGroupResponse(groupResponse));
 
         TimeLine timeLine = new TimeLine(
                 id,name,lastSpeak,avatar,lastSpeakTime,groupResponse.getTime(),
@@ -152,7 +153,7 @@ public class TimeLine {
 
     public static TimeLine fromApplication(Application application){
         List<Message> messages = new ArrayList<>();
-        messages.add(Message.fromApplication(application));
+//        messages.add(Message.fromApplication(application));
 
         long timestamp = MiscUtil.getCurrentTimestamp();
         String time = MiscUtil.formatTimestamp(timestamp);
@@ -183,6 +184,60 @@ public class TimeLine {
                 Constants.MessageType.SINGLE,
                 messages
         );
+        return timeLine;
+    }
+
+    public static TimeLine fromTimeLineSingleResponse(User user,TimeLineResponse response){
+        List<Message> messages = response.getMessages();
+        String lastSpeak;
+        String lastSpeakTime;
+
+        if(messages.size()>1){
+            Message lastMessage = messages.get(messages.size()-1);
+            lastSpeak = lastMessage.getContent();
+            lastSpeakTime  = MiscUtil.formatTimestamp(lastMessage.getTimestamp());
+        } else {
+            lastSpeak = "";
+            lastSpeakTime = MiscUtil.formatTimestamp(MiscUtil.getCurrentTimestamp());
+        }
+
+        TimeLine timeLine = new TimeLine(
+                user.getId(),
+                user.getUsername(),
+                lastSpeak,
+                user.getAvatar(),
+                lastSpeakTime,
+                MiscUtil.getCurrentTimestamp(),
+                Constants.MessageType.SINGLE,
+                messages);
+
+        return timeLine;
+    }
+
+    public static TimeLine fromTimeLineGroupResponse(Group group,TimeLineResponse response){
+        List<Message> messages = response.getMessages();
+        String lastSpeak;
+        String lastSpeakTime;
+
+        if(messages.size()>1){
+            Message lastMessage = messages.get(messages.size()-1);
+            lastSpeak = lastMessage.getContent();
+            lastSpeakTime  = MiscUtil.formatTimestamp(lastMessage.getTimestamp());
+        } else {
+            lastSpeak = "";
+            lastSpeakTime = MiscUtil.formatTimestamp(MiscUtil.getCurrentTimestamp());
+        }
+
+        TimeLine timeLine = new TimeLine(
+                group.getId(),
+                group.getName(),
+                lastSpeak,
+                group.getAvatar(),
+                lastSpeakTime,
+                MiscUtil.getCurrentTimestamp(),
+                Constants.MessageType.GROUP,
+                messages);
+
         return timeLine;
     }
 

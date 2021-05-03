@@ -67,27 +67,27 @@ public class MessageViewModel extends ViewModel {
         );
         Log.e(tag,message.toString());
         MessageService.getInstance().getMessageApi().sendMessage(message);
-        timeLineRepository.insertMessage(timeLine,new Message(
-                content,
-                contentType,
-                timeLine.getMessageType(),
-                MiscUtil.getCurrentTimestamp(),
-                me.getId(),
-                timeLine.getId()
-        ));
-        timeLineRepository.updateLastCheckTimestamp(timeLine.getId(),MiscUtil.getCurrentTimestamp());
+//        timeLineRepository.insertMessage(timeLine,new Message(
+//                content,
+//                contentType,
+//                timeLine.getMessageType(),
+//                MiscUtil.getCurrentTimestamp(),
+//                me.getId(),
+//                timeLine.getId()
+//        ));
+//        timeLineRepository.updateLastCheckTimestamp(timeLine.getId(),MiscUtil.getCurrentTimestamp());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void getMessageDetails(String timeLineId){
-        LiveData<TimeLine> timeLineLiveData = timeLineRepository.getTimeLine(timeLineId);
+        LiveData<TimeLine> timeLineLiveData = timeLineRepository.getTimeLineById(timeLineId);
         messageDetailMediatorLiveData.addSource(
                 timeLineLiveData,
                 (timeLine)->{
-                    User me =meRepository.getMe().getValue();
-                    if(me==null || timeLine==null){
+                    if(timeLine==null){
                         return;
                     }
+                    User me =meRepository.getMe().getValue();
                     String messageType = timeLine.getMessageType();
                     if(messageType.equals(Constants.MessageType.SINGLE) || messageType.equals(Constants.MessageType.CONFIRM)){
                         LiveData<User> target =  userRepository.getUserById(timeLine.getId());

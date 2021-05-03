@@ -3,21 +3,25 @@ package com.MobileCourse.Repositorys;
 import android.content.Context;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 
+import com.MobileCourse.Api.ApiService;
+import com.MobileCourse.Api.NetworkBoundResource;
+import com.MobileCourse.Api.Resource;
+import com.MobileCourse.Api.Response.ApiResponse;
+import com.MobileCourse.Api.Response.TimeLineResponse;
 import com.MobileCourse.Daos.MeDao;
 import com.MobileCourse.Daos.TimeLineDao;
 import com.MobileCourse.Daos.UserDao;
 import com.MobileCourse.Database.WeiXinDatabase;
-import com.MobileCourse.Models.Application;
-import com.MobileCourse.Models.Me;
+import com.MobileCourse.Models.Group;
 import com.MobileCourse.Models.Message;
 import com.MobileCourse.Models.TimeLine;
 import com.MobileCourse.Models.User;
 import com.MobileCourse.Utils.AppExecutors;
 import com.MobileCourse.Utils.MiscUtil;
 
-import java.sql.Time;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public class TimeLineRepository {
@@ -66,7 +70,64 @@ public class TimeLineRepository {
         });
     }
 
-    public LiveData<TimeLine> getTimeLine(String id){
+    // isSync only true when sync messages;
+    public LiveData<Resource<TimeLine>> syncTimeLineInSingle(User user){
+        return new NetworkBoundResource<TimeLine, TimeLineResponse>(AppExecutors.getInstance()){
+            @NotNull
+            @Override
+            protected LiveData<TimeLine> loadFromDb() {
+                return timeLineDao.getTimeLine(user.getId());
+            }
+
+            @Override
+            protected boolean shouldFetch(@NotNull TimeLine data) {
+                return true;
+            }
+
+            @NotNull
+            @Override
+            protected LiveData<ApiResponse<TimeLineResponse>> createCall() {
+                return ApiService.getTimeLineApi().getTimeLineInSingle(user.getId());
+            }
+
+            @Override
+            protected void saveCallResult(@NotNull TimeLineResponse timeLineResponse) {
+                super.saveCallResult(timeLineResponse);
+                // User case
+                timeLineDao.insertTimeLine(TimeLine.fromTimeLineSingleResponse(user,timeLineResponse));
+            }
+        }.getAsLiveData();
+    }
+
+    public LiveData<Resource<TimeLine>> syncTimeLineInGroup(Group group){
+        return new NetworkBoundResource<TimeLine, TimeLineResponse>(AppExecutors.getInstance()){
+            @NotNull
+            @Override
+            protected LiveData<TimeLine> loadFromDb() {
+                return timeLineDao.getTimeLine(group.getId());
+            }
+
+            @Override
+            protected boolean shouldFetch(@NotNull TimeLine data) {
+                return true;
+            }
+
+            @NotNull
+            @Override
+            protected LiveData<ApiResponse<TimeLineResponse>> createCall() {
+                return ApiService.getTimeLineApi().getTimeLineInGroup(group.getId());
+            }
+
+            @Override
+            protected void saveCallResult(@NotNull TimeLineResponse timeLineResponse) {
+                super.saveCallResult(timeLineResponse);
+                // User case
+                timeLineDao.insertTimeLine(TimeLine.fromTimeLineGroupResponse(group,timeLineResponse));
+            }
+        }.getAsLiveData();
+    }
+
+    public LiveData<TimeLine> getTimeLineById(String id){
         return timeLineDao.getTimeLine(id);
     }
 
@@ -79,6 +140,12 @@ public class TimeLineRepository {
     public void deleteTimeLine(String timeLineId){
         AppExecutors.getInstance().getDiskIO().execute(()->{
             timeLineDao.deleteTimeLine(timeLineId);
+        });
+    }
+
+    public void deleteTimeLineMessages(String id){
+        AppExecutors.getInstance().getDiskIO().execute(()->{
+            timeLineDao.deleteTimeLineMessages(id);
         });
     }
 }

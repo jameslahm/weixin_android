@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.MobileCourse.Adapters.ContactAdapter;
 import com.MobileCourse.Adapters.MessageAdapter;
 import com.MobileCourse.Fragments.SendActionFragment;
+import com.MobileCourse.Models.Group;
 import com.MobileCourse.Models.TimeLine;
 import com.MobileCourse.Models.User;
 import com.MobileCourse.R;
@@ -33,6 +34,11 @@ import dagger.hilt.android.AndroidEntryPoint;
 public class ChatActivity extends AppCompatActivity {
 
     public static final String CHAT_TIMELINE_ID ="CHAT_TIMELINE_ID";
+
+    public static final String CREATE_TIMELINE = "CREATE_TIMELINE";
+
+    public static final String CREATE_TIMELINE_USER = "CREATE_TIMELINE_USER";
+    public static final String CREATE_TIMELINE_GROUP = "CREATE_TIMELINE_GROUP";
 
     @BindView(R.id.title)
     TextView titleTextView;
@@ -70,6 +76,8 @@ public class ChatActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String timeLineId = intent.getStringExtra(CHAT_TIMELINE_ID);
 
+        String createTimeLineBy = intent.getStringExtra(CREATE_TIMELINE);
+
 
         MessageAdapter messageAdapter = new MessageAdapter(new MessageAdapter.MessageDiff());
 
@@ -94,6 +102,15 @@ public class ChatActivity extends AppCompatActivity {
         timeLineViewModel.getTimeLineById(timeLineId).observe(this,(timeLine)->{
             this.timeLine =timeLine;
             if(timeLine==null){
+                // Insert TimeLine
+                if(createTimeLineBy.equals("USER")){
+                    User user = intent.getParcelableExtra(CREATE_TIMELINE_USER);
+                    timeLineViewModel.insertTimeLineByUser(user);
+                }
+                if(createTimeLineBy.equals("GROUP")){
+                    Group group = intent.getParcelableExtra(CREATE_TIMELINE_GROUP);
+                    timeLineViewModel.insertTimeLineByGroup(group);
+                }
                 return;
             }
 
@@ -103,6 +120,12 @@ public class ChatActivity extends AppCompatActivity {
                 detailImageView.setOnClickListener((view)->{
                     Intent intent1 = new Intent(getApplicationContext(),GroupProfile.class);
                     intent1.putExtra(GroupProfile.GROUP_ID_KEY,timeLine.getId());
+                    startActivity(intent1);
+                });
+            } else {
+                detailImageView.setOnClickListener((view)->{
+                    Intent intent1 = new Intent(getApplicationContext(),ProfileActivity.class);
+                    intent1.putExtra(ProfileActivity.USER_ID_KEY,timeLine.getId());
                     startActivity(intent1);
                 });
             }
@@ -126,6 +149,17 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        timeLineViewModel.updateLastCheckTimestamp(this.timeLine.getId(), MiscUtil.getCurrentTimestamp());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        timeLineViewModel.updateLastCheckTimestamp(this.timeLine.getId(), MiscUtil.getCurrentTimestamp());
+    }
 
 
 }

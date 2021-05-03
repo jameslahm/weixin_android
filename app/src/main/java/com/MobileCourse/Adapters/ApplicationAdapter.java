@@ -18,6 +18,7 @@ import com.MobileCourse.Models.Application;
 import com.MobileCourse.Models.Chat;
 import com.MobileCourse.Models.TimeLine;
 import com.MobileCourse.R;
+import com.MobileCourse.Utils.Constants;
 import com.MobileCourse.Utils.MiscUtil;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -29,23 +30,23 @@ import java.util.LinkedList;
 public class ApplicationAdapter extends ListAdapter<Application,ApplicationAdapter.ApplicationViewHolder> {
 
     private LinkedList<TimeLine> data;
-    private Context context;
     private OnConfirmCallback confirmCallbackObj;
+    private Context context;
 
     public interface OnConfirmCallback {
         void onConfirm(Application application);
     }
 
-    public ApplicationAdapter(@NonNull DiffUtil.ItemCallback<Application> diffCallback,OnConfirmCallback confirmCallbackObj) {
+    public ApplicationAdapter(@NonNull DiffUtil.ItemCallback<Application> diffCallback,OnConfirmCallback confirmCallbackObj,Context context) {
         super(diffCallback);
+        this.context = context;
         this.confirmCallbackObj = confirmCallbackObj;
     }
 
     public static class ApplicationViewHolder extends RecyclerView.ViewHolder {
         private TextView nickNameTextView;
         private ImageView avatarImageView;
-        private TextView lastSpeakTimeTextView;
-        private TextView lastSpeakTextView;
+        private TextView applyReasonTextView;
         private Button confirmButton;
 
         private OnConfirmCallback confirmCallbackObj;
@@ -54,8 +55,7 @@ public class ApplicationAdapter extends ListAdapter<Application,ApplicationAdapt
             super(itemView);
             avatarImageView = (ImageView)itemView.findViewById(R.id.avatar_icon);
             nickNameTextView = (TextView)itemView.findViewById(R.id.nickname_text);
-            lastSpeakTimeTextView = (TextView)itemView.findViewById(R.id.last_speak_time_text);
-            lastSpeakTextView = (TextView)itemView.findViewById(R.id.last_speak_text);
+            applyReasonTextView = (TextView)itemView.findViewById(R.id.apply_reason);
             confirmButton = (Button)itemView.findViewById(R.id.confirmButton);
             this.confirmCallbackObj = confirmCallbackObj;
         }
@@ -66,11 +66,8 @@ public class ApplicationAdapter extends ListAdapter<Application,ApplicationAdapt
         public void setAvatar(String avatar){
             MiscUtil.loadImage(avatarImageView,avatar);
         }
-        public void setLaskSpeakTime(String time){
-            lastSpeakTimeTextView.setText(time);
-        }
-        public void setLastSpeakText(String text){
-            lastSpeakTextView.setText(text);
+        public void setApplyReason(String text){
+            applyReasonTextView.setText(text);
         }
         public void setOnConfirm(Application application){
             confirmButton.setOnClickListener((view)->{
@@ -82,7 +79,7 @@ public class ApplicationAdapter extends ListAdapter<Application,ApplicationAdapt
     @NonNull
     @Override
     public ApplicationAdapter.ApplicationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_list_chat, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_list_application, parent, false);
         return new ApplicationViewHolder(view,this.confirmCallbackObj);
     }
 
@@ -91,8 +88,7 @@ public class ApplicationAdapter extends ListAdapter<Application,ApplicationAdapt
         // TODO
         Application application = getItem(position);
         holder.setAvatar(application.getAvatar());
-        holder.setLaskSpeakTime(MiscUtil.formatTimestamp(application.getTimestamp()));
-        holder.setLastSpeakText(application.getContent());
+        holder.setApplyReason(application.getContent());
         holder.setNickName(application.getUsername());
         holder.setOnConfirm(application);
     }

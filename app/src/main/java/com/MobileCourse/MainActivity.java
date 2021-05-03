@@ -25,6 +25,7 @@ import com.MobileCourse.Fragments.ContactFragment;
 import com.MobileCourse.Fragments.FindFragment;
 import com.MobileCourse.Fragments.SettingsFragment;
 import com.MobileCourse.Models.TimeLine;
+import com.MobileCourse.Models.User;
 import com.MobileCourse.Repositorys.TimeLineRepository;
 import com.MobileCourse.Utils.Constants;
 import com.MobileCourse.Utils.EventListenerUtil;
@@ -34,6 +35,7 @@ import com.MobileCourse.Utils.WebSocket;
 import com.MobileCourse.ViewModels.ApplicationViewModel;
 import com.MobileCourse.ViewModels.ChatViewModel;
 import com.MobileCourse.ViewModels.FriendsViewModel;
+import com.MobileCourse.ViewModels.MeViewModel;
 import com.MobileCourse.ViewModels.TimeLineViewModel;
 import com.MobileCourse.WebSocket.MessageApi;
 import com.MobileCourse.WebSocket.MessageService;
@@ -75,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
     private TimeLineViewModel timeLineViewModel;
     private ApplicationViewModel applicationViewModel;
     private ChatViewModel chatViewModel;
+    private MeViewModel meViewModel;
 
 
 
@@ -141,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
         timeLineViewModel = new ViewModelProvider(this).get(TimeLineViewModel.class);
         applicationViewModel = new ViewModelProvider(this).get(ApplicationViewModel.class);
         chatViewModel = new ViewModelProvider(this).get(ChatViewModel.class);
+        meViewModel = new ViewModelProvider(this).get(MeViewModel.class);
 
         // handle InviteIntoGroupMessage and ApplicationMessage
         messageApi.observeApplicationMessage().subscribe((applicationMessage -> {
@@ -164,9 +168,16 @@ public class MainActivity extends AppCompatActivity {
         });
 
         messageApi.observeMessage().subscribe((message)->{
-            if(MiscUtil.checkSingleOrGroupMessage(message)){
-                timeLineViewModel.insertMessage(message);
-                NotificationUtil.sendNotification(getApplicationContext());
+            if(message.isSuccess()){
+                if(MiscUtil.checkSingleOrGroupMessage(message)){
+                    User me = meViewModel.getMe().getValue();
+                    timeLineViewModel.insertMessage(message,me);
+                    if(!me.getId().equals(message.getFrom())){
+                        NotificationUtil.sendNotification(getApplicationContext());
+                    }
+                }
+            } else {
+                Toast.makeText(this, "发送失败", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -182,8 +193,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         applicationViewModel.getApplications().observe(this,(applications -> {
-            if(applications.size()>0){
-                navigationMenu.getOrCreateBadge(R.id.navigation_address_book).setNumber(applications.size());
+            int count =  (int) applications.stream().filter((application -> {
+                return application.isUnRead();
+            })).count();
+            if(count>0){
+                navigationMenu.getOrCreateBadge(R.id.navigation_address_book).setNumber(count);
             } else {
                 BadgeDrawable badgeDrawable = navigationMenu.getBadge(R.id.navigation_address_book);
                 if(badgeDrawable!=null){

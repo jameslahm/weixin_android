@@ -86,6 +86,7 @@ public class ChatFragment extends Fragment {
             Intent intent = new Intent(getContext(), ChatActivity.class);
             timeLineId = chat.getId();
             intent.putExtra(ChatActivity.CHAT_TIMELINE_ID,chat.getId());
+            intent.putExtra(ChatActivity.CREATE_TIMELINE,"");
             startActivityForResult(intent,1);
         },getContext());
         listView.setAdapter(chatAdapter);
@@ -112,12 +113,5 @@ public class ChatFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_chat, container, false);
-    }
-
-    // TODO FIXME 闪屏问题
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        timeLineViewModel.updateLastCheckTimestamp(timeLineId, MiscUtil.getCurrentTimestamp());
     }
 }

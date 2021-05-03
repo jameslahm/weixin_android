@@ -31,4 +31,7 @@ public interface TimeLineDao {
 
     @Query("DELETE FROM TimeLine WHERE id = :id")
     void deleteTimeLine(String id);
+
+    @Query("UPDATE TimeLine SET messages = '[]' WHERE id = :id ")
+    void deleteTimeLineMessages(String id);
 }
