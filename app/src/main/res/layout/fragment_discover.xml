@@ -11,13 +11,15 @@
         android:id="@+id/top_panel"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:textSize="20sp">
+        android:paddingLeft="10dp"
+        >
 
         <ImageView
             android:id="@+id/iv_return"
-            android:layout_width="@dimen/title_bar_height"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_arrow_left" />
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_return" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -28,16 +30,16 @@
             android:layout_centerHorizontal="true"
             android:text="朋友圈" />
 
+
         <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
             android:id="@+id/newDiscover"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentEnd="true"
             android:src="@drawable/ic_add"
-            android:layout_marginRight="10dp"
-            app:tint="@color/colorPrimary">
+            android:layout_width="40dp"
+            android:padding="7dp"
+            android:scaleType="fitCenter"
+            android:layout_alignParentEnd="true"
+            android:layout_height="wrap_content">
+
         </ImageView>
 
     </RelativeLayout>

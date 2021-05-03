@@ -32,7 +32,7 @@ public class MiscUtil {
     public static void loadImage(ImageView imageView, String url){
         Log.e("LOADIMAGE",String.valueOf(url));
         if(url==null){
-            url = "http://139.196.81.14:7998/upload/avatar1.jpeg";
+            url = "https://c-ssl.duitang.com/uploads/item/201810/26/20181026162714_J3eP2.png";
         }
         Glide.with(imageView.getContext()).load(url).placeholder(R.drawable.avatar2).into(imageView);
     }

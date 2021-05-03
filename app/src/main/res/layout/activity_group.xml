@@ -12,18 +12,20 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:paddingLeft="10dp"
         android:textSize="20sp">
 
         <ImageView
             android:id="@+id/iv_return"
-            android:layout_width="@dimen/title_bar_height"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_arrow_left" />
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_return" />
 
         <ImageView
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_dots"
+            android:src="@drawable/ic_more"
             android:scaleType="fitCenter"
             android:layout_alignParentEnd="true" />
 
@@ -31,17 +33,17 @@
 
 
     <GridView
+        android:background="#fff"
+        android:paddingVertical="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:numColumns="5"
+        android:numColumns="6"
         android:gravity="center"
         android:stretchMode="columnWidth"
         android:id="@+id/avatarGrid"
 
         >
     </GridView>
-
-
 
     <RelativeLayout
         android:layout_marginTop="@dimen/sub_menu_gap"
@@ -53,6 +55,20 @@
 
         <TextView
             android:text="邀请入群"
+            android:textColor="@color/sub_menu_text_color"
+            android:gravity="center_vertical"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/exitGroup"
+        android:background="@drawable/back_top_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sub_menu_height">
+
+        <TextView
+            android:text="退出群聊"
             android:textColor="@color/sub_menu_text_color"
             android:gravity="center_vertical"
             android:layout_centerHorizontal="true"
@@ -78,7 +94,6 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_marginTop="@dimen/sub_menu_gap"
         android:id="@+id/deleteTimeLine"
         android:background="@drawable/back_top_line"
         android:layout_width="match_parent"
@@ -87,23 +102,6 @@
 
         <TextView
             android:text="删除历史消息"
-            android:textColor="@color/sub_menu_text_color"
-            android:gravity="center_vertical"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_marginTop="@dimen/sub_menu_gap"
-        android:id="@+id/exitGroup"
-        android:background="@drawable/back_top_line"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/sub_menu_height">
-
-
-        <TextView
-            android:text="退出群聊"
             android:textColor="@color/sub_menu_text_color"
             android:gravity="center_vertical"
             android:layout_centerHorizontal="true"

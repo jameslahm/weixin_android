@@ -136,4 +136,6 @@ dependencies {
     compile 'com.amap.api:map2d:6.0.0'
     compile 'com.amap.api:search:7.9.0'
     compile 'com.amap.api:location:latest.integration'
+
+    implementation 'com.makeramen:roundedimageview:2.3.0'
 }

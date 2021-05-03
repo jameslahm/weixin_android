@@ -84,8 +84,6 @@ public class ChatActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         messagesListView.setLayoutManager(linearLayoutManager);
         messagesListView.setAdapter(messageAdapter);
-        messagesListView.smoothScrollToPosition(messageAdapter.getItemCount());
-
         messageViewModel = new ViewModelProvider(this).get(MessageViewModel.class);
         timeLineViewModel = new ViewModelProvider(this).get(TimeLineViewModel.class);
         meViewModel = new ViewModelProvider(this).get(MeViewModel.class);
@@ -94,6 +92,7 @@ public class ChatActivity extends AppCompatActivity {
 
         messageViewModel.getMessageDetailsLiveData().observe(this,(messageDetails)->{
             messageAdapter.submitList(messageDetails);
+            messagesListView.smoothScrollToPosition(messageDetails.size());
         });
 
         messageViewModel.getMessageDetails(timeLineId);
@@ -152,7 +151,9 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        timeLineViewModel.updateLastCheckTimestamp(this.timeLine.getId(), MiscUtil.getCurrentTimestamp());
+        if(this.timeLine!=null) {
+            timeLineViewModel.updateLastCheckTimestamp(this.timeLine.getId(), MiscUtil.getCurrentTimestamp());
+        }
     }
 
     @Override

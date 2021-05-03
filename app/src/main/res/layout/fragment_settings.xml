@@ -40,14 +40,16 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
 
-        <ImageView
+        <com.makeramen.roundedimageview.RoundedImageView
+            app:riv_corner_radius="8dp"
             android:id="@+id/avatarImg"
             android:src="@drawable/avatar2"
-            android:scaleType="fitCenter"
+            android:scaleType="centerCrop"
             android:layout_toStartOf="@+id/avatarArrow"
             android:padding="5dp"
             android:layout_width="60dp"
-            android:layout_height="wrap_content" />
+            android:layout_centerVertical="true"
+            android:layout_height="60dp" />
 
         <ImageView
             android:id="@+id/avatarArrow"

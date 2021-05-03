@@ -17,13 +17,14 @@
         <ImageView
             android:id="@+id/iv_return"
             android:layout_width="@dimen/title_bar_height"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_arrow_left" />
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_return" />
 
         <ImageView
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_dots"
+            android:src="@drawable/ic_more"
             android:scaleType="fitCenter"
             android:layout_alignParentEnd="true" />
 
@@ -136,12 +137,9 @@
     <RelativeLayout
         app:layout_constraintTop_toBottomOf="@+id/weixinIdMenu"
         android:id="@+id/syncTimeLine"
-        android:layout_marginTop="@dimen/sub_menu_gap"
         android:background="@drawable/back_top_line"
         android:layout_width="match_parent"
         android:layout_height="@dimen/sub_menu_height">
-
-
         <TextView
             android:text="同步消息"
             android:textColor="@color/sub_menu_text_color"

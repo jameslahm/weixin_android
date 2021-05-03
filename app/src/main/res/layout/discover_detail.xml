@@ -7,43 +7,15 @@
     android:orientation="vertical">
 
     <com.google.android.exoplayer2.ui.PlayerView
+        android:layout_marginTop="5dp"
         android:id="@+id/video"
         android:layout_width="match_parent"
         android:layout_height="300dp" />
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/et_custom"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/ic_heart_fill"
-            >
-        </ImageView>
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:id="@+id/likesBy"
-            android:layout_height="wrap_content">
-
-        </androidx.recyclerview.widget.RecyclerView>
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:id="@+id/replies"
-        android:layout_height="wrap_content">
-
-    </androidx.recyclerview.widget.RecyclerView>
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="5dp"
         >
         <TextView
             android:id="@+id/time"
@@ -74,4 +46,39 @@
         </ImageView>
 
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/et_custom"
+        android:layout_marginBottom="10dp"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:padding="5dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_heart_fill"
+                >
+            </ImageView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:id="@+id/likesBy"
+                android:layout_height="wrap_content">
+
+            </androidx.recyclerview.widget.RecyclerView>
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:background="@drawable/et_custom_top_line"
+            android:id="@+id/replies"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 </LinearLayout>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -11,16 +10,17 @@
     <RelativeLayout
         android:id="@+id/jmui_menu_title_bar"
         android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
+        android:paddingLeft="10dp"
         android:layout_height="@dimen/title_bar_height"
         android:background="@drawable/back_gradient">
 
         <ImageView
             android:id="@+id/iv_return"
-            android:layout_width="@dimen/title_bar_height"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_arrow_left" />
-
-
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_return" />
 
         <TextView
             android:id="@+id/title"
@@ -31,28 +31,32 @@
             android:layout_centerVertical="true"
             android:singleLine="true"
             android:text="Friend"
-            android:textColor="#FFFFFF"
             android:textSize="18sp" />
 
         <ImageView
             android:id="@+id/detail"
             android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/ic_dots"
-            android:scaleType="fitCenter"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_more"
             />
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@id/jmui_menu_title_bar"
         android:layout_width="match_parent"
         android:id="@+id/messages_view"
-        android:layout_weight="2"
         android:divider="#fff"
-        android:layout_height="wrap_content"
+        android:background="@drawable/back_gradient"
+        android:layout_above="@id/action_bar"
+        android:layout_height="match_parent"
         />
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:id="@+id/action_bar"
+        android:paddingHorizontal="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fff"
@@ -60,37 +64,35 @@
 
         <ImageView
             android:id="@+id/action"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_gravity="center"
             android:scaleType="fitCenter"
             android:background="@drawable/ic_add"
-            android:backgroundTint="@color/colorPrimary"
-            app:tint="@color/colorPrimary" />
+            />
 
         <EditText
             android:id="@+id/edit"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_weight="2"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="10dp"
-            android:padding="15dp"
-            android:layout_centerInParent="true"
+            android:layout_marginBottom="5dp"
+            android:paddingHorizontal="15dp"
             android:background="@drawable/et_custom"
             android:textSize="15sp"
-            android:layout_width="wrap_content" />
+            android:layout_width="0dp" />
 
 
         <ImageView
             android:id="@+id/sendButton"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_gravity="center"
             android:scaleType="fitCenter"
             android:background="@drawable/ic_send"
-            app:tint="@color/colorPrimary" />
+            />
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>
