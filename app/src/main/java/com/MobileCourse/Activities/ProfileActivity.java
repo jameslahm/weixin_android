@@ -74,6 +74,9 @@ public class ProfileActivity extends AppCompatActivity {
 
     String applyAddFriendText = "";
 
+    @BindView(R.id.iv_return)
+    ImageView returnImageView;
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -189,6 +192,10 @@ public class ProfileActivity extends AppCompatActivity {
 
         deleteTimeLineMessage.setOnClickListener((view)->{
             timelineViewModel.deleteTimeLineMessages(user.getId());
+        });
+
+        returnImageView.setOnClickListener((view)->{
+            finish();
         });
 
 //        meViewModel.getMe().observe(this,(user)->{

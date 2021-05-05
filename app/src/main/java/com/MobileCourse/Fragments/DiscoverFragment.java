@@ -47,6 +47,9 @@ public class DiscoverFragment extends DialogFragment {
     @BindView(R.id.newDiscover)
     ImageView newDiscoverImageView;
 
+    @BindView(R.id.iv_return)
+    ImageView returnImageView;
+
     private DiscoverViewModel discoverViewModel;
     private MeViewModel meViewModel;
 
@@ -158,6 +161,10 @@ public class DiscoverFragment extends DialogFragment {
                     }
                 });
             },getFragmentManager());
+        });
+
+        returnImageView.setOnClickListener((view1)->{
+            dismiss();
         });
 
 

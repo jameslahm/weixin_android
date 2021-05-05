@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.Toast;
 
@@ -62,6 +63,9 @@ public class GroupProfileActivity extends AppCompatActivity {
     ArrayList<User> members = new ArrayList<>();
 
     Group group;
+
+    @BindView(R.id.iv_return)
+    ImageView returnImageView;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -135,6 +139,10 @@ public class GroupProfileActivity extends AppCompatActivity {
                     }
                 }
             });
+        });
+
+        returnImageView.setOnClickListener((view)->{
+            finish();
         });
     }
 

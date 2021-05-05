@@ -64,6 +64,9 @@ public class ChatActivity extends AppCompatActivity {
     @BindView(R.id.action)
     ImageView actionImageView;
 
+    @BindView(R.id.iv_return)
+    ImageView returnImageView;
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -144,6 +147,10 @@ public class ChatActivity extends AppCompatActivity {
                 User me = meViewModel.getMe().getValue();
                 messageViewModel.sendMessage(me,this.timeLine,content,contentType);
             }),getSupportFragmentManager());
+        });
+
+        returnImageView.setOnClickListener((view)->{
+            finish();
         });
     }
 

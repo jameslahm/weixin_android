@@ -56,6 +56,9 @@ public class NewFriendActivity extends AppCompatActivity {
     @BindView(R.id.new_friends_recylerview)
     RecyclerView newFriendsRecyclerView;
 
+    @BindView(R.id.iv_return)
+    ImageView returnImageView;
+
     ApplicationViewModel applicationViewModel;
 
     private SearchNewFriendViewModel searchNewFriendViewModel;
@@ -68,13 +71,13 @@ public class NewFriendActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        newFriendResViewGroup.setVisibility(View.INVISIBLE);
+        newFriendResViewGroup.setVisibility(View.GONE);
 
         searchNewFriendViewModel = new ViewModelProvider(this).get(SearchNewFriendViewModel.class);
 
         searchNewFriendViewModel.getResultLiveData().observe(this,(user)->{
             if(user==null){
-                newFriendResViewGroup.setVisibility(View.INVISIBLE);
+                newFriendResViewGroup.setVisibility(View.GONE);
                 Toast.makeText(this, "未找到该好友", Toast.LENGTH_SHORT).show();
             } else {
                 newFriendResViewGroup.setVisibility(View.VISIBLE);
@@ -123,6 +126,10 @@ public class NewFriendActivity extends AppCompatActivity {
 
         applicationViewModel.getApplications().observe(this,(applications)->{
             applicationAdapter.submitList(applications);
+        });
+
+        returnImageView.setOnClickListener((view)->{
+            finish();
         });
 
     }
