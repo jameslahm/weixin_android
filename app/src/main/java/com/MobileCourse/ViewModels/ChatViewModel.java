@@ -61,7 +61,7 @@ public class ChatViewModel extends ViewModel {
                     List<Chat> newChats =  timeLines.stream().map(timeLine -> {
                        return this.chatRepository.getChatByTimeLine(timeLine);
                     }).collect(Collectors.toList());
-                    chatsLiveData.setValue(newChats);
+                    chatsLiveData.postValue(newChats);
                 });
             }
         }));

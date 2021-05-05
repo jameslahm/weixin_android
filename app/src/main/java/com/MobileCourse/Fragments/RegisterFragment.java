@@ -58,13 +58,13 @@ public class RegisterFragment extends Fragment {
                     switch (resource.status){
                         case ERROR:
                         {
-                            Toast.makeText(getContext(),resource.message,Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(),"注册失败",Toast.LENGTH_SHORT).show();
                             break;
                         }
                         case SUCCESS:
                         {
                             viewPager.setCurrentItem(0);
-                            Toast.makeText(getContext(), "Register Success, Please Login", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "注册成功，请登录", Toast.LENGTH_SHORT).show();
                             break;
                         }
 

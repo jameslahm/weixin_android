@@ -46,12 +46,12 @@ public class SearchNewFriendViewModel extends ViewModel {
                         break;
                     }
                     case ERROR:{
-                        resultLiveData.setValue(null);
+                        resultLiveData.postValue(null);
                         resultLiveData.removeSource(searchResult);
                         break;
                     }
                     case SUCCESS:{
-                        resultLiveData.setValue(resource.data);
+                        resultLiveData.postValue(resource.data);
                         resultLiveData.removeSource(searchResult);
                         break;
                     }

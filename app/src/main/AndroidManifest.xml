@@ -39,6 +39,6 @@
         <activity android:name=".Activities.NewFriendActivity"/>
         <activity android:name=".Activities.ProfileActivity" />
         <activity android:name=".Activities.ChatActivity" />
-        <activity android:name=".Activities.GroupProfile"/>
+        <activity android:name=".Activities.GroupProfileActivity"/>
     </application>
 </manifest>

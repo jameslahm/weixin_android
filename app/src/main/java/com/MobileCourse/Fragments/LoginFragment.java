@@ -59,11 +59,12 @@ public class LoginFragment extends Fragment {
                     switch (resource.status){
                         case ERROR:
                         {
-                            Toast.makeText(getContext(),resource.message,Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(),"登录失败",Toast.LENGTH_SHORT).show();
                             break;
                         }
                         case SUCCESS:
                         {
+                            Toast.makeText(getContext(),"登录成功",Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getContext(), MainActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                             startActivity(intent);

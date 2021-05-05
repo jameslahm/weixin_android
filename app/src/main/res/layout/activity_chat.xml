@@ -30,8 +30,8 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:singleLine="true"
-            android:text="Friend"
-            android:textSize="18sp" />
+            android:text="好友"
+            android:textSize="16sp" />
 
         <ImageView
             android:id="@+id/detail"

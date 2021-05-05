@@ -3,6 +3,7 @@ package com.MobileCourse.Activities;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -96,7 +97,7 @@ public class ProfileActivity extends AppCompatActivity {
                             break;
                         }
                         case ERROR: {
-                            Toast.makeText(this, resource.message, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "获取用户信息失败", Toast.LENGTH_SHORT).show();
                             break;
                         }
                         case SUCCESS: {
@@ -142,6 +143,8 @@ public class ProfileActivity extends AppCompatActivity {
                         if (isFriend) {
                             actionTextView.setText(Constants.ACTION_SEND_MESSAGE);
                         } else {
+                            deleteTimeLineMessage.setVisibility(View.INVISIBLE);
+                            syncTimeLine.setVisibility(View.INVISIBLE);
                             actionTextView.setText(Constants.ACTION_ADD_FRIEND);
                         }
                     });
@@ -176,6 +179,7 @@ public class ProfileActivity extends AppCompatActivity {
                             break;
                         }
                         case ERROR:{
+                            Toast.makeText(getApplicationContext(), "同步失败", Toast.LENGTH_SHORT).show();
                             break;
                         }
                     }

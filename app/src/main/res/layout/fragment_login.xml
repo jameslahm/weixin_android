@@ -20,17 +20,17 @@
         android:id="@+id/tv_subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome, Let's Chat"
+        android:text="让我们来聊天吧"
         android:textSize="17sp"
         android:layout_marginStart="25dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="40dp"
         android:layout_above="@id/loginWeixinId"/>
 
     <EditText
         android:id="@+id/loginWeixinId"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:hint="WeixinId"
+        android:hint="微信号"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:padding="15dp"
@@ -43,7 +43,7 @@
         android:id="@+id/loginPassword"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:hint="Password"
+        android:hint="密码"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
@@ -63,7 +63,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="15dp"
         android:textColor="@android:color/white"
-        android:text="Login"/>
+        android:text="登录"/>
 
     <ImageView
         android:layout_width="30dp"
@@ -77,7 +77,7 @@
         android:id="@+id/swipeRightText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Swipe Left To Register"
+        android:text="向左滑动进行注册"
         android:textSize="15sp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"

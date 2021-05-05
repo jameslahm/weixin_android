@@ -115,6 +115,7 @@ public class ContactFragment extends Fragment {
                 if(resource!=null){
                     switch (resource.status){
                         case ERROR:{
+                            Toast.makeText(getContext(), "删除失败", Toast.LENGTH_SHORT).show();
                             break;
                         }
                         case SUCCESS:{
@@ -162,7 +163,7 @@ public class ContactFragment extends Fragment {
                     if(resource!=null){
                         switch (resource.status){
                             case SUCCESS:{
-                                Toast.makeText(context, "Create Group Success", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "创建群聊成功", Toast.LENGTH_SHORT).show();
                                 break;
                             }
                         }

@@ -26,7 +26,7 @@
             android:layout_height="match_parent"
             android:textColor="#000000"
             android:gravity="center_vertical"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:layout_centerHorizontal="true"
             android:text="朋友圈" />
 

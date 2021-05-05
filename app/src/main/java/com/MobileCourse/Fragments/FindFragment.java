@@ -17,7 +17,7 @@ import com.MobileCourse.Components.WechatSubmenu;
 import com.MobileCourse.R;
 import com.MobileCourse.Utils.EventListenerUtil;
 
-public class FindFragment extends Fragment implements View.OnClickListener {
+public class FindFragment extends Fragment {
 
     @BindView(R.id.social_circle_menu)
     WechatSubmenu socialCircleMenu;
@@ -45,21 +45,10 @@ public class FindFragment extends Fragment implements View.OnClickListener {
     }
 
     public void init(){
-        EventListenerUtil.addViewsListener(this, new int[]{
-                R.id.social_circle_menu, R.id.scan_menu, R.id.swip_menu,
-                R.id.look_menu, R.id.search_menu, R.id.people_nearby_menu,
-                R.id.shop_menu, R.id.game_menu, R.id.applets_menu
-        }, this);
-
         socialCircleMenu.rotate();
 
         socialCircleMenu.setOnClickListener((view)->{
             DiscoverFragment.display(getFragmentManager());
         });
-    }
-
-    @Override
-    public void onClick(View v) {
-        Toast.makeText(v.getContext(), v.getId() + "", Toast.LENGTH_SHORT).show();
     }
 }

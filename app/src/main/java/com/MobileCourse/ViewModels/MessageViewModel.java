@@ -95,7 +95,7 @@ public class MessageViewModel extends ViewModel {
                             List<MessageDetail> messageDetails = timeLine.getMessages().stream().map((message -> {
                                 return MessageDetail.fromMessageAndUser(message,me,user);
                             })).collect(Collectors.toList());
-                            messageDetailMediatorLiveData.setValue(messageDetails);
+                            messageDetailMediatorLiveData.postValue(messageDetails);
                         }));
                     } else {
                         LiveData<Group> target = groupRepository.getGroupById(timeLine.getId());
@@ -107,7 +107,7 @@ public class MessageViewModel extends ViewModel {
                                     List<MessageDetail> messageDetails = timeLine.getMessages().stream().map((message -> {
                                         return MessageDetail.fromMessageAndGroup(message,me,resource.data);
                                     })).collect(Collectors.toList());
-                                    messageDetailMediatorLiveData.setValue(messageDetails);
+                                    messageDetailMediatorLiveData.postValue(messageDetails);
                                 }
                             });
                         }));

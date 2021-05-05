@@ -55,7 +55,7 @@ public class GroupViewModel extends ViewModel {
                 if(resource.status== Resource.Status.SUCCESS){
                     List<User> members = resource.data;
                     GroupDetail groupDetail = GroupDetail.fromGroupAndMembers(group,members);
-                    groupDetailLiveData.setValue(groupDetail);
+                    groupDetailLiveData.postValue(groupDetail);
                 }
             });
         }));

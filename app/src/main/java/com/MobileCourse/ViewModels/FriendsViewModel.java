@@ -53,13 +53,13 @@ public class FriendsViewModel extends ViewModel {
                     switch (listResource.status){
                         case SUCCESS:
                         {
-                            friends.setValue(listResource.data);
+                            friends.postValue(listResource.data);
                             friends.removeSource(usersLiveData);
                             break;
                         }
                         case ERROR:
                         {
-                            Toast.makeText(context, "GET Friends Error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "获取好友列表失败", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }));

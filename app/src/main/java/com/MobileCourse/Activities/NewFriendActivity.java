@@ -75,7 +75,7 @@ public class NewFriendActivity extends AppCompatActivity {
         searchNewFriendViewModel.getResultLiveData().observe(this,(user)->{
             if(user==null){
                 newFriendResViewGroup.setVisibility(View.INVISIBLE);
-                Toast.makeText(this, "Not Found", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "未找到该好友", Toast.LENGTH_SHORT).show();
             } else {
                 newFriendResViewGroup.setVisibility(View.VISIBLE);
                 MiscUtil.loadImage(newFriendAvatarImageView,user.getAvatar());
@@ -109,7 +109,8 @@ public class NewFriendActivity extends AppCompatActivity {
                             break;
                         }
                         case ERROR:{
-                            Log.e(TAG,"Error");
+                            Toast.makeText(getApplicationContext(),"添加失败",Toast.LENGTH_SHORT).show();
+                            break;
                         }
                     }
                 });

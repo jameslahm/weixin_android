@@ -150,6 +150,10 @@ public class TimeLineViewModel extends ViewModel {
         return timeLineRepository.syncTimeLineInSingle(user);
     }
 
+    public LiveData<Resource<TimeLine>> syncTimeLineInGroup(Group group){
+        return timeLineRepository.syncTimeLineInGroup(group);
+    }
+
     // only delete messages
     public void deleteTimeLineMessages(String id){
         timeLineRepository.deleteTimeLineMessages(id);

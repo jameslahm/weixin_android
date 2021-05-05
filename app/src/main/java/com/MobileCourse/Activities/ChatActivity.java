@@ -13,7 +13,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.MobileCourse.Adapters.ContactAdapter;
 import com.MobileCourse.Adapters.MessageAdapter;
 import com.MobileCourse.Fragments.SendActionFragment;
 import com.MobileCourse.Models.Group;
@@ -117,8 +116,8 @@ public class ChatActivity extends AppCompatActivity {
 
             if(timeLine.getMessageType().equals(Constants.MessageType.GROUP)){
                 detailImageView.setOnClickListener((view)->{
-                    Intent intent1 = new Intent(getApplicationContext(),GroupProfile.class);
-                    intent1.putExtra(GroupProfile.GROUP_ID_KEY,timeLine.getId());
+                    Intent intent1 = new Intent(getApplicationContext(), GroupProfileActivity.class);
+                    intent1.putExtra(GroupProfileActivity.GROUP_ID_KEY,timeLine.getId());
                     startActivity(intent1);
                 });
             } else {
@@ -149,9 +148,9 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        if(this.timeLine!=null) {
+    protected void onPause() {
+        super.onPause();
+        if (this.timeLine != null) {
             timeLineViewModel.updateLastCheckTimestamp(this.timeLine.getId(), MiscUtil.getCurrentTimestamp());
         }
     }

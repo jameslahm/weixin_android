@@ -59,7 +59,7 @@ import androidx.annotation.Nullable;
      public static final int IMAGE = 0x4;
      public static final int LOCATION = 0x5;
 
-     public static final String GROUP_RESPONSE_CONTNET = "I have start a new Group";
+     public static final String GROUP_RESPONSE_CONTNET = "";
 }
 
 
