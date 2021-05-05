@@ -53,7 +53,6 @@ public class ApplicationViewModel extends ViewModel {
 
     public LiveData<Resource<User>> confirmApplication(Application application){
         //TODO FIXME add friend
-
         TimeLine timeLine = TimeLine.fromApplication(application);
         this.timeLineRepository.insertTimeLine(timeLine);
         return userRepository.confirmAddFriend(application.getFrom());

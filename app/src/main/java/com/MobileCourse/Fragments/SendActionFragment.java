@@ -319,20 +319,52 @@ public class SendActionFragment extends DialogFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==RECORD_AUDIO){
+        if(requestCode==RECORD_AUDIO){
             if(resultCode == getActivity().RESULT_OK){
                 Uri audio = data.getData();
                 if(audio!=null){
                     String path = FileProcessing.getPath(getContext(),audio);
-                    Log.e(getTag(),path);
+                    File file = new File(path);
+                    RequestBody requestFile =
+                            RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+                    MultipartBody.Part body =
+                            MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+
+                    ApiService.getUploadApi().uploadFile(body).observe(this,(response)->{
+                        if(response instanceof ApiResponse.ApiSuccessResponse){
+                            String url =  ((ApiResponse.ApiSuccessResponse<UploadResponse>) response).getBody().getUrl();
+                            confirmCallbackObj.confirmCallback(url, Constants.ContentType.AUDIO);
+                            dismiss();
+                        } else {
+                            String url =  ((ApiResponse.ApiErrorResponse<UploadResponse>) response).getErrorMessage();
+                            Log.e(getTag(),url);
+                        }
+                    });
                 }
             }
         }
-        if(resultCode == SELECT_AUDIO){
+        if(requestCode == SELECT_AUDIO){
             Uri audio = data.getData();
             if(audio!=null){
                 String path = FileProcessing.getPath(getContext(),audio);
-                Log.e(getTag(),path);
+                File file = new File(path);
+                RequestBody requestFile =
+                        RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+                MultipartBody.Part body =
+                        MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+
+                ApiService.getUploadApi().uploadFile(body).observe(this,(response)->{
+                    if(response instanceof ApiResponse.ApiSuccessResponse){
+                        String url =  ((ApiResponse.ApiSuccessResponse<UploadResponse>) response).getBody().getUrl();
+                        confirmCallbackObj.confirmCallback(url, Constants.ContentType.AUDIO);
+                        dismiss();
+                    } else {
+                        String url =  ((ApiResponse.ApiErrorResponse<UploadResponse>) response).getErrorMessage();
+                        Log.e(getTag(),url);
+                    }
+                });
             }
         }
     }

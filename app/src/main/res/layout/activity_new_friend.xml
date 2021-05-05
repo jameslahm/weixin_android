@@ -65,16 +65,18 @@
         android:background="@drawable/back_top_line"
         android:id="@+id/new_friend_res"
         >
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:src="@drawable/avatar2"
             android:id="@+id/new_friend_avatar"
             android:layout_gravity="center"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
+            app:riv_corner_radius="8dp"
+            app:riv_border_color="#fff"
             >
-        </ImageView>
+        </com.makeramen.roundedimageview.RoundedImageView>
 
         <TextView
             android:id="@+id/new_friend_nickname"

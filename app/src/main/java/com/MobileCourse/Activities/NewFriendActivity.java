@@ -135,8 +135,8 @@ public class NewFriendActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onPause() {
+        super.onPause();
         applicationViewModel.updateRead();
     }
 }
