@@ -149,5 +149,19 @@
             android:layout_height="match_parent" />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/deleteButton"
+        android:layout_marginTop="@dimen/sub_menu_gap"
+        android:background="@drawable/back_top_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sub_menu_height">
+        <TextView
+            android:text="删除好友"
+            android:textColor="@color/sub_menu_text_color"
+            android:gravity="center_vertical"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
 
 </LinearLayout>

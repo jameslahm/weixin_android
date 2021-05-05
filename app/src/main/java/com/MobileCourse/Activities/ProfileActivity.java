@@ -77,6 +77,9 @@ public class ProfileActivity extends AppCompatActivity {
     @BindView(R.id.iv_return)
     ImageView returnImageView;
 
+    @BindView(R.id.deleteButton)
+    ViewGroup deleteButton;
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -149,6 +152,7 @@ public class ProfileActivity extends AppCompatActivity {
                             deleteTimeLineMessage.setVisibility(View.INVISIBLE);
                             syncTimeLine.setVisibility(View.INVISIBLE);
                             actionTextView.setText(Constants.ACTION_ADD_FRIEND);
+                            deleteButton.setVisibility(View.INVISIBLE);
                         }
                     });
                 }
@@ -196,6 +200,23 @@ public class ProfileActivity extends AppCompatActivity {
 
         returnImageView.setOnClickListener((view)->{
             finish();
+        });
+
+        deleteButton.setOnClickListener((view)->{
+            meViewModel.deleteFriend(user).observe(this,(resource -> {
+                if(resource!=null){
+                    switch (resource.status){
+                        case ERROR:{
+                            Toast.makeText(getApplicationContext(), "删除失败", Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                        case SUCCESS:{
+                            Toast.makeText(getApplicationContext(), "删除成功", Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                    }
+                }
+            }));
         });
 
 //        meViewModel.getMe().observe(this,(user)->{
