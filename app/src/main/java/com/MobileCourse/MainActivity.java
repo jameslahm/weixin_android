@@ -132,36 +132,38 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
+        ArrayList<String> permissions = new ArrayList<>();
         // 关键权限必须动态申请
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
+            permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
                 != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO},100);
+            permissions.add(Manifest.permission.RECORD_AUDIO);
         }
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE)
                 != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_NETWORK_STATE},100);
+            permissions.add(Manifest.permission.ACCESS_NETWORK_STATE);
         }
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_WIFI_STATE)
                 != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_WIFI_STATE},100);
+            permissions.add(Manifest.permission.ACCESS_WIFI_STATE);
         }
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
                 != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE},100);
+            permissions.add(Manifest.permission.READ_PHONE_STATE);
         }
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},100);
+            permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
         }
 
-
-
+        if(!permissions.isEmpty()) {
+            ActivityCompat.requestPermissions(this, permissions.toArray(new String[]{}), 100);
+        }
 
 
         messageApi = MessageService.getInstance().getMessageApi();

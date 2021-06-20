@@ -41,6 +41,8 @@ public class RegisterFragment extends Fragment {
     @BindView(R.id.registerButton)
     Button registerButton;
 
+    boolean checked = false;
+
     ViewPager viewPager;
 
     public RegisterFragment(ViewPager viewPager){
@@ -55,6 +57,9 @@ public class RegisterFragment extends Fragment {
             LiveData<Resource<User>> resourceLiveData =  UserRepository.getInstance(getContext()).register(weixinId,username,password);
             resourceLiveData.observe(getViewLifecycleOwner(),(resource)->{
                 if(resource!=null){
+                    if(checked){
+                        return;
+                    }
                     switch (resource.status){
                         case ERROR:
                         {
@@ -65,6 +70,7 @@ public class RegisterFragment extends Fragment {
                         {
                             viewPager.setCurrentItem(0);
                             Toast.makeText(getContext(), "注册成功，请登录", Toast.LENGTH_SHORT).show();
+                            checked = true;
                             break;
                         }
 

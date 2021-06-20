@@ -43,6 +43,8 @@ public class LoginFragment extends Fragment {
     @BindView(R.id.swipeRightImg)
     ImageView swipeRightImageView;
 
+    boolean checked = false;
+
     ViewPager viewPager;
 
     public LoginFragment(ViewPager viewPager){
@@ -56,6 +58,9 @@ public class LoginFragment extends Fragment {
             LiveData<Resource<User>> resourceLiveData =  UserRepository.getInstance(getContext()).login(weixinId,password);
             resourceLiveData.observe(getViewLifecycleOwner(),(resource)->{
                 if(resource!=null){
+                    if(checked){
+                        return;
+                    }
                     switch (resource.status){
                         case ERROR:
                         {
@@ -65,6 +70,7 @@ public class LoginFragment extends Fragment {
                         case SUCCESS:
                         {
                             Toast.makeText(getContext(),"登录成功",Toast.LENGTH_SHORT).show();
+                            checked = true;
                             Intent intent = new Intent(getContext(), MainActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                             startActivity(intent);

@@ -4,11 +4,13 @@ public class UpdateUserRequest {
     String weixinId;
     String username;
     String avatar;
+    String password;
 
-    public UpdateUserRequest(String weixinId, String username,String avatar) {
+    public UpdateUserRequest(String weixinId, String username,String avatar, String password) {
         this.weixinId = weixinId;
         this.username = username;
         this.avatar =avatar;
+        this.password = password;
     }
 
     public String getAvatar() {

@@ -24,6 +24,7 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme"
+        android:hardwareAccelerated="false"
         >
         <meta-data
             android:name="com.amap.api.v2.apikey"

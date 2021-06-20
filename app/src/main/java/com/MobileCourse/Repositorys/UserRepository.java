@@ -154,7 +154,7 @@ public class UserRepository {
         }.getAsLiveData();
     }
 
-    public LiveData<Resource<User>> updateUser(final String id,final String weixinId,final String username,final String avatar){
+    public LiveData<Resource<User>> updateUser(final String id,final String weixinId,final String username,final String avatar, String password){
         return new NetworkBoundResource<User, UserResponse>(AppExecutors.getInstance()) {
             @NotNull
             @Override
@@ -170,7 +170,7 @@ public class UserRepository {
             @NotNull
             @Override
             protected LiveData<ApiResponse<UserResponse>> createCall() {
-                return ApiService.getUserApi().updateUser(new UpdateUserRequest(weixinId,username,avatar));
+                return ApiService.getUserApi().updateUser(new UpdateUserRequest(weixinId,username,avatar,password));
             }
 
             @Override

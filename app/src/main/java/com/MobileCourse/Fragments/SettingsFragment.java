@@ -67,6 +67,9 @@ public class SettingsFragment  extends Fragment {
     @BindView(R.id.logOutButton)
     ViewGroup logOutButton;
 
+    @BindView(R.id.passwordMenu)
+    ViewGroup passwordMenuViewGroup;
+
     boolean isLogOut = false;
 
     MeViewModel meViewModel;
@@ -75,6 +78,7 @@ public class SettingsFragment  extends Fragment {
     String username;
     String weixinId;
     String avatar;
+    String password;
 
     public SettingsFragment(){
 
@@ -109,7 +113,7 @@ public class SettingsFragment  extends Fragment {
             FragmentManager fragmentManager = getFragmentManager();
             EditDialogFragment.display("设置名字",usernameTextView.getText().toString(),(text)->{
                 username = text;
-                meViewModel.updateUser(id,weixinId,username,avatar).observe(getViewLifecycleOwner(),(resource)->{
+                meViewModel.updateUser(id,weixinId,username,avatar,null).observe(getViewLifecycleOwner(),(resource)->{
                     if(resource!=null){
                         if(resource.status== Resource.Status.SUCCESS){
                             Toast.makeText(getContext(), "更新成功", Toast.LENGTH_SHORT).show();
@@ -123,7 +127,22 @@ public class SettingsFragment  extends Fragment {
             FragmentManager fragmentManager = getFragmentManager();
             EditDialogFragment.display("设置微信号",weixinIdTextView.getText().toString(),(text)->{
                 weixinId = text;
-                meViewModel.updateUser(id,weixinId,username,avatar).observe(getViewLifecycleOwner(),(resource)->{
+                meViewModel.updateUser(id,weixinId,username,avatar,null).observe(getViewLifecycleOwner(),(resource)->{
+                    if(resource!=null){
+                        if(resource.status== Resource.Status.SUCCESS){
+                            Toast.makeText(getContext(), "更新成功", Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                });
+            },fragmentManager);
+        });
+
+        passwordMenuViewGroup.setOnClickListener((view)->{
+            FragmentManager fragmentManager = getFragmentManager();
+            EditDialogFragment.display("设置密码","",(text)->{
+                password = text;
+                meViewModel.updateUser(id,weixinId,username,avatar,password).observe(getViewLifecycleOwner(),(resource)->{
                     if(resource!=null){
                         if(resource.status== Resource.Status.SUCCESS){
                             Toast.makeText(getContext(), "更新成功", Toast.LENGTH_SHORT).show();
@@ -156,7 +175,7 @@ public class SettingsFragment  extends Fragment {
                         if(response instanceof ApiResponse.ApiSuccessResponse){
                             String url =  ((ApiResponse.ApiSuccessResponse<UploadResponse>) response).getBody().getUrl();
                             avatar = url;
-                            meViewModel.updateUser(id,weixinId,username,avatar).observe(getViewLifecycleOwner(),(resource)->{
+                            meViewModel.updateUser(id,weixinId,username,avatar,null).observe(getViewLifecycleOwner(),(resource)->{
                                 if(resource!=null){
                                     if(resource.status== Resource.Status.SUCCESS){
                                         Toast.makeText(getContext(), "更新成功", Toast.LENGTH_SHORT).show();

@@ -139,6 +139,43 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/passwordMenu"
+        app:layout_constraintTop_toBottomOf="@+id/weixinIdMenu"
+        android:background="@drawable/back_top_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sub_menu_height">
+
+        <TextView
+            android:text="密码"
+            android:layout_marginStart="@dimen/sub_menu_text_margin"
+            android:textColor="@color/sub_menu_text_color"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:text=""
+            android:id="@+id/passwordText"
+            android:layout_marginStart="@dimen/sub_menu_text_margin"
+            android:textColor="@color/sub_menu_text_color"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_toStartOf="@id/passwordArrow"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/passwordArrow"
+            android:src="@drawable/ic_right_arrow"
+            android:scaleType="fitCenter"
+            android:layout_alignParentEnd="true"
+            android:padding="@dimen/sub_menu_arrow_padding"
+            android:layout_width="@dimen/sub_menu_icon_height"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
         app:layout_constraintTop_toBottomOf="@+id/weixinIdMenu"
         android:layout_marginTop="@dimen/sub_menu_gap"
         android:id="@+id/logOutButton"
