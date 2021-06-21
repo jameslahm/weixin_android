@@ -163,7 +163,9 @@ public class ContactFragment extends Fragment {
                     if(resource!=null){
                         switch (resource.status){
                             case SUCCESS:{
-                                Toast.makeText(context, "创建群聊成功", Toast.LENGTH_SHORT).show();
+                                if(resource.data!=null){
+                                    Toast.makeText(context, "创建群聊成功", Toast.LENGTH_SHORT).show();
+                                }
                                 break;
                             }
                         }
