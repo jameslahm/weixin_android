@@ -35,6 +35,7 @@ import net.alhazmy13.mediapicker.Image.ImagePicker;
 import net.alhazmy13.mediapicker.rxjava.image.ImagePickerHelper;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -160,7 +161,7 @@ public class SettingsFragment  extends Fragment {
 //                    .extension(ImagePicker.Extension.PNG)
                     .scale(600, 600)
                     .allowMultipleImages(false)
-                    .enableDebuggingMode(true)).getObservable().subscribe((list)->{
+                    .enableDebuggingMode(true)).getObservable().onErrorReturnItem(new ArrayList<>()).subscribe((list)->{
                 String path = list.get(0);
                 if(path!=null){
                     //pass it like this

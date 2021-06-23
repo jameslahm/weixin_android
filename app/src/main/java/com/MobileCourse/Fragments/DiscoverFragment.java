@@ -22,13 +22,12 @@ import com.MobileCourse.Models.Discover;
 import com.MobileCourse.Adapters.DiscoverAdapter;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import com.MobileCourse.R;
 import com.MobileCourse.ViewModels.DiscoverViewModel;
 import com.MobileCourse.ViewModels.MeViewModel;
 
-import butterknife.BindInt;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.hilt.android.AndroidEntryPoint;
@@ -147,15 +146,20 @@ public class DiscoverFragment extends DialogFragment {
             }
         });
 
+        AtomicBoolean isCreate = new AtomicBoolean(false);
         newDiscoverImageView.setOnClickListener((view1)->{
             CreateDiscoverFragment.display((text,images,video)->{
+                isCreate.set(true);
                 discoverViewModel.createDiscover(text,images,video).observe(this,(resource)->{
                     switch (resource.status){
                         case ERROR:{
                             break;
                         }
                         case SUCCESS:{
-                            Toast.makeText(getContext(),"发表成功",Toast.LENGTH_SHORT).show();
+                            if(isCreate.get()){
+                                Toast.makeText(getContext(),"发表成功",Toast.LENGTH_SHORT).show();
+                                isCreate.set(false);
+                            }
                             break;
                         }
                     }

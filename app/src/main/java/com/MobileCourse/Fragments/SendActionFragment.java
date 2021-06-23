@@ -127,7 +127,7 @@ public class SendActionFragment extends DialogFragment {
 //                    .extension(ImagePicker.Extension.PNG)
                     .scale(600, 600)
                     .allowMultipleImages(false)
-                    .enableDebuggingMode(true)).getObservable().subscribe((list)->{
+                    .enableDebuggingMode(true)).getObservable().onErrorReturnItem(new ArrayList<>()).subscribe((list)->{
                 String path = list.get(0);
                 if(path!=null){
                     //pass it like this
@@ -159,7 +159,7 @@ public class SendActionFragment extends DialogFragment {
                     .mode(VideoPicker.Mode.CAMERA_AND_GALLERY)
                     .directory(VideoPicker.Directory.DEFAULT)
                     .extension(VideoPicker.Extension.MP4)
-                    .enableDebuggingMode(true)).getObservable().subscribe((list)->{
+                    .enableDebuggingMode(true)).getObservable().onErrorReturnItem(new ArrayList<>()).subscribe((list)->{
                 String path = list.get(0);
                 if(path!=null){
                     //pass it like this
@@ -344,7 +344,7 @@ public class SendActionFragment extends DialogFragment {
                 }
             }
         }
-        if(requestCode == SELECT_AUDIO){
+        if(requestCode == SELECT_AUDIO && data!=null){
             Uri audio = data.getData();
             if(audio!=null){
                 String path = FileProcessing.getPath(getContext(),audio);

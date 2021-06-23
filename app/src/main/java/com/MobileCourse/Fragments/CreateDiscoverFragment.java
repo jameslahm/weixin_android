@@ -130,7 +130,7 @@ public class CreateDiscoverFragment extends DialogFragment {
 //                    .extension(ImagePicker.Extension.PNG)
                     .scale(600, 600)
                     .allowMultipleImages(false)
-                    .enableDebuggingMode(true)).getObservable().subscribe((list)->{
+                    .enableDebuggingMode(true)).getObservable().onErrorReturnItem(new ArrayList<>()).subscribe((list)->{
                 String path = list.get(0);
                 if(path!=null){
                     //pass it like this
@@ -165,7 +165,7 @@ public class CreateDiscoverFragment extends DialogFragment {
                     .mode(VideoPicker.Mode.CAMERA_AND_GALLERY)
                     .directory(VideoPicker.Directory.DEFAULT)
                     .extension(VideoPicker.Extension.MP4)
-                    .enableDebuggingMode(true)).getObservable().subscribe((list)->{
+                    .enableDebuggingMode(true)).getObservable().onErrorReturnItem(new ArrayList<>()).subscribe((list)->{
                 String path = list.get(0);
                 if(path!=null){
                     //pass it like this
